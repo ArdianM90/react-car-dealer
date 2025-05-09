@@ -1,0 +1,103 @@
+﻿@import "node_modules/react-image-gallery/styles/css/image-gallery.css";
+
+#overlay {
+    text-align: center;
+    background-color: #6C757D;
+}
+
+#root {
+    max-width: 1280px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.logo {
+    width: 120px;
+    margin-right: 10px;
+    border: 2px solid #0D6EFD;
+    border-radius: 15px;
+    box-shadow: 5px 5px 10px grey;
+}
+
+.navbar {
+    padding: 0.5rem 2rem 0.5rem 2rem;
+}
+
+.menu-item {
+    min-width: 140px;
+    height: 50px;
+    border: 2px solid #0D6EFD;
+    border-radius: 15px;
+    margin-top: 1rem;
+    margin-right: 1rem;
+    margin-bottom: 1rem;
+}
+
+.nav-item {
+    font-size: 15px;
+    font-weight: bold;
+    color: #0D6EFD;
+    margin-top: 1rem;
+    margin-right: 1rem;
+    margin-bottom: 1rem;
+}
+
+.nav-link > a {
+    font-size: 15px;
+    font-weight: bold;
+    text-decoration: none;
+    color: #0D6EFD;
+    line-height: 0px;
+}
+
+.menu-item > a {
+    font-size: 15px;
+    font-weight: bold;
+    text-decoration: none;
+    color: #0D6EFD;
+}
+
+.text-area {
+    text-align: justify;
+    min-width: 16rem;
+}
+
+.img-card {
+    text-align: justify;
+    min-width: 18rem;
+}
+
+.image-gallery-image {
+    width: 700px;
+}
+
+.image-gallery-thumbnail-image {
+    width: 150px;
+}
+
+.image-gallery {
+    height: 100%; 
+    background-color: none;
+    overflow: hidden;
+    position: relative;
+}
+
+.image-gallery-slide-wrapper {
+    background-color: none;
+}
+
+@keyframes highlightStep {
+    from {
+        transform: scale(1.1);
+        box-shadow: 0 0 0.5rem rgba(0, 123, 255, 0.6);
+    }
+
+    to {
+        transform: scale(1);
+        box-shadow: none;
+    }
+}
+
+.animate-step {
+    animation: highlightStep 0.5s ease;
+}
