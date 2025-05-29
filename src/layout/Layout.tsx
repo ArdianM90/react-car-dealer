@@ -1,54 +1,59 @@
-﻿import * as React from "react";
-import Form from 'react-bootstrap/Form';
-import Button from 'react-bootstrap/Button';
-import { Col, Container, Image, Nav, Navbar, NavDropdown, Row } from 'react-bootstrap';
+﻿import { FormEvent, useState } from "react";
 import { Link, Outlet } from 'react-router-dom';
 import { FaComment, FaAt, FaPhone } from "react-icons/fa";
+import { Col, Container, Image, Nav, Navbar, NavDropdown, Row, Form, Button } from 'react-bootstrap';
 
 export const Layout = () => {
+    const [email, setEmail] = useState('');
+
+    const submitNewsletter = (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        const form = e.target as HTMLFormElement;
+        if (!form.checkValidity()) {
+            form.reportValidity();
+            return;
+        }
+        console.log('Wysłano:', email);
+        setEmail('');
+    };
+
     return (
         <div className="app bg-body-secondary">
             <Navbar expand="lg" className="bg-primary-subtle mb-3 navbar">
                 <Container fluid>
                     <Navbar.Brand>
                         <Link to="/" className="d-block">
-                            <Image src="../public/assets/img/logo.png" className="logo" />
+                            <Image src="/assets/img/logo.png" className="logo" />
                         </Link>
                     </Navbar.Brand>
                     <Navbar.Toggle aria-controls="navbarScroll" />
                     <Navbar.Collapse id="navbarScroll">
                         <Nav className="d-flex flex-wrap me-auto my-2 my-lg-0" navbarScroll>
-                            <Nav.Item className="menu-item d-flex justify-content-center align-items-center">
-                                <Link to="/offers/all" className="d-block">Wszystkie oferty</Link>
-                            </Nav.Item>
+                            <Nav.Link as={Link} to="/offers/all" className="menu-item d-flex justify-content-center align-items-center">Wszystkie oferty</Nav.Link>
                             <NavDropdown title="Kategorie" id="kategorie" className="menu-item d-flex justify-content-center align-items-center">
-                                <NavDropdown.Item href="/offers/passenger">Osobowe</NavDropdown.Item>
-                                <NavDropdown.Item href="/offers/cargo">Towarowe</NavDropdown.Item>
-                                <NavDropdown.Item href="/offers/specialized">Budowlane</NavDropdown.Item>
-                                <NavDropdown.Item href="/offers/others">Inne pojazdy</NavDropdown.Item>
+                                <NavDropdown.Item as={Link} to="/offers/passenger">Osobowe</NavDropdown.Item>
+                                <NavDropdown.Item as={Link} to="/offers/cargo">Towarowe</NavDropdown.Item>
+                                <NavDropdown.Item as={Link} to="/offers/specialized">Budowlane</NavDropdown.Item>
+                                <NavDropdown.Item as={Link} to="/offers/others">Inne pojazdy</NavDropdown.Item>
                                 <NavDropdown.Divider />
-                                <NavDropdown.Item href="/offers/parts">Części samochodowe</NavDropdown.Item>
+                                <NavDropdown.Item as={Link} to="/offers/parts">Części samochodowe</NavDropdown.Item>
                             </NavDropdown>
                             <NavDropdown title="Kadry" id="kadry" className="menu-item d-flex justify-content-center align-items-center">
-                                <NavDropdown.Item href="/pracownik">Pracownik</NavDropdown.Item>
+                                <NavDropdown.Item as={Link} to="/pracownik">Pracownik</NavDropdown.Item>
                                 <NavDropdown.Divider />
-                                <NavDropdown.Item href="/pracownicy">Pracownicy</NavDropdown.Item>
+                                <NavDropdown.Item as={Link} to="/pracownicy">Pracownicy</NavDropdown.Item>
                             </NavDropdown>
                             <NavDropdown title="Zarządzaj" id="inne1" className="menu-item d-flex justify-content-center align-items-center">
-                                <NavDropdown.Item href="/add-offer">Dodaj ofertę</NavDropdown.Item>
-                                <NavDropdown.Item href="/manage-offers">Zarządzaj ofertami</NavDropdown.Item>
+                                <NavDropdown.Item as={Link} to="/add-offer">Dodaj ofertę</NavDropdown.Item>
+                                <NavDropdown.Item as={Link} to="/manage-offers">Zarządzaj ofertami</NavDropdown.Item>
                                 <NavDropdown.Divider />
-                                <NavDropdown.Item href="/pracownik">Pracownik</NavDropdown.Item>
-                                <NavDropdown.Item href="/pracownicy">Pracownicy</NavDropdown.Item>
-                                <NavDropdown.Item href="/towar">Towar</NavDropdown.Item>
-                                <NavDropdown.Item href="/towary">Towary</NavDropdown.Item>
+                                <NavDropdown.Item as={Link} to="/pracownik">Pracownik</NavDropdown.Item>
+                                <NavDropdown.Item as={Link} to="/pracownicy">Pracownicy</NavDropdown.Item>
+                                <NavDropdown.Item as={Link} to="/towar">Towar</NavDropdown.Item>
+                                <NavDropdown.Item as={Link} to="/towary">Towary</NavDropdown.Item>
                             </NavDropdown>
-                            <Nav.Item className="menu-item d-flex justify-content-center align-items-center">
-                                <Link to="/contact" className="d-block">Kontakt</Link>
-                            </Nav.Item>
-                            <Nav.Item className="menu-item d-flex justify-content-center align-items-center">
-                                <Link to="/about-us" className="d-block">O nas</Link>
-                            </Nav.Item>
+                            <Nav.Link as={Link} to="/contact"  className="menu-item d-flex justify-content-center align-items-center">Kontakt</Nav.Link>
+                            <Nav.Link as={Link} to="/about-us" className="menu-item d-flex justify-content-center align-items-center">O nas</Nav.Link>
                         </Nav>
                     </Navbar.Collapse>
                 </Container>
@@ -63,9 +68,15 @@ export const Layout = () => {
                     <Col md={3} className="border-end border-primary px-4 mb-4">
                         <h5 className="text-primary border-bottom pb-2 mb-3">DOWIEDZ SIĘ PIERWSZY O&nbsp;NOWOŚCIACH!</h5>
                         <p className="small text-muted">Nasi subskrybenci mają najszybszy dostęp do informacji o ofertach specjalnych.</p>
-                        <Form>
+                        <Form onSubmit={submitNewsletter}>
                             <Form.Group className="mb-3">
-                                <Form.Control type="email" placeholder="Podaj adres email" />
+                                <Form.Control
+                                    type="email"
+                                    required
+                                    placeholder="Podaj adres email"
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                />
                             </Form.Group>
                             <Button variant="primary" type="submit" size="sm">Subskrybuję</Button>
                         </Form>
