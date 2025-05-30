@@ -4,11 +4,11 @@ import { OfferContent } from '../types/OfferContent';
 
 type CreatorSummaryProps = {
     formData: OfferContent;
-    uploadedImages: File[];
+    uploadedFiles: File[];
 };
 
 
-export const CreatorStepSummary = ({ formData, uploadedImages }: CreatorSummaryProps) => {
+export const CreatorStepSummary = ({ formData, uploadedFiles }: CreatorSummaryProps) => {
 
     return (
         <Card>
@@ -59,8 +59,8 @@ export const CreatorStepSummary = ({ formData, uploadedImages }: CreatorSummaryP
                     <Col md={3} className="text-end fw-bold">Zdjęcia:</Col>
                     <Col md={9} className="text-start">
                         <ul className="mb-0">
-                            {uploadedImages.length > 0 ? (
-                                uploadedImages.map((f, idx) => <li key={idx}>{f.name}</li>)
+                            {uploadedFiles.length > 0 ? (
+                                uploadedFiles.map((f, idx) => <li key={idx}>{f.name}</li>)
                             ) : (
                                 <li><em>Brak dodanych zdjęć</em></li>
                             )}

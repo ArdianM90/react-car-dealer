@@ -1,7 +1,6 @@
-﻿
-import { useEffect, useState } from 'react';
+﻿import { useEffect, useState } from 'react';
 import { Button, Card, Col, Container, Form, Modal, Row } from "react-bootstrap"
-import { FaCheckSquare } from 'react-icons/fa';
+import { FaCheckSquare, FaExclamationTriangle } from 'react-icons/fa';
 import { OfferContent } from '../../types/OfferContent';
 import { CreatorStepBasicData } from '../../components/CreatorStepBasicData';
 import { CreatorStepImages } from '../../components/CreatorStepImages';
@@ -18,6 +17,12 @@ enum CreatorStep {
     Price = "Cena",
     Summary = "Podsumowanie"
 }
+
+enum StepValidationStatus {
+    Unvisited,
+    Invalid,
+    Valid
+}
     
 export const OfferCreatorPage = () => {
     const steps = [
@@ -31,6 +36,7 @@ export const OfferCreatorPage = () => {
 
     const [currentStepIdx, setCurrentStepIdx] = useState(0);
     const [animatedStep, setAnimatedStep] = useState<number | null>(null);
+    const [stepsValidation, setStepsValidation] = useState<StepValidationStatus[]>(Array(steps.length).fill(StepValidationStatus.Unvisited));
     const [formData, setFormData] = useState<OfferContent>({
         id: 0,
         brand: '',
@@ -44,11 +50,13 @@ export const OfferCreatorPage = () => {
         displacement: '',
         imgUrl: '',
         description: ''
-    } as OfferContent);
+    });
     const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
+    const [showConfirmation, setShowConfirmation] = useState(false);
+    const handleConfirmation = () => setShowConfirmation(true);
 
     const handleNext = () => {
-        if (currentStepIdx < steps.length) {
+        if (currentStepIdx < steps.length - 1) {
             const nextStep = currentStepIdx + 1;
             setCurrentStepIdx(nextStep);
             setAnimatedStep(nextStep);
@@ -63,14 +71,33 @@ export const OfferCreatorPage = () => {
         }
     };
 
-    const [showConfirmation, setShowConfirmation] = useState(false);
-    const handleConfirmation = () => setShowConfirmation(true);
     const handleCloseConfirmation = (accept: boolean) => {
         setShowConfirmation(false)
         if (accept) {
             setCurrentStepIdx(0);
         }
     };
+
+    const updateFormValidation = (isValid: boolean) => {
+        setStepsValidation(prev => {
+            const updated = [...prev];
+            updated[currentStepIdx] = isValid ? StepValidationStatus.Valid : StepValidationStatus.Invalid;
+            return updated;
+        });
+    };
+
+    const resolveIcon = (stepStatus: StepValidationStatus) => {
+        let validationIcon = null;
+        switch (stepStatus) {
+            case StepValidationStatus.Valid:
+                validationIcon = <FaCheckSquare className="text-white ms-2" />;
+                break;
+            case StepValidationStatus.Invalid:
+                validationIcon = <FaExclamationTriangle className="text-white ms-2" />;
+                break;
+        }
+        return validationIcon;
+    }
 
     useEffect(() => {
         if (animatedStep !== null) {
@@ -82,7 +109,7 @@ export const OfferCreatorPage = () => {
     const renderStepForm = () => {
         switch (steps[currentStepIdx]) {
             case CreatorStep.BasicData:
-                return <CreatorStepBasicData formData={formData} setFormData={setFormData} />
+                return <CreatorStepBasicData formData={formData} setFormData={setFormData} onValidate={(isValid) => updateFormValidation(isValid)} />
             case CreatorStep.Images:
                 return <CreatorStepImages uploadedFiles={uploadedFiles} setUploadedFiles={setUploadedFiles} />
             case CreatorStep.Details:
@@ -92,7 +119,7 @@ export const OfferCreatorPage = () => {
             case CreatorStep.Price:
                 return <CreatorStepPrice formData={formData} setFormData={setFormData} />
             case CreatorStep.Summary:
-                return <CreatorStepSummary formData={formData} uploadedImages={ uploadedFiles} />
+                return <CreatorStepSummary formData={formData} uploadedFiles={ uploadedFiles} />
             default:
                 return null;
         }
@@ -111,12 +138,9 @@ export const OfferCreatorPage = () => {
                         const animationClass = animatedStep === index ? 'animate-step' : '';
 
                         return (
-                            <Card key={index} className={`step-box mb-2 ${bgClass} ${animationClass}`}>
+                            <Card key={step} className={`step-box mb-2 ${bgClass} ${animationClass}`}>
                                 <Card.Body className="d-flex align-items-center justify-content-between">
-                                    <span>{step}</span>
-                                    {index < currentStepIdx && (
-                                        <FaCheckSquare className="text-white ms-2" />
-                                    )}
+                                    <span>{step}</span>{ resolveIcon(stepsValidation[index]) }
                                 </Card.Body>
                             </Card>
                         );
@@ -130,7 +154,7 @@ export const OfferCreatorPage = () => {
                                 Wstecz
                             </Button>
                             {currentStepIdx < steps.length - 1 ? (
-                                <Button variant="primary" onClick={handleNext} disabled={currentStepIdx === steps.length - 1}>
+                                <Button variant="primary" onClick={handleNext}>
                                     Dalej
                                 </Button>
                             ) : (

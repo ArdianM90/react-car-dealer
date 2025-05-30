@@ -27,7 +27,7 @@ export const ContactPage = () => {
         setShowConfirmation(false);
     };
 
-    const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
         setName(e.target.value);
         if (nameChangeTimeout.current) {
             clearTimeout(nameChangeTimeout.current);
@@ -37,7 +37,7 @@ export const ContactPage = () => {
         }, timeout);
     }
 
-    const checkNameError = (str: string) => {
+    const checkNameError = (str: string): string => {
         let errorMsg = "";
         if (!str || str.trim().length === 0) {
             errorMsg = "Pole imię nie może być puste.";
@@ -47,7 +47,7 @@ export const ContactPage = () => {
         return errorMsg;
     }
 
-    const handleSurnameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleSurnameChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
         setSurname(e.target.value);
         if (surnameChangeTimeout.current) {
             clearTimeout(surnameChangeTimeout.current);
@@ -57,7 +57,7 @@ export const ContactPage = () => {
         }, timeout);
     }
 
-    const checkSurnameError = (str: string) => {
+    const checkSurnameError = (str: string): string => {
         let errorMsg = "";
         if (!str || str.trim().length === 0) {
             errorMsg = "Pole nazwisko nie może być puste.";
@@ -67,7 +67,7 @@ export const ContactPage = () => {
         return errorMsg;
     }
 
-    const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
         setEmail(e.target.value);
         if (emailChangeTimeout.current) {
             clearTimeout(emailChangeTimeout.current);
@@ -77,7 +77,7 @@ export const ContactPage = () => {
         }, timeout);
     }
 
-    const checkEmailError = (str: string) => {
+    const checkEmailError = (str: string): string => {
         let errorMsg = "";
         if (!str || str.trim().length === 0) {
             errorMsg = "Pole email nie może być puste.";
@@ -97,7 +97,7 @@ export const ContactPage = () => {
         return errorMsg;
     }
 
-    const handleMessageChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const handleMessageChange = (e: React.ChangeEvent<HTMLTextAreaElement>): void => {
         setMessage(e.target.value);
         if (messageChangeTimeout.current) {
             clearTimeout(messageChangeTimeout.current);
@@ -107,7 +107,7 @@ export const ContactPage = () => {
         }, timeout);
     }
 
-    const checkMessageError = (str: string) => {
+    const checkMessageError = (str: string): string => {
         let errorMsg = "";
         if (!str || str.trim().length === 0) {
             errorMsg = "Wiadomość jest pusta.";
@@ -115,7 +115,7 @@ export const ContactPage = () => {
         return errorMsg;
     }
 
-    const formHasErrors = () => {
+    const formHasErrors = (): boolean => {
         const nameHasError = checkNameError(name);
         const surnameHasError = checkSurnameError(surname);
         const emailHasError = checkEmailError(email);
@@ -123,7 +123,7 @@ export const ContactPage = () => {
         return Boolean(nameHasError || surnameHasError || emailHasError || messageHasError);
     }
 
-    const submitContactForm = (e: FormEvent<HTMLFormElement>) => {
+    const submitContactForm = (e: FormEvent<HTMLFormElement>): void => {
         e.preventDefault();
         setWasSubmitted(true);
         if (!formHasErrors()) {
@@ -159,7 +159,7 @@ export const ContactPage = () => {
                                             type="text"
                                             placeholder="Twoje imię"
                                             value={name}
-                                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleNameChange(e)}
+                                            onChange={handleNameChange}
                                             onBlur={() => setNameError(checkNameError(name))} />
                                     </Form.Group>
                                 </Col>
@@ -170,7 +170,7 @@ export const ContactPage = () => {
                                             type="text"
                                             placeholder="Twoje nazwisko"
                                             value={surname}
-                                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleSurnameChange(e)}
+                                            onChange={handleSurnameChange}
                                             onBlur={() => setSurnameError(checkSurnameError(surname))} />
                                     </Form.Group>
                                 </Col>
@@ -181,7 +181,7 @@ export const ContactPage = () => {
                                 type="email"
                                 placeholder="email@example.com"
                                     value={email}
-                                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleEmailChange(e)}
+                                    onChange={handleEmailChange}
                                     onBlur={() => setEmailError(checkEmailError(email))} />
                             </Form.Group>
                             <Form.Group className="mb-3">
@@ -190,7 +190,7 @@ export const ContactPage = () => {
                                     as="textarea"
                                     rows={3}
                                     value={message}
-                                    onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => handleMessageChange(e)}
+                                    onChange={handleMessageChange}
                                     onBlur={() => setMessageError(checkMessageError(message))} />
                             </Form.Group>
                             <Button variant="primary" type="submit" disabled={ wasSubmitted && formHasErrors() }>
