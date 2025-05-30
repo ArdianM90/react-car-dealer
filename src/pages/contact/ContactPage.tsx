@@ -1,9 +1,17 @@
-﻿import { FormEvent, useState } from "react";
-import { Button, Card, Col, Container, Form, Row } from "react-bootstrap"
+﻿import { FormEvent, useRef, useState } from "react";
+import { Button, Card, Col, Container, Form, Modal, Row } from "react-bootstrap"
 import { FaEnvelope, FaPhoneAlt, FaMapMarkerAlt, FaExclamationTriangle } from "react-icons/fa"
 
 
 export const ContactPage = () => {
+    const [showConfirmation, setShowConfirmation] = useState(false);
+
+    const nameChangeTimeout = useRef<NodeJS.Timeout | null>(null);
+    const surnameChangeTimeout = useRef<NodeJS.Timeout | null>(null);
+    const emailChangeTimeout = useRef<NodeJS.Timeout | null>(null);
+    const messageChangeTimeout = useRef<NodeJS.Timeout | null>(null);
+    const timeout = 2000;
+
     const [name, setName] = useState('');
     const [nameError, setNameError] = useState('');
     const [surname, setSurname] = useState('');
@@ -12,33 +20,64 @@ export const ContactPage = () => {
     const [emailError, setEmailError] = useState('');
     const [message, setMessage] = useState('');
     const [messageError, setMessageError] = useState('');
+    const [wasSubmitted, setWasSubmitted] = useState(false);
+    const formErrors: string[] = [nameError, surnameError, emailError, messageError].filter(Boolean);
 
-    const isNameValid = (str: string) => {
-        setName(str);
+    const handleCloseConfirmation = () => {
+        setShowConfirmation(false);
+    };
+
+    const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setName(e.target.value);
+        if (nameChangeTimeout.current) {
+            clearTimeout(nameChangeTimeout.current);
+        }
+        nameChangeTimeout.current = setTimeout(() => {
+            setNameError(checkNameError(e.target.value));
+        }, timeout);
+    }
+
+    const checkNameError = (str: string) => {
         let errorMsg = "";
         if (!str || str.trim().length === 0) {
             errorMsg = "Pole imię nie może być puste.";
         } else if (str.trim().length < 3) {
             errorMsg = "Pole imię powinno zawierać przynajmniej 3 znaki.";
         }
-        setNameError(errorMsg);
-        return errorMsg === "";
+        return errorMsg;
     }
 
-    const isSurnameValid = (str: string) => {
-        setSurname(str);
+    const handleSurnameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setSurname(e.target.value);
+        if (surnameChangeTimeout.current) {
+            clearTimeout(surnameChangeTimeout.current);
+        }
+        surnameChangeTimeout.current = setTimeout(() => {
+            setSurnameError(checkSurnameError(e.target.value));
+        }, timeout);
+    }
+
+    const checkSurnameError = (str: string) => {
         let errorMsg = "";
         if (!str || str.trim().length === 0) {
             errorMsg = "Pole nazwisko nie może być puste.";
         } else if (str.trim().length < 3) {
             errorMsg = "Pole nazwisko powinno zawierać przynajmniej 3 znaki.";
         }
-        setSurnameError(errorMsg);
-        return errorMsg === "";
+        return errorMsg;
     }
 
-    const isEmailValid = (str: string) => {
-        setEmail(str);
+    const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setEmail(e.target.value);
+        if (emailChangeTimeout.current) {
+            clearTimeout(emailChangeTimeout.current);
+        }
+        emailChangeTimeout.current = setTimeout(() => {
+            setEmailError(checkEmailError(e.target.value));
+        }, timeout);
+    }
+
+    const checkEmailError = (str: string) => {
         let errorMsg = "";
         if (!str || str.trim().length === 0) {
             errorMsg = "Pole email nie może być puste.";
@@ -55,28 +94,53 @@ export const ContactPage = () => {
                 errorMsg = "Pole email powinno zawierać dokładnie jeden znak @.";
             }
         }
-        setEmailError(errorMsg);
-        return errorMsg === "";
+        return errorMsg;
     }
 
-    const isMessageValid = (str: string) => {
-        setMessage(str);
+    const handleMessageChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+        setMessage(e.target.value);
+        if (messageChangeTimeout.current) {
+            clearTimeout(messageChangeTimeout.current);
+        }
+        messageChangeTimeout.current = setTimeout(() => {
+            setMessageError(checkMessageError(e.target.value));
+        }, timeout);
+    }
+
+    const checkMessageError = (str: string) => {
         let errorMsg = "";
         if (!str || str.trim().length === 0) {
             errorMsg = "Wiadomość jest pusta.";
         }
-        setMessageError(errorMsg);
-        return errorMsg === "";
+        return errorMsg;
+    }
+
+    const formHasErrors = () => {
+        const nameHasError = checkNameError(name);
+        const surnameHasError = checkSurnameError(surname);
+        const emailHasError = checkEmailError(email);
+        const messageHasError = checkMessageError(message);
+        return Boolean(nameHasError || surnameHasError || emailHasError || messageHasError);
     }
 
     const submitContactForm = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        if (+isNameValid(name) & +isSurnameValid(surname) & +isEmailValid(email) & +isMessageValid(message)) {
-            alert("Wysłaliśmy twoją wiadomość. Odpowiemy najszybciej jak to tylko będzie możliwe.");
+        setWasSubmitted(true);
+        if (!formHasErrors()) {
+            setShowConfirmation(true);
             setName("");
             setSurname("");
             setEmail("");
             setMessage("");
+            setNameError("");
+            setSurnameError("");
+            setEmailError("");
+            setMessageError("");
+        } else {
+            setNameError(checkNameError(name));
+            setSurnameError(checkSurnameError(surname));
+            setEmailError(checkEmailError(email));
+            setMessageError(checkMessageError(message));
         }
     };
 
@@ -95,7 +159,8 @@ export const ContactPage = () => {
                                             type="text"
                                             placeholder="Twoje imię"
                                             value={name}
-                                            onChange={(e) => isNameValid(e.target.value)} />
+                                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleNameChange(e)}
+                                            onBlur={() => setNameError(checkNameError(name))} />
                                     </Form.Group>
                                 </Col>
                                 <Col>
@@ -105,7 +170,8 @@ export const ContactPage = () => {
                                             type="text"
                                             placeholder="Twoje nazwisko"
                                             value={surname}
-                                            onChange={(e) => isSurnameValid(e.target.value)} />
+                                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleSurnameChange(e)}
+                                            onBlur={() => setSurnameError(checkSurnameError(surname))} />
                                     </Form.Group>
                                 </Col>
                             </Row>
@@ -115,7 +181,8 @@ export const ContactPage = () => {
                                 type="email"
                                 placeholder="email@example.com"
                                     value={email}
-                                    onChange={(e) => isEmailValid(e.target.value)} />
+                                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleEmailChange(e)}
+                                    onBlur={() => setEmailError(checkEmailError(email))} />
                             </Form.Group>
                             <Form.Group className="mb-3">
                                 <Form.Label>Wiadomość</Form.Label>
@@ -123,33 +190,20 @@ export const ContactPage = () => {
                                     as="textarea"
                                     rows={3}
                                     value={message}
-                                    onChange={(e) => isMessageValid(e.target.value)} />
+                                    onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => handleMessageChange(e)}
+                                    onBlur={() => setMessageError(checkMessageError(message))} />
                             </Form.Group>
-                            <Button variant="primary" type="submit">Wyślij</Button>
+                            <Button variant="primary" type="submit" disabled={ wasSubmitted && formHasErrors() }>
+                                Wyślij
+                            </Button>
                         </Form>
-                        {nameError != "" && (
-                            <div className="error-frame mt-3 d-flex align-items-center">
-                                <FaExclamationTriangle className="me-2" />
-                                { nameError }
-                            </div>
-                        )}
-                        {emailError != "" && (
-                            <div className="error-frame mt-3 d-flex align-items-center">
-                                <FaExclamationTriangle className="me-2" />
-                                { emailError }
-                            </div>
-                        )}
-                        {surnameError && (
-                            <div className="error-frame mt-3 d-flex align-items-center">
-                                <FaExclamationTriangle className="me-2" />
-                                {surnameError}
-                            </div>
-                        )}
-                        {messageError && (
-                            <div className="error-frame mt-3 d-flex align-items-center">
-                                <FaExclamationTriangle className="me-2" />
-                                {messageError}
-                            </div>
+                        {formErrors.map((errMsg, index) => 
+                            wasSubmitted && errMsg !== "" && (
+                                <div key={ index } className="error-frame mt-3 d-flex align-items-center">
+                                    <FaExclamationTriangle className="me-2" />
+                                    {errMsg}
+                                </div>
+                            )
                         )}
                     </Card>
                 </Col>
@@ -170,6 +224,14 @@ export const ContactPage = () => {
                     </Card>
                 </Col>
             </Row>
+            <Modal show={showConfirmation} onHide={() => handleCloseConfirmation()}>
+                <Modal.Body>Wysłaliśmy twoją wiadomość. Odpowiemy najszybciej jak to tylko będzie możliwe.</Modal.Body>
+                <Modal.Footer>
+                    <Button variant="primary" onClick={() => handleCloseConfirmation()}>
+                        OK
+                    </Button>
+                </Modal.Footer>
+            </Modal>
         </Container>
     )
 }
