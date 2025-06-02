@@ -1,4 +1,4 @@
-﻿import { useEffect, useState } from 'react';
+﻿import { useCallback, useEffect, useState } from 'react';
 import { Button, Card, Col, Container, Form, Modal, Row } from "react-bootstrap"
 import { FaCheckSquare, FaExclamationTriangle } from 'react-icons/fa';
 import { OfferContent } from '../../types/OfferContent';
@@ -25,18 +25,20 @@ enum StepValidationStatus {
 }
     
 export const OfferCreatorPage = () => {
-    const steps = [
-        CreatorStep.BasicData,
-        CreatorStep.Images,
-        CreatorStep.Details,
-        CreatorStep.Description,
-        CreatorStep.Price,
-        CreatorStep.Summary
-    ];
+    const steps: CreatorStep[] = [CreatorStep.BasicData, CreatorStep.Images, CreatorStep.Details, CreatorStep.Description, CreatorStep.Price, CreatorStep.Summary];
+    const stepsVisitedInitialState: Record<CreatorStep, boolean> = {
+        [CreatorStep.BasicData]: false,
+        [CreatorStep.Images]: false,
+        [CreatorStep.Details]: false,
+        [CreatorStep.Description]: false,
+        [CreatorStep.Price]: false,
+        [CreatorStep.Summary]: false
+    };
 
     const [currentStepIdx, setCurrentStepIdx] = useState(0);
     const [animatedStep, setAnimatedStep] = useState<number | null>(null);
     const [stepsValidation, setStepsValidation] = useState<StepValidationStatus[]>(Array(steps.length).fill(StepValidationStatus.Unvisited));
+    const [stepsVisited, setStepsVisited] = useState(stepsVisitedInitialState);
     const [formData, setFormData] = useState<OfferContent>({
         id: 0,
         brand: '',
@@ -57,6 +59,7 @@ export const OfferCreatorPage = () => {
 
     const handleNext = () => {
         if (currentStepIdx < steps.length - 1) {
+            setStepsVisited(prev => ({ ...prev, [steps[currentStepIdx]]: true, }));
             const nextStep = currentStepIdx + 1;
             setCurrentStepIdx(nextStep);
             setAnimatedStep(nextStep);
@@ -78,13 +81,13 @@ export const OfferCreatorPage = () => {
         }
     };
 
-    const updateFormValidation = (isValid: boolean) => {
+    const updateFormValidation = useCallback((isValid: boolean) => {
         setStepsValidation(prev => {
             const updated = [...prev];
             updated[currentStepIdx] = isValid ? StepValidationStatus.Valid : StepValidationStatus.Invalid;
             return updated;
         });
-    };
+    }, [currentStepIdx]);
 
     const resolveIcon = (stepStatus: StepValidationStatus) => {
         let validationIcon = null;
@@ -109,17 +112,33 @@ export const OfferCreatorPage = () => {
     const renderStepForm = () => {
         switch (steps[currentStepIdx]) {
             case CreatorStep.BasicData:
-                return <CreatorStepBasicData formData={formData} setFormData={setFormData} onValidate={(isValid) => updateFormValidation(isValid)} />
+                return <CreatorStepBasicData
+                    formData={formData}
+                    setFormData={setFormData}
+                    onValidate={(isValid) => updateFormValidation(isValid)}
+                    wasVisited={stepsVisited[CreatorStep.BasicData]} />
             case CreatorStep.Images:
-                return <CreatorStepImages uploadedFiles={uploadedFiles} setUploadedFiles={setUploadedFiles} />
+                return <CreatorStepImages
+                    uploadedFiles={uploadedFiles}
+                    setUploadedFiles={setUploadedFiles}
+                    onValidate={(isValid) => updateFormValidation(isValid)}
+                    wasVisited={stepsVisited[CreatorStep.BasicData]} />
             case CreatorStep.Details:
-                return <CreatorStepDetails formData={formData} setFormData={setFormData} />
+                return <CreatorStepDetails
+                    formData={formData}
+                    setFormData={setFormData} />
             case CreatorStep.Description:
-                return <CreatorStepDescription formData={formData} setFormData={setFormData} />
+                return <CreatorStepDescription
+                    formData={formData}
+                    setFormData={setFormData} />
             case CreatorStep.Price:
-                return <CreatorStepPrice formData={formData} setFormData={setFormData} />
+                return <CreatorStepPrice
+                    formData={formData}
+                    setFormData={setFormData} />
             case CreatorStep.Summary:
-                return <CreatorStepSummary formData={formData} uploadedFiles={ uploadedFiles} />
+                return <CreatorStepSummary
+                    formData={formData}
+                    uploadedFiles={uploadedFiles} />
             default:
                 return null;
         }

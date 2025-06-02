@@ -115,3 +115,17 @@
     font-size: 0.95rem;
     gap: 0.5rem;
 }
+
+.warning-frame {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ffc107;
+    background-color: #fff3cd;
+    color: #856404;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    text-align: left;
+    margin-top: 1rem;
+    font-size: 0.95rem;
+    gap: 0.5rem;
+}
