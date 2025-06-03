@@ -4,11 +4,11 @@ export type OfferContent = {
     model: string;
     type: string;
     price: number;
-    year: number;
-    fuel: string;
-    mileage: number;
-    power: number;
-    displacement: string;
+    year: number | null;
+    fuel: string | null;
+    mileage: number | null;
+    power: number | null;
+    displacement: string | null;
     imgUrl: string;
     description: string;
 }

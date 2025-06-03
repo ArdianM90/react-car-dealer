@@ -45,11 +45,11 @@ export const OfferCreatorPage = () => {
         model: '',
         type: '',
         price: 0,
-        year: 0,
-        fuel: '',
-        mileage: 0,
-        power: 0,
-        displacement: '',
+        year: null,
+        fuel: null,
+        mileage: null,
+        power: null,
+        displacement: null,
         imgUrl: '',
         description: ''
     });
@@ -89,14 +89,15 @@ export const OfferCreatorPage = () => {
         });
     }, [currentStepIdx]);
 
-    const resolveIcon = (stepStatus: StepValidationStatus): ReactNode => {
+    const resolveIcon = (step: CreatorStep, stepStatus: StepValidationStatus): ReactNode => {
+        if (!stepsVisited[step]) return null;
         let validationIcon = null;
         switch (stepStatus) {
             case StepValidationStatus.Valid:
-                validationIcon = <FaCheckSquare className="text-white ms-2" />;
+                validationIcon = <FaCheckSquare className="text-white ms-2" style={{ fontSize: '1.3rem' }} />;
                 break;
             case StepValidationStatus.Invalid:
-                validationIcon = <FaExclamationTriangle className="text-white ms-2" />;
+                validationIcon = <FaExclamationTriangle className="text-white ms-2" style={{ fontSize: '1.3rem' }} />;
                 break;
         }
         return validationIcon;
@@ -126,7 +127,9 @@ export const OfferCreatorPage = () => {
             case CreatorStep.Details:
                 return <CreatorStepDetails
                     formData={formData}
-                    setFormData={setFormData} />
+                    setFormData={setFormData}
+                    onValidate={(isValid) => updateFormValidation(isValid)}
+                    wasVisited={stepsVisited[CreatorStep.Details]} />
             case CreatorStep.Description:
                 return <CreatorStepDescription
                     formData={formData}
@@ -139,9 +142,6 @@ export const OfferCreatorPage = () => {
                 return <CreatorStepSummary
                     formData={formData}
                     uploadedFiles={uploadedFiles} />
-            default:
-                console.log("Błąd - nieobsługiwany krok formularza:", steps[currentStepIdx])
-                return null;
         }
     };
 
@@ -160,7 +160,7 @@ export const OfferCreatorPage = () => {
                         return (
                             <Card key={step} className={`step-box mb-2 ${bgClass} ${animationClass}`}>
                                 <Card.Body className="d-flex align-items-center justify-content-between">
-                                    <span>{step}</span>{ resolveIcon(stepsValidation[index]) }
+                                    <span>{step}</span>{resolveIcon(step, stepsValidation[index]) }
                                 </Card.Body>
                             </Card>
                         );

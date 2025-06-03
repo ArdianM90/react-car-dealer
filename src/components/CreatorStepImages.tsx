@@ -119,7 +119,6 @@ export const CreatorStepImages = ({ uploadedFiles, setUploadedFiles, onValidate,
                         onClick={handleUploadFiles}
                         disabled={!selectedFiles || uploadedFiles.length >= maxFilesQty} >Dodaj zdjęcie</Button>
                 </Form.Group>
-                {/*{formError !== "" && (wasVisited || touchedStatuses[name as keyof typeof touchedStatuses]) && (*/}
                 {fileErrors.map((item, index) => (
                     <div key={`error-${index}`} className="error-frame mt-3 d-flex align-items-center">
                         <FaExclamationTriangle className="me-2" />

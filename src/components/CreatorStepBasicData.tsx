@@ -17,13 +17,13 @@ export const CreatorStepBasicData = ({ formData, setFormData, onValidate, wasVis
         type: '',
         brand: '',
         model: ''
-    }
+    };
 
     const touchedInitialState = {
         type: false,
         brand: false,
         model: false
-    }
+    };
 
     const timeoutsInitialState = {
         type: null,
@@ -83,8 +83,16 @@ export const CreatorStepBasicData = ({ formData, setFormData, onValidate, wasVis
             type: typeErrorMsg,
             brand: brandErrorMsg,
             model: modelErrorMsg
-        })
+        });
     }, [formData]);
+
+    useEffect(() => {
+        return () => {
+            Object.values(timeoutRefs.current).forEach(timeout => {
+                if (timeout) clearTimeout(timeout);
+            });
+        };
+    }, []);
 
     return (
         <Card>
@@ -96,12 +104,7 @@ export const CreatorStepBasicData = ({ formData, setFormData, onValidate, wasVis
                     <Row className="mb-3">
                         <Col md={4}>
                             <Form.Label className="fw-bold" htmlFor="type">Kategoria</Form.Label>
-                            <Form.Select
-                                id="type"
-                                name="type"
-                                value={formData.type}
-                                onChange={handleInputChange}
-                                onBlur={handleOnBlur} >
+                            <Form.Select id="type" name="type" value={formData.type} onChange={handleInputChange} onBlur={handleOnBlur} >
                                 <option value="" disabled hidden>Wybierz kategorię</option>
                                 <option value="osobowe">Osobowe</option>
                                 <option value="towarowe">Towarowe</option>
