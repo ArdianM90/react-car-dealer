@@ -1,4 +1,4 @@
-﻿import { useCallback, useEffect, useState } from 'react';
+﻿import { ReactNode, useCallback, useEffect, useState } from 'react';
 import { Button, Card, Col, Container, Form, Modal, Row } from "react-bootstrap"
 import { FaCheckSquare, FaExclamationTriangle } from 'react-icons/fa';
 import { OfferContent } from '../../types/OfferContent';
@@ -89,7 +89,7 @@ export const OfferCreatorPage = () => {
         });
     }, [currentStepIdx]);
 
-    const resolveIcon = (stepStatus: StepValidationStatus) => {
+    const resolveIcon = (stepStatus: StepValidationStatus): ReactNode => {
         let validationIcon = null;
         switch (stepStatus) {
             case StepValidationStatus.Valid:
@@ -122,7 +122,7 @@ export const OfferCreatorPage = () => {
                     uploadedFiles={uploadedFiles}
                     setUploadedFiles={setUploadedFiles}
                     onValidate={(isValid) => updateFormValidation(isValid)}
-                    wasVisited={stepsVisited[CreatorStep.BasicData]} />
+                    wasVisited={stepsVisited[CreatorStep.Images]} />
             case CreatorStep.Details:
                 return <CreatorStepDetails
                     formData={formData}
@@ -140,6 +140,7 @@ export const OfferCreatorPage = () => {
                     formData={formData}
                     uploadedFiles={uploadedFiles} />
             default:
+                console.log("Błąd - nieobsługiwany krok formularza:", steps[currentStepIdx])
                 return null;
         }
     };

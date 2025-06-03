@@ -68,7 +68,7 @@ export const CreatorStepBasicData = ({ formData, setFormData, onValidate, wasVis
                     return `Pole ${ inputName === 'brand' ? 'marka' : 'model' } pojazdu nie może być puste.`;
             }
         }
-        if (inputName == "brand" && trimmedValue.length < 2) {
+        if (inputName === "brand" && trimmedValue.length < 2) {
             return "Zbyt krótka marka";
         }
         return "";
