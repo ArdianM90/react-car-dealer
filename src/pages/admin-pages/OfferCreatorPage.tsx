@@ -8,7 +8,7 @@ import { CreatorStepDescription } from '../../components/CreatorStepDescription'
 import { CreatorStepPrice } from '../../components/CreatorStepPrice';
 import { CreatorStepSummary } from '../../components/CreatorStepSummary';
 import { OfferCreatorDTO } from '../../types/OfferCreatorDTO';
-import { CreatorStep, StepValidationStatus } from '../../types/OfferCreatorConstants';
+import { formInitialData, CreatorStep, StepValidationStatus } from '../../types/OfferCreatorConstants';
 
     
 export const OfferCreatorPage = () => {
@@ -26,21 +26,7 @@ export const OfferCreatorPage = () => {
     const [animatedStep, setAnimatedStep] = useState<number | null>(null);
     const [stepsValidation, setStepsValidation] = useState<StepValidationStatus[]>(Array(steps.length).fill(StepValidationStatus.Unvisited));
     const [stepsVisited, setStepsVisited] = useState(stepsVisitedInitialState);
-    const [formData, setFormData] = useState<OfferCreatorDTO>({
-        id: null,
-        brand: '',
-        model: '',
-        type: '',
-        price: null,
-        currency: 'PLN',
-        year: null,
-        fuel: null,
-        mileage: null,
-        power: null,
-        displacement: null,
-        imgUrl: '',
-        description: ''
-    });
+    const [formData, setFormData] = useState<OfferCreatorDTO>(formInitialData);
     const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
     const [showConfirmation, setShowConfirmation] = useState(false);
     const handleConfirmation = () => setShowConfirmation(true);
@@ -67,6 +53,9 @@ export const OfferCreatorPage = () => {
         setShowConfirmation(false)
         if (accept) {
             setCurrentStepIdx(0);
+            setStepsVisited(stepsVisitedInitialState);
+            setFormData(formInitialData);
+            setUploadedFiles([]);
         }
     };
 
@@ -91,6 +80,11 @@ export const OfferCreatorPage = () => {
         }
         return validationIcon;
     }
+
+    const formIsInvalid = (): boolean => {
+        const stepWithoutSummary = stepsValidation.slice(0, -1);
+        return stepWithoutSummary.filter((e) => e !== StepValidationStatus.Valid).length > 0;
+    } 
 
     useEffect(() => {
         if (animatedStep !== null) {
@@ -172,7 +166,9 @@ export const OfferCreatorPage = () => {
                                     Dalej
                                 </Button>
                             ) : (
-                                <Button variant="primary" onClick={handleConfirmation}>
+                                <Button variant="primary"
+                                    onClick={handleConfirmation}
+                                        disabled={formIsInvalid()}>
                                     Dodaj ofertę
                                 </Button>
                             )}
@@ -194,4 +190,8 @@ export const OfferCreatorPage = () => {
             </Modal>
         </Container>
     )
+}
+
+function getFormInitialData(): OfferCreatorDTO | (() => OfferCreatorDTO) {
+    throw new Error('Function not implemented.');
 }
