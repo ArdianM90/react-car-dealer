@@ -1,13 +1,13 @@
 ﻿import Form from 'react-bootstrap/Form';
 import { Card, Col, Row } from 'react-bootstrap';
-import { OfferContent } from '../types/OfferContent';
+import { OfferCreatorDTO } from '../types/OfferCreatorDTO';
 import { useEffect, useRef, useState } from 'react';
 import { FaExclamationTriangle } from 'react-icons/fa';
 
 
 type CreatorFormProps = {
-    formData: OfferContent;
-    setFormData: (data: OfferContent) => void;
+    formData: OfferCreatorDTO;
+    setFormData: (data: OfferCreatorDTO) => void;
     onValidate: (isValid: boolean) => void;
     wasVisited: boolean;
 };
@@ -74,6 +74,14 @@ export const CreatorStepBasicData = ({ formData, setFormData, onValidate, wasVis
         return "";
     }
 
+    const clearTimeOuts = (): void => {
+        Object.values(timeoutRefs.current).forEach(timeout => {
+            if (timeout != null) {
+                clearTimeout(timeout);
+            };
+        });
+    }
+
     useEffect(() => {
         const typeErrorMsg = validateField("type", formData.type);
         const brandErrorMsg = validateField("brand", formData.brand);
@@ -84,15 +92,9 @@ export const CreatorStepBasicData = ({ formData, setFormData, onValidate, wasVis
             brand: brandErrorMsg,
             model: modelErrorMsg
         });
-    }, [formData]);
 
-    useEffect(() => {
-        return () => {
-            Object.values(timeoutRefs.current).forEach(timeout => {
-                if (timeout) clearTimeout(timeout);
-            });
-        };
-    }, []);
+        return (() => clearTimeOuts());
+    }, [formData]);
 
     return (
         <Card>

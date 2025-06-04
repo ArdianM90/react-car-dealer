@@ -1,9 +1,10 @@
-export type OfferContent = {
-    id: number;
+export type OfferCreatorDTO = {
+    id: number | null;
     brand: string;
     model: string;
     type: string;
-    price: number;
+    price: number | null;
+    currency: string;
     year: number | null;
     fuel: string | null;
     mileage: number | null;

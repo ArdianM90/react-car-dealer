@@ -1,13 +1,13 @@
 ﻿
 import Form from 'react-bootstrap/Form';
 import { Card, Col, Row } from 'react-bootstrap';
-import { OfferContent } from '../types/OfferContent';
+import { OfferCreatorDTO } from '../types/OfferCreatorDTO';
 import { useEffect, useRef, useState } from 'react';
 import { FaExclamationTriangle } from 'react-icons/fa';
 
 type CreatorFormProps = {
-    formData: OfferContent;
-    setFormData: (data: OfferContent) => void;
+    formData: OfferCreatorDTO;
+    setFormData: (data: OfferCreatorDTO) => void;
     onValidate: (isValid: boolean) => void;
     wasVisited: boolean;
 };
@@ -60,19 +60,6 @@ export const CreatorStepDetails = ({ formData, setFormData, onValidate, wasVisit
         timeoutRefs.current[inputName] = setTimeout(() => {
             setFormErrors(prev => ({ ...prev, [inputName]: validateField(inputName, inputValue) }))
             setTouchedStatuses(prev => ({ ...prev, [inputName]: true }));
-        }, timeout);
-    }
-
-    const handleRangeChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
-        const inputName: string = e.target.name;
-        const inputValue: string = e.target.value;
-        setFormData({ ...formData, displacement: inputValue });
-        if (timeoutRefs.current[inputName] != null) {
-            clearTimeout(timeoutRefs.current[inputName]);
-        }
-        timeoutRefs.current[inputName] = setTimeout(() => {
-            setFormErrors(prev => ({ ...prev, displacement: validateField(inputName, inputValue) }))
-            setTouchedStatuses(prev => ({ ...prev, displacement: true }));
         }, timeout);
     }
 
@@ -134,6 +121,14 @@ export const CreatorStepDetails = ({ formData, setFormData, onValidate, wasVisit
         return "";
     }
 
+    const clearTimeOuts = (): void => {
+        Object.values(timeoutRefs.current).forEach(timeout => {
+            if (timeout != null) {
+                clearTimeout(timeout);
+            };
+        });
+    }
+
     useEffect(() => {
         const yearErrorMsg = validateField("year", formData.year?.toString() ?? "");
         const fuelErrorMsg = validateField("fuel", formData.fuel);
@@ -148,15 +143,9 @@ export const CreatorStepDetails = ({ formData, setFormData, onValidate, wasVisit
             power: powerErrorMsg,
             mileage: mileageErrorMsg,
         });
-    }, [formData]);
 
-    useEffect(() => {
-        return () => {
-            Object.values(timeoutRefs.current).forEach(timeout => {
-                if (timeout) clearTimeout(timeout);
-            });
-        };
-    }, []);
+        return (() => clearTimeOuts());
+    }, [formData]);
 
     return (
         <Card>
@@ -195,7 +184,7 @@ export const CreatorStepDetails = ({ formData, setFormData, onValidate, wasVisit
                     </Row>
                     <Row className="mb-3">
                         <Col md={6}>
-                            <Form.Label className="fw-bold">Pojemność silnika (L)</Form.Label>
+                            <Form.Label className="fw-bold" htmlFor="displacement">Pojemność silnika (L)</Form.Label>
                             <Form.Control id="displacement" name="displacement" type="number" step="0.1" 
                                 placeholder="Pojemność silnika"
                                 value={formData.displacement === null ? "" : formData.displacement}
@@ -207,16 +196,22 @@ export const CreatorStepDetails = ({ formData, setFormData, onValidate, wasVisit
                                 max="5"
                                 step="0.1"
                                 value={formData.displacement === null ? 0.1 : parseFloat(formData.displacement)}
-                                onChange={handleRangeChange}
-                            />
+                                onChange={handleInputChange} />
                         </Col>
                         <Col md={6}>
-                            <Form.Label className="fw-bold">Moc silnika (KM)</Form.Label>
+                            <Form.Label className="fw-bold" htmlFor="power">Moc silnika (KM)</Form.Label>
                             <Form.Control id="power" name="power" type="number"
                                 placeholder="Moc silnika"
                                 value={formData.power === null ? "" : formData.power}
                                 onChange={handleInputChange}
                                 onBlur={handleOnBlur} />
+                            <Form.Range
+                                name="power"
+                                min="1"
+                                max="400"
+                                step="1"
+                                value={formData.power === null ? 1 : Number(formData.power)}
+                                onChange={handleInputChange} />
                         </Col>
                     </Row>
                     <Row>

@@ -1,28 +1,15 @@
 ﻿import { ReactNode, useCallback, useEffect, useState } from 'react';
 import { Button, Card, Col, Container, Form, Modal, Row } from "react-bootstrap"
 import { FaCheckSquare, FaExclamationTriangle } from 'react-icons/fa';
-import { OfferContent } from '../../types/OfferContent';
 import { CreatorStepBasicData } from '../../components/CreatorStepBasicData';
 import { CreatorStepImages } from '../../components/CreatorStepImages';
 import { CreatorStepDetails } from '../../components/CreatorStepDetails';
 import { CreatorStepDescription } from '../../components/CreatorStepDescription';
 import { CreatorStepPrice } from '../../components/CreatorStepPrice';
 import { CreatorStepSummary } from '../../components/CreatorStepSummary';
+import { OfferCreatorDTO } from '../../types/OfferCreatorDTO';
+import { CreatorStep, StepValidationStatus } from '../../types/OfferCreatorConstants';
 
-enum CreatorStep {
-    BasicData = "Marka i model",
-    Images = "Zdjęcia",
-    Details = "Dane techniczne",
-    Description = "Opis",
-    Price = "Cena",
-    Summary = "Podsumowanie"
-}
-
-enum StepValidationStatus {
-    Unvisited,
-    Invalid,
-    Valid
-}
     
 export const OfferCreatorPage = () => {
     const steps: CreatorStep[] = [CreatorStep.BasicData, CreatorStep.Images, CreatorStep.Details, CreatorStep.Description, CreatorStep.Price, CreatorStep.Summary];
@@ -39,12 +26,13 @@ export const OfferCreatorPage = () => {
     const [animatedStep, setAnimatedStep] = useState<number | null>(null);
     const [stepsValidation, setStepsValidation] = useState<StepValidationStatus[]>(Array(steps.length).fill(StepValidationStatus.Unvisited));
     const [stepsVisited, setStepsVisited] = useState(stepsVisitedInitialState);
-    const [formData, setFormData] = useState<OfferContent>({
-        id: 0,
+    const [formData, setFormData] = useState<OfferCreatorDTO>({
+        id: null,
         brand: '',
         model: '',
         type: '',
-        price: 0,
+        price: null,
+        currency: 'PLN',
         year: null,
         fuel: null,
         mileage: null,
@@ -68,6 +56,7 @@ export const OfferCreatorPage = () => {
 
     const handleBack = () => {
         if (currentStepIdx > 0) {
+            setStepsVisited(prev => ({ ...prev, [steps[currentStepIdx]]: true, }));
             const prevStep = currentStepIdx - 1;
             setCurrentStepIdx(prevStep);
             setAnimatedStep(prevStep);
@@ -133,15 +122,20 @@ export const OfferCreatorPage = () => {
             case CreatorStep.Description:
                 return <CreatorStepDescription
                     formData={formData}
-                    setFormData={setFormData} />
+                    setFormData={setFormData} 
+                    onValidate={(isValid) => updateFormValidation(isValid)}
+                    wasVisited={stepsVisited[CreatorStep.Description]} />
             case CreatorStep.Price:
                 return <CreatorStepPrice
                     formData={formData}
-                    setFormData={setFormData} />
+                    setFormData={setFormData}
+                    onValidate={(isValid) => updateFormValidation(isValid)}
+                    wasVisited={stepsVisited[CreatorStep.Price]} />
             case CreatorStep.Summary:
                 return <CreatorStepSummary
                     formData={formData}
-                    uploadedFiles={uploadedFiles} />
+                    uploadedFiles={uploadedFiles}
+                    stepsValidation={stepsValidation} />
         }
     };
 
