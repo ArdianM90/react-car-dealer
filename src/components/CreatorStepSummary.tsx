@@ -129,7 +129,7 @@ export const CreatorStepSummary = ({ formData, uploadedFiles, stepsValidation }:
                         </ul>
                     </Col>
                 </Row>
-                {steps.map((step, index) =>
+                {steps.map((_, index) =>
                     stepsValidation[index] !== StepValidationStatus.Valid && (
                         <div key={index} className="error-frame mt-3 d-flex align-items-center">
                             <FaExclamationTriangle className="me-2" />

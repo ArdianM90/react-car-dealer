@@ -1,19 +1,20 @@
-﻿
-import { useEffect, useState } from 'react';
+﻿import { useEffect, useState } from 'react';
 import { Container, Card, Col, Row, Button, Dropdown, DropdownButton, Badge } from "react-bootstrap"
 import { Link, useParams } from "react-router-dom";
-import { OfferContent } from '../../types/OfferContent';
+import {OfferContent, OfferType} from '../../types/OfferContent';
 import { getVehicles } from '../../service/MockApiService';
     
 
 export const OffersPage = () => {
-    const itemsPerPage = 5;
+    const ITEMS_PER_PAGE: number = 5;
+
     const { type } = useParams();
     const [vehicles, setVehicles] = useState<OfferContent[]>([]);
-    const filteredVehicles = vehicles.filter(item => (!type || type === 'all' || item.type === type));
-    const totalPages = Math.ceil(filteredVehicles.length / itemsPerPage);
+    const filteredVehicles = vehicles.filter(item => (!type || type === 'all' || item.type === OfferType[type as keyof typeof OfferType]));
+    const totalPages = Math.ceil(filteredVehicles.length / ITEMS_PER_PAGE);
     const [currentPage, setCurrentPage] = useState(1);
     const [selectedSort, setSelectedSort] = useState<string>('Cena: malejąco');
+
     const handleSelect = (eventKey: string | null) => {
         if (eventKey) {
             setSelectedSort(eventKey);
@@ -44,7 +45,7 @@ export const OffersPage = () => {
         }
     };
 
-    const pageItems = sortVehicles(filteredVehicles).slice((currentPage * itemsPerPage) - itemsPerPage, currentPage * itemsPerPage);
+    const pageItems = sortVehicles(filteredVehicles).slice((currentPage * ITEMS_PER_PAGE) - ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE);
 
     return (
         <Container fluid>

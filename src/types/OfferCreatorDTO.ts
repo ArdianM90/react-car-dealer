@@ -1,8 +1,10 @@
+import {OfferType} from "./OfferContent.ts";
+
 export type OfferCreatorDTO = {
     id: number | null;
     brand: string;
     model: string;
-    type: string;
+    type: OfferType;
     price: number | null;
     currency: string;
     year: number | null;

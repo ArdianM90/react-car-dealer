@@ -1,8 +1,9 @@
 ﻿import Form from 'react-bootstrap/Form';
-import { Card, Col, Row } from 'react-bootstrap';
-import { OfferCreatorDTO } from '../types/OfferCreatorDTO';
-import { useEffect, useRef, useState } from 'react';
-import { FaExclamationTriangle } from 'react-icons/fa';
+import {Card, Col, Row} from 'react-bootstrap';
+import {OfferType} from "../types/OfferContent.ts";
+import {OfferCreatorDTO} from '../types/OfferCreatorDTO';
+import {useEffect, useRef, useState} from 'react';
+import {FaExclamationTriangle} from 'react-icons/fa';
 
 
 type CreatorFormProps = {
@@ -12,7 +13,7 @@ type CreatorFormProps = {
     wasVisited: boolean;
 };
 
-export const CreatorStepBasicData = ({ formData, setFormData, onValidate, wasVisited }: CreatorFormProps) => {
+export const CreatorStepBasicData = ({formData, setFormData, onValidate, wasVisited}: CreatorFormProps) => {
     const errorsInitialState = {
         type: '',
         brand: '',
@@ -40,21 +41,21 @@ export const CreatorStepBasicData = ({ formData, setFormData, onValidate, wasVis
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>): void => {
         const inputName: string = e.target.name;
         const inputValue: string = e.target.value;
-        setFormData({ ...formData, [inputName]: inputValue })
+        setFormData({...formData, [inputName]: inputValue})
         if (timeoutRefs.current[inputName] != null) {
             clearTimeout(timeoutRefs.current[inputName]);
         }
         timeoutRefs.current[inputName] = setTimeout(() => {
-            setFormErrors(prev => ({ ...prev, [inputName]: validateField(inputName, inputValue) }))
-            setTouchedStatuses(prev => ({ ...prev, [inputName]: true }));
+            setFormErrors(prev => ({...prev, [inputName]: validateField(inputName, inputValue)}))
+            setTouchedStatuses(prev => ({...prev, [inputName]: true}));
         }, timeout);
     }
 
     const handleOnBlur = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>): void => {
         const inputName: string = e.target.name;
         const inputValue: string = e.target.value;
-        setTouchedStatuses(prev => ({ ...prev, [inputName]: true }));
-        setFormErrors(prev => ({ ...prev, [inputName]: validateField(inputName, inputValue) }));
+        setTouchedStatuses(prev => ({...prev, [inputName]: true}));
+        setFormErrors(prev => ({...prev, [inputName]: validateField(inputName, inputValue)}));
     }
 
     const validateField = (inputName: string, value: string): string => {
@@ -65,7 +66,7 @@ export const CreatorStepBasicData = ({ formData, setFormData, onValidate, wasVis
                     return "Wybierz kategorię pojazdu.";
                 case "brand":
                 case "model":
-                    return `Pole ${ inputName === 'brand' ? 'marka' : 'model' } pojazdu nie może być puste.`;
+                    return `Pole ${inputName === 'brand' ? 'marka' : 'model'} pojazdu nie może być puste.`;
             }
         }
         if (inputName === "brand" && trimmedValue.length < 2) {
@@ -78,7 +79,7 @@ export const CreatorStepBasicData = ({ formData, setFormData, onValidate, wasVis
         Object.values(timeoutRefs.current).forEach(timeout => {
             if (timeout != null) {
                 clearTimeout(timeout);
-            };
+            }
         });
     }
 
@@ -106,12 +107,13 @@ export const CreatorStepBasicData = ({ formData, setFormData, onValidate, wasVis
                     <Row className="mb-3">
                         <Col md={4}>
                             <Form.Label className="fw-bold" htmlFor="type">Kategoria</Form.Label>
-                            <Form.Select id="type" name="type" value={formData.type} onChange={handleInputChange} onBlur={handleOnBlur} >
+                            <Form.Select id="type" name="type" value={formData.type}
+                                         onChange={handleInputChange}
+                                         onBlur={handleOnBlur}>
                                 <option value="" disabled hidden>Wybierz kategorię</option>
-                                <option value="osobowe">Osobowe</option>
-                                <option value="towarowe">Towarowe</option>
-                                <option value="budowlane">Budowlane</option>
-                                <option value="inne">Inne pojazdy</option>
+                                {Object.entries(OfferType).map(([key, value]) => (
+                                    <option key={key} value={value}>{value.charAt(0).toUpperCase() + value.slice(1)}</option>
+                                ))}
                             </Form.Select>
                         </Col>
                         <Col md={4}>
@@ -122,24 +124,24 @@ export const CreatorStepBasicData = ({ formData, setFormData, onValidate, wasVis
                                 type="text"
                                 value={formData.brand}
                                 onChange={handleInputChange}
-                                onBlur={handleOnBlur} />
+                                onBlur={handleOnBlur}/>
                         </Col>
                         <Col md={4}>
                             <Form.Label className="fw-bold" htmlFor="model">Model</Form.Label>
                             <Form.Control id="model" name="model" type="text"
-                                value={formData.model}
-                                onChange={handleInputChange}
-                                onBlur={handleOnBlur} />
+                                          value={formData.model}
+                                          onChange={handleInputChange}
+                                          onBlur={handleOnBlur}/>
                         </Col>
                     </Row>
                 </Form.Group>
                 {Object.entries(formErrors).map(([name, errMsg]) =>
-                    errMsg !== "" && (wasVisited || touchedStatuses[name as keyof typeof touchedStatuses]) && (
-                        <div key={name} className="error-frame mt-3 d-flex align-items-center">
-                            <FaExclamationTriangle className="me-2" />
-                            {errMsg}
-                        </div>
-                    )
+                        errMsg !== "" && (wasVisited || touchedStatuses[name as keyof typeof touchedStatuses]) && (
+                            <div key={name} className="error-frame mt-3 d-flex align-items-center">
+                                <FaExclamationTriangle className="me-2"/>
+                                {errMsg}
+                            </div>
+                        )
                 )}
             </Card.Body>
         </Card>

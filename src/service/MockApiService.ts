@@ -1,9 +1,10 @@
-import { OfferContent } from '../types/OfferContent';
+import {OfferContent, OfferType} from '../types/OfferContent';
+import {OfferCreatorDTO} from "../types/OfferCreatorDTO.ts";
 
 let items: OfferContent[] = [
     {
         id: 1,
-        type: "passenger",
+        type: OfferType.passenger,
         brand: "Skoda",
         model: "Octavia 2 RS",
         price: 15000,
@@ -18,7 +19,7 @@ let items: OfferContent[] = [
     },
     {
         id: 2,
-        type: "passenger",
+        type: OfferType.passenger,
         brand: "Dodge",
         model: "Viper",
         price: 80000,
@@ -33,7 +34,7 @@ let items: OfferContent[] = [
     },
     {
         id: 3,
-        type: "passenger",
+        type: OfferType.passenger,
         brand: "BMW",
         model: "320d",
         price: 59900,
@@ -48,7 +49,7 @@ let items: OfferContent[] = [
     },
     {
         id: 4,
-        type: "passenger",
+        type: OfferType.passenger,
         brand: "Audi",
         model: "A4 B8",
         price: 35000,
@@ -63,7 +64,7 @@ let items: OfferContent[] = [
     },
     {
         id: 5,
-        type: "passenger",
+        type: OfferType.passenger,
         brand: "Volkswagen",
         model: "Golf VII GTI",
         price: 46000,
@@ -78,7 +79,7 @@ let items: OfferContent[] = [
     },
     {
         id: 6,
-        type: "passenger",
+        type: OfferType.passenger,
         brand: "Mazda",
         model: "6",
         price: 27000,
@@ -93,7 +94,7 @@ let items: OfferContent[] = [
     },
     {
         id: 7,
-        type: "cargo",
+        type: OfferType.cargo,
         brand: "Ford",
         model: "Transit",
         price: 32000,
@@ -108,7 +109,7 @@ let items: OfferContent[] = [
     },
     {
         id: 8,
-        type: "cargo",
+        type: OfferType.cargo,
         brand: "Renault",
         model: "Master",
         price: 28000,
@@ -123,7 +124,7 @@ let items: OfferContent[] = [
     },
     {
         id: 9,
-        type: "cargo",
+        type: OfferType.cargo,
         brand: "Mercedes-Benz",
         model: "Sprinter",
         price: 45000,
@@ -138,7 +139,7 @@ let items: OfferContent[] = [
     },
     {
         id: 10,
-        type: "specialized",
+        type: OfferType.specialized,
         brand: "Caterpillar",
         model: "D6T",
         price: 320000,
@@ -153,7 +154,7 @@ let items: OfferContent[] = [
     },
     {
         id: 11,
-        type: "specialized",
+        type: OfferType.specialized,
         brand: "JCB",
         model: "3CX",
         price: 150000,
@@ -168,7 +169,7 @@ let items: OfferContent[] = [
     },
     {
         id: 12,
-        type: "specialized",
+        type: OfferType.specialized,
         brand: "Komatsu",
         model: "PC210",
         price: 200000,
@@ -183,7 +184,7 @@ let items: OfferContent[] = [
     },
     {
         id: 13,
-        type: "others",
+        type: OfferType.other,
         brand: "Cadillac",
         model: "Limo",
         price: 200000,
@@ -198,7 +199,7 @@ let items: OfferContent[] = [
     },
     {
         id: 14,
-        type: "others",
+        type: OfferType.other,
         brand: "Morris",
         model: "Vintage",
         price: 300000,
@@ -213,7 +214,7 @@ let items: OfferContent[] = [
     },
     {
         id: 15,
-        type: "passenger",
+        type: OfferType.passenger,
         brand: "Land Rover",
         model: "Range Rover",
         price: 260000,
@@ -228,7 +229,7 @@ let items: OfferContent[] = [
     },
     {
         id: 16,
-        type: "others",
+        type: OfferType.other,
         brand: "Volkswagen",
         model: "California",
         price: 320000,
@@ -247,13 +248,54 @@ export const getVehicles = (): Promise<OfferContent[]> => {
     return Promise.resolve(items);
 }
 
-export const addVehicle = (item: OfferContent): void => {
-    items = [...items, item];
+export const persistChanges = (data: OfferCreatorDTO): void => {
+    console.log(data)
+    if (data.id === null) {
+        addVehicle(data)
+    } else {
+        updateVehicle(data);
+    }
+}
+
+export const addVehicle = (data: OfferCreatorDTO): void => {
+    const id: number = Math.max(...items.map(item => item.id), 0) + 1;
+    const newVehicle: OfferContent = mapToOfferContent(data, id);
+    items = [...items, newVehicle];
+}
+
+export const updateVehicle = (data: OfferCreatorDTO): void => {
+    const newVehicle: OfferContent = mapToOfferContent(data, Number(data.id));
+    items = items.map((item: OfferContent) => item.id === data.id ? newVehicle : item);
+}
+
+export const mapToOfferContent = (dto: OfferCreatorDTO, id: number): OfferContent => {
+    return {
+        id: id,
+        brand: dto.brand,
+        model: dto.model,
+        type: dto.type,
+        price: Number(dto.price),
+        currency: dto.currency,
+        year: Number(dto.year),
+        fuel: String(dto.fuel),
+        mileage: Math.floor(Number(dto.mileage) / 1000),
+        power: Number(dto.power),
+        displacement: String(dto.displacement),
+        imgUrl: dto.imgUrl,
+        description: dto.description,
+    };
 }
 
 export const getRecommendedVehicles = (): Promise<OfferContent[]> => {
     const recommendedIds = [1, 2, 3, 4, 5, 6];
     return Promise.resolve(items.filter(item => recommendedIds.includes(item.id)));
+}
+
+export const getVehiclesByType = (type: OfferType | undefined): Promise<OfferContent[]> => {
+    if (type !== undefined) {
+        Promise.resolve(items.filter(item => (!type || item.type === type)));
+    }
+    return Promise.resolve(items);
 }
 
 export const getGalleryImagesByItemId = (itemId: number): { original: string; thumbnail: string }[] => {
@@ -267,7 +309,7 @@ export const getGalleryImagesByItemId = (itemId: number): { original: string; th
         .map(i => i.imgUrl);
     return (resultArr.concat(additionalImages))
         .map(url => ({
-            original: url,      
+            original: url,
             thumbnail: url
         }));
 };

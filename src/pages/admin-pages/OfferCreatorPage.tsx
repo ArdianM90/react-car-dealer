@@ -9,6 +9,7 @@ import { CreatorStepPrice } from '../../components/CreatorStepPrice';
 import { CreatorStepSummary } from '../../components/CreatorStepSummary';
 import { OfferCreatorDTO } from '../../types/OfferCreatorDTO';
 import { formInitialData, CreatorStep, StepValidationStatus } from '../../types/OfferCreatorConstants';
+import { persistChanges } from '../../service/MockApiService';
 
     
 export const OfferCreatorPage = () => {
@@ -31,7 +32,7 @@ export const OfferCreatorPage = () => {
     const [showConfirmation, setShowConfirmation] = useState(false);
     const handleConfirmation = () => setShowConfirmation(true);
 
-    const handleNext = () => {
+    const handleNext = (): void => {
         if (currentStepIdx < steps.length - 1) {
             setStepsVisited(prev => ({ ...prev, [steps[currentStepIdx]]: true, }));
             const nextStep = currentStepIdx + 1;
@@ -49,17 +50,19 @@ export const OfferCreatorPage = () => {
         }
     };
 
-    const handleCloseConfirmation = (accept: boolean) => {
+    const handleCloseConfirmation = (accept: boolean): void => {
         setShowConfirmation(false)
         if (accept) {
+            formData.imgUrl = "/assets/img/"+uploadedFiles[0].name;
             setCurrentStepIdx(0);
             setStepsVisited(stepsVisitedInitialState);
             setFormData(formInitialData);
             setUploadedFiles([]);
+            persistChanges(formData);
         }
     };
 
-    const updateFormValidation = useCallback((isValid: boolean) => {
+    const updateFormValidation = useCallback((isValid: boolean): void => {
         setStepsValidation(prev => {
             const updated = [...prev];
             updated[currentStepIdx] = isValid ? StepValidationStatus.Valid : StepValidationStatus.Invalid;
@@ -99,31 +102,31 @@ export const OfferCreatorPage = () => {
                 return <CreatorStepBasicData
                     formData={formData}
                     setFormData={setFormData}
-                    onValidate={(isValid) => updateFormValidation(isValid)}
+                    onValidate={updateFormValidation}
                     wasVisited={stepsVisited[CreatorStep.BasicData]} />
             case CreatorStep.Images:
                 return <CreatorStepImages
                     uploadedFiles={uploadedFiles}
                     setUploadedFiles={setUploadedFiles}
-                    onValidate={(isValid) => updateFormValidation(isValid)}
+                    onValidate={updateFormValidation}
                     wasVisited={stepsVisited[CreatorStep.Images]} />
             case CreatorStep.Details:
                 return <CreatorStepDetails
                     formData={formData}
                     setFormData={setFormData}
-                    onValidate={(isValid) => updateFormValidation(isValid)}
+                    onValidate={updateFormValidation}
                     wasVisited={stepsVisited[CreatorStep.Details]} />
             case CreatorStep.Description:
                 return <CreatorStepDescription
                     formData={formData}
                     setFormData={setFormData} 
-                    onValidate={(isValid) => updateFormValidation(isValid)}
+                    onValidate={updateFormValidation}
                     wasVisited={stepsVisited[CreatorStep.Description]} />
             case CreatorStep.Price:
                 return <CreatorStepPrice
                     formData={formData}
                     setFormData={setFormData}
-                    onValidate={(isValid) => updateFormValidation(isValid)}
+                    onValidate={updateFormValidation}
                     wasVisited={stepsVisited[CreatorStep.Price]} />
             case CreatorStep.Summary:
                 return <CreatorStepSummary
@@ -190,8 +193,4 @@ export const OfferCreatorPage = () => {
             </Modal>
         </Container>
     )
-}
-
-function getFormInitialData(): OfferCreatorDTO | (() => OfferCreatorDTO) {
-    throw new Error('Function not implemented.');
 }

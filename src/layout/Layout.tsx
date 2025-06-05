@@ -1,7 +1,7 @@
-﻿import { FormEvent, useState } from "react";
-import { Link, Outlet } from 'react-router-dom';
-import { FaComment, FaAt, FaPhone } from "react-icons/fa";
-import { Col, Container, Image, Nav, Navbar, NavDropdown, Row, Form, Button } from 'react-bootstrap';
+﻿import {FormEvent, useState} from "react";
+import {Link, Outlet} from 'react-router-dom';
+import {FaComment, FaAt, FaPhone} from "react-icons/fa";
+import {Col, Container, Image, Nav, Navbar, NavDropdown, Row, Form, Button} from 'react-bootstrap';
 
 export const Layout = () => {
     const [email, setEmail] = useState('');
@@ -23,10 +23,10 @@ export const Layout = () => {
                 <Container fluid>
                     <Navbar.Brand>
                         <Link to="/" className="d-block">
-                            <Image src="/assets/img/logo.png" className="logo" />
+                            <Image src="/assets/img/logo.png" className="logo"/>
                         </Link>
                     </Navbar.Brand>
-                    <Navbar.Toggle aria-controls="navbarScroll" />
+                    <Navbar.Toggle aria-controls="navbarScroll"/>
                     <Navbar.Collapse id="navbarScroll">
                         <Nav className="d-flex flex-wrap me-auto my-2 my-lg-0" navbarScroll>
                             <Nav.Link as={Link} to="/offers/all" className="menu-item d-flex justify-content-center align-items-center">Wszystkie oferty</Nav.Link>
@@ -35,18 +35,18 @@ export const Layout = () => {
                                 <NavDropdown.Item as={Link} to="/offers/cargo">Towarowe</NavDropdown.Item>
                                 <NavDropdown.Item as={Link} to="/offers/specialized">Budowlane</NavDropdown.Item>
                                 <NavDropdown.Item as={Link} to="/offers/others">Inne pojazdy</NavDropdown.Item>
-                                <NavDropdown.Divider />
+                                <NavDropdown.Divider/>
                                 <NavDropdown.Item as={Link} to="/offers/parts">Części samochodowe</NavDropdown.Item>
                             </NavDropdown>
                             <NavDropdown title="Kadry" id="kadry" className="menu-item d-flex justify-content-center align-items-center">
                                 <NavDropdown.Item as={Link} to="/pracownik">Pracownik</NavDropdown.Item>
-                                <NavDropdown.Divider />
+                                <NavDropdown.Divider/>
                                 <NavDropdown.Item as={Link} to="/pracownicy">Pracownicy</NavDropdown.Item>
                             </NavDropdown>
                             <NavDropdown title="Zarządzaj" id="inne1" className="menu-item d-flex justify-content-center align-items-center">
                                 <NavDropdown.Item as={Link} to="/add-offer">Dodaj ofertę</NavDropdown.Item>
                                 <NavDropdown.Item as={Link} to="/manage-offers">Zarządzaj ofertami</NavDropdown.Item>
-                                <NavDropdown.Divider />
+                                <NavDropdown.Divider/>
                                 <NavDropdown.Item as={Link} to="/pracownik">Pracownik</NavDropdown.Item>
                                 <NavDropdown.Item as={Link} to="/pracownicy">Pracownicy</NavDropdown.Item>
                                 <NavDropdown.Item as={Link} to="/towar">Towar</NavDropdown.Item>
@@ -60,7 +60,7 @@ export const Layout = () => {
             </Navbar>
             <div className="px-3">
                 <Container fluid>
-                    <Outlet />
+                    <Outlet/>
                 </Container>
             </div>
             <Container className="py-5">
@@ -85,18 +85,18 @@ export const Layout = () => {
                         <h5 className="text-primary border-bottom pb-2 mb-3">NAPISZ DO NAS!</h5>
                         <ul className="list-unstyled">
                             <li className="mb-2 d-flex align-items-start">
-                                <FaComment className="text-primary me-2 mt-1" />
+                                <FaComment className="text-primary me-2 mt-1"/>
                                 <div>
                                     <p className="mb-1">LiveChat</p>
                                     <small className="text-muted">PN–PT, 08:00–16:00</small>
                                 </div>
                             </li>
                             <li className="mb-2 d-flex align-items-start">
-                                <FaAt className="text-primary me-2 mt-1" />
+                                <FaAt className="text-primary me-2 mt-1"/>
                                 <p className="mb-0">support@amce.pl</p>
                             </li>
                             <li className="d-flex align-items-start">
-                                <FaPhone className="text-primary me-2 mt-1" />
+                                <FaPhone className="text-primary me-2 mt-1"/>
                                 <p className="mb-0">+48 123 456 789</p>
                             </li>
                         </ul>

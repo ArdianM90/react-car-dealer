@@ -1,8 +1,15 @@
+export enum OfferType {
+    passenger = "osobowe",
+    cargo = "towarowe",
+    specialized = "budowlane",
+    other = "inne"
+}
+
 export type OfferContent = {
     id: number;
     brand: string;
     model: string;
-    type: string;
+    type: OfferType;
     price: number;
     currency: string;
     year: number;
