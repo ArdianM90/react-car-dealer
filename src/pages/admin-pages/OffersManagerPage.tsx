@@ -40,7 +40,6 @@ export const OffersManagerPage = () => {
         return vehicles.filter((_, index) => checkedToDelete[index])
             .map(vehicle => vehicle.id);
     }
-    const toDeleteCount: number = getSelectedIds().length;
 
     useEffect(() => {
         getVehicles().then(data => {
@@ -103,9 +102,9 @@ export const OffersManagerPage = () => {
             <Modal show={showConfirmation} onHide={() => handleCloseConfirmation(false)}>
                 <Modal.Body>
                     {
-                        toDeleteCount == 1
-                        ? `Wybrana oferta zostanie usunięta. `
-                        : `Usuniętych zostanie ${toDeleteCount} ofert.`}
+                        pendingDeleteIds.length === 1
+                        ? `Wybrana oferta zostanie usunięta.`
+                        : `Usuniętych zostanie ${pendingDeleteIds.length} ofert. `}
                     Czy na pewno chcesz to zrobić?
                 </Modal.Body>
                 <Modal.Footer>
