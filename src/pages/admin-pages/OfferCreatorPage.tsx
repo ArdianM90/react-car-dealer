@@ -1,17 +1,17 @@
-﻿import { ReactNode, useCallback, useEffect, useState } from 'react';
-import { Button, Card, Col, Container, Form, Modal, Row } from "react-bootstrap"
-import { FaCheckSquare, FaExclamationTriangle } from 'react-icons/fa';
-import { CreatorStepBasicData } from '../../components/CreatorStepBasicData';
-import { CreatorStepImages } from '../../components/CreatorStepImages';
-import { CreatorStepDetails } from '../../components/CreatorStepDetails';
-import { CreatorStepDescription } from '../../components/CreatorStepDescription';
-import { CreatorStepPrice } from '../../components/CreatorStepPrice';
-import { CreatorStepSummary } from '../../components/CreatorStepSummary';
-import { OfferCreatorDTO } from '../../types/OfferCreatorDTO';
-import { formInitialData, CreatorStep, StepValidationStatus } from '../../types/OfferCreatorConstants';
-import { persistChanges } from '../../service/MockApiService';
+﻿import {ReactNode, useCallback, useEffect, useState} from 'react';
+import {Button, Card, Col, Container, Form, Modal, Row} from "react-bootstrap"
+import {FaCheckSquare, FaExclamationTriangle} from 'react-icons/fa';
+import {CreatorStepBasicData} from '../../components/CreatorStepBasicData';
+import {CreatorStepImages} from '../../components/CreatorStepImages';
+import {CreatorStepDetails} from '../../components/CreatorStepDetails';
+import {CreatorStepDescription} from '../../components/CreatorStepDescription';
+import {CreatorStepPrice} from '../../components/CreatorStepPrice';
+import {CreatorStepSummary} from '../../components/CreatorStepSummary';
+import {OfferCreatorDTO} from '../../types/OfferCreatorDTO';
+import {formInitialData, CreatorStep, StepValidationStatus} from '../../types/OfferCreatorConstants';
+import {persistChanges} from '../../service/MockApiService';
 
-    
+
 export const OfferCreatorPage = () => {
     const steps: CreatorStep[] = [CreatorStep.BasicData, CreatorStep.Images, CreatorStep.Details, CreatorStep.Description, CreatorStep.Price, CreatorStep.Summary];
     const stepsVisitedInitialState: Record<CreatorStep, boolean> = {
@@ -34,7 +34,7 @@ export const OfferCreatorPage = () => {
 
     const handleNext = (): void => {
         if (currentStepIdx < steps.length - 1) {
-            setStepsVisited(prev => ({ ...prev, [steps[currentStepIdx]]: true, }));
+            setStepsVisited(prev => ({...prev, [steps[currentStepIdx]]: true,}));
             const nextStep = currentStepIdx + 1;
             setCurrentStepIdx(nextStep);
             setAnimatedStep(nextStep);
@@ -43,7 +43,7 @@ export const OfferCreatorPage = () => {
 
     const handleBack = (): void => {
         if (currentStepIdx > 0) {
-            setStepsVisited(prev => ({ ...prev, [steps[currentStepIdx]]: true, }));
+            setStepsVisited(prev => ({...prev, [steps[currentStepIdx]]: true,}));
             const prevStep = currentStepIdx - 1;
             setCurrentStepIdx(prevStep);
             setAnimatedStep(prevStep);
@@ -53,7 +53,7 @@ export const OfferCreatorPage = () => {
     const handleCloseConfirmation = (accept: boolean): void => {
         setShowConfirmation(false)
         if (accept) {
-            formData.imgUrl = "/assets/img/"+uploadedFiles[0].name;
+            formData.imgUrl = "/assets/img/" + uploadedFiles[0].name;
             setCurrentStepIdx(0);
             setStepsVisited(stepsVisitedInitialState);
             setFormData(formInitialData);
@@ -75,10 +75,10 @@ export const OfferCreatorPage = () => {
         let validationIcon = null;
         switch (stepStatus) {
             case StepValidationStatus.Valid:
-                validationIcon = <FaCheckSquare className="text-white ms-2" style={{ fontSize: '1.3rem' }} />;
+                validationIcon = <FaCheckSquare className="text-white ms-2" style={{fontSize: '1.3rem'}}/>;
                 break;
             case StepValidationStatus.Invalid:
-                validationIcon = <FaExclamationTriangle className="text-white ms-2" style={{ fontSize: '1.3rem' }} />;
+                validationIcon = <FaExclamationTriangle className="text-white ms-2" style={{fontSize: '1.3rem'}}/>;
                 break;
         }
         return validationIcon;
@@ -87,7 +87,7 @@ export const OfferCreatorPage = () => {
     const formIsInvalid = (): boolean => {
         const stepWithoutSummary = stepsValidation.slice(0, -1);
         return stepWithoutSummary.filter((e) => e !== StepValidationStatus.Valid).length > 0;
-    } 
+    }
 
     useEffect(() => {
         if (animatedStep !== null) {
@@ -103,42 +103,42 @@ export const OfferCreatorPage = () => {
                     formData={formData}
                     setFormData={setFormData}
                     onValidate={updateFormValidation}
-                    wasVisited={stepsVisited[CreatorStep.BasicData]} />
+                    wasVisited={stepsVisited[CreatorStep.BasicData]}/>
             case CreatorStep.Images:
                 return <CreatorStepImages
                     uploadedFiles={uploadedFiles}
                     setUploadedFiles={setUploadedFiles}
                     onValidate={updateFormValidation}
-                    wasVisited={stepsVisited[CreatorStep.Images]} />
+                    wasVisited={stepsVisited[CreatorStep.Images]}/>
             case CreatorStep.Details:
                 return <CreatorStepDetails
                     formData={formData}
                     setFormData={setFormData}
                     onValidate={updateFormValidation}
-                    wasVisited={stepsVisited[CreatorStep.Details]} />
+                    wasVisited={stepsVisited[CreatorStep.Details]}/>
             case CreatorStep.Description:
                 return <CreatorStepDescription
                     formData={formData}
-                    setFormData={setFormData} 
+                    setFormData={setFormData}
                     onValidate={updateFormValidation}
-                    wasVisited={stepsVisited[CreatorStep.Description]} />
+                    wasVisited={stepsVisited[CreatorStep.Description]}/>
             case CreatorStep.Price:
                 return <CreatorStepPrice
                     formData={formData}
                     setFormData={setFormData}
                     onValidate={updateFormValidation}
-                    wasVisited={stepsVisited[CreatorStep.Price]} />
+                    wasVisited={stepsVisited[CreatorStep.Price]}/>
             case CreatorStep.Summary:
                 return <CreatorStepSummary
                     formData={formData}
                     uploadedFiles={uploadedFiles}
-                    stepsValidation={stepsValidation} />
+                    stepsValidation={stepsValidation}/>
         }
     };
 
     return (
         <Container fluid>
-            <div className="text-center fw-bold fs-4 mb-2" style={{ color: '#0D6EFD' }}>
+            <div className="text-center fw-bold fs-4 mb-2" style={{color: '#0D6EFD'}}>
                 Kreator oferty
             </div>
             <Row>
@@ -151,7 +151,7 @@ export const OfferCreatorPage = () => {
                         return (
                             <Card key={step} className={`step-box mb-2 ${bgClass} ${animationClass}`}>
                                 <Card.Body className="d-flex align-items-center justify-content-between">
-                                    <span>{step}</span>{resolveIcon(step, stepsValidation[index]) }
+                                    <span>{step}</span>{resolveIcon(step, stepsValidation[index])}
                                 </Card.Body>
                             </Card>
                         );
@@ -170,12 +170,12 @@ export const OfferCreatorPage = () => {
                                 </Button>
                             ) : (
                                 <Button variant="primary"
-                                    onClick={handleConfirmation}
+                                        onClick={handleConfirmation}
                                         disabled={formIsInvalid()}>
                                     Dodaj ofertę
                                 </Button>
                             )}
-                            
+
                         </div>
                     </Card>
                 </Col>

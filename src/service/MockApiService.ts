@@ -246,27 +246,59 @@ let items: OfferContent[] = [
 
 export const getVehicles = (): Promise<OfferContent[]> => {
     return Promise.resolve(items);
-}
+};
+
+export const getRecommendedVehicles = (): Promise<OfferContent[]> => {
+    const recommendedIds = [1, 2, 3, 4, 5, 6];
+    return Promise.resolve(items.filter(item => recommendedIds.includes(item.id)));
+};
+
+export const getVehiclesByType = (type: OfferType | undefined): Promise<OfferContent[]> => {
+    if (type !== undefined) {
+        return Promise.resolve(items.filter(item => (!type || item.type === type)));
+    }
+    return Promise.resolve(items);
+};
 
 export const persistChanges = (data: OfferCreatorDTO): void => {
-    console.log(data)
     if (data.id === null) {
         addVehicle(data)
     } else {
         updateVehicle(data);
     }
-}
+};
 
 export const addVehicle = (data: OfferCreatorDTO): void => {
     const id: number = Math.max(...items.map(item => item.id), 0) + 1;
     const newVehicle: OfferContent = mapToOfferContent(data, id);
     items = [...items, newVehicle];
-}
+};
 
 export const updateVehicle = (data: OfferCreatorDTO): void => {
     const newVehicle: OfferContent = mapToOfferContent(data, Number(data.id));
     items = items.map((item: OfferContent) => item.id === data.id ? newVehicle : item);
+};
+
+export const deleteVehiclesByIds = (ids: number[]): Promise<void> => {
+    items = items.filter((e) => !ids.includes(e.id));
+    return Promise.resolve();
 }
+
+export const getGalleryImagesByItemId = (itemId: number): { original: string; thumbnail: string }[] => {
+    const sourceItem = items.find(item => item.id === itemId);
+    if (!sourceItem) {
+        return [];
+    }
+    const resultArr: string[] = [sourceItem.imgUrl];
+    const additionalImages = items
+        .filter(item => item.type === sourceItem.type && item.id !== itemId)
+        .map(i => i.imgUrl);
+    return (resultArr.concat(additionalImages))
+        .map(url => ({
+            original: url,
+            thumbnail: url
+        }));
+};
 
 export const mapToOfferContent = (dto: OfferCreatorDTO, id: number): OfferContent => {
     return {
@@ -284,32 +316,4 @@ export const mapToOfferContent = (dto: OfferCreatorDTO, id: number): OfferConten
         imgUrl: dto.imgUrl,
         description: dto.description,
     };
-}
-
-export const getRecommendedVehicles = (): Promise<OfferContent[]> => {
-    const recommendedIds = [1, 2, 3, 4, 5, 6];
-    return Promise.resolve(items.filter(item => recommendedIds.includes(item.id)));
-}
-
-export const getVehiclesByType = (type: OfferType | undefined): Promise<OfferContent[]> => {
-    if (type !== undefined) {
-        Promise.resolve(items.filter(item => (!type || item.type === type)));
-    }
-    return Promise.resolve(items);
-}
-
-export const getGalleryImagesByItemId = (itemId: number): { original: string; thumbnail: string }[] => {
-    const sourceItem = items.find(item => item.id === itemId);
-    if (!sourceItem) {
-        return [];
-    }
-    const resultArr: string[] = [sourceItem.imgUrl];
-    const additionalImages = items
-        .filter(item => item.type === sourceItem.type && item.id !== itemId)
-        .map(i => i.imgUrl);
-    return (resultArr.concat(additionalImages))
-        .map(url => ({
-            original: url,
-            thumbnail: url
-        }));
 };
