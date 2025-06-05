@@ -40,7 +40,7 @@ export const OfferCreatorPage = () => {
         }
     };
 
-    const handleBack = () => {
+    const handleBack = (): void => {
         if (currentStepIdx > 0) {
             setStepsVisited(prev => ({ ...prev, [steps[currentStepIdx]]: true, }));
             const prevStep = currentStepIdx - 1;
