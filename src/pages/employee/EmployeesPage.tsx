@@ -7,7 +7,7 @@ import Table from 'react-bootstrap/Table';
 import { useEffect, useState } from 'react';
 import { Employee } from '../../types/Employee';
 
-export const EmploeesPage = () => {
+export const EmployeesPage = () => {
     const [employeesList, setEmployeesList] = useState<Employee[]>([]);
     useEffect(() => {
         const employeesFromApi: Employee[] = [

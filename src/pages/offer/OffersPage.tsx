@@ -59,9 +59,10 @@ export const OffersPage = () => {
             <Row>
                 {pageItems.map((item) =>
                     <Link key={`offer-${item.id}`} to={`/offer/${item.id}`} state={{ carData: item }} style={{ textDecoration: 'none' }}>
-                        <Card className="mb-3 shadow-sm" onMouseEnter={e => e.currentTarget.style.transform = 'scale(1.01)'}
+                        <Card className="mb-3 shadow-sm"
+                            onMouseEnter={(e: React.MouseEvent<HTMLElement>) => { e.currentTarget.style.transform = 'scale(1.01)'; }}
                             onMouseLeave={e => e.currentTarget.style.transform = 'scale(1)'}>
-                                    <Row className="g-0 align-items-center">
+                            <Row className="g-0 align-items-center">
                                 <Col md={4}>
                                     <Card.Img
                                         variant="top"

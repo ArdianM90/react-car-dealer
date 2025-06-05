@@ -39,13 +39,13 @@ export const ItemPage = () => {
                                     </Col>
                                 </Row>
                                 <Row>
-                                    <Col class="m-4">
+                                    <Col className="m-4">
                                         <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                                             <Form.Label>Nazwa</Form.Label>
                                             <Form.Control type="text" />
                                         </Form.Group>
                                     </Col>
-                                    <Col class="m-4">
+                                    <Col className="m-4">
                                         <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                                             <Form.Label>Kategoria</Form.Label>
                                             <Form.Select>

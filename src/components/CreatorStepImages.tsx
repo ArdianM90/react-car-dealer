@@ -1,25 +1,82 @@
 ﻿
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { Card, } from 'react-bootstrap';
-import { FaFileImage } from "react-icons/fa";
+import { FaExclamationTriangle, FaFileImage, FaRegTrashAlt, FaTimes } from "react-icons/fa";
 
 type CreatorImageProps = {
     uploadedFiles: File[];
     setUploadedFiles: (files: File[]) => void;
+    onValidate: (isValid: boolean) => void;
+    wasVisited: boolean;
 };
 
 
-export const CreatorStepImages = ({ uploadedFiles, setUploadedFiles }: CreatorImageProps) => {
-    const [selectedFile, setSelectedFile] = useState<File | null>(null);
+export const CreatorStepImages = ({ uploadedFiles, setUploadedFiles, onValidate, wasVisited }: CreatorImageProps) => {
+    const maxFileSizeMB: number = 5;
+    const maxFilesQty: number = 5;
 
-    const handleAddFile = () => {
-        if (selectedFile) {
-            setUploadedFiles([...uploadedFiles, selectedFile]);
-            setSelectedFile(null);
+    const [filesQtyError, setFilesQtyError] = useState<string>("");
+    const [fileValidationError, setFileValidationError] = useState<string>("");
+    const fileErrors = [filesQtyError, fileValidationError].filter(error => error !== "");
+    const [selectedFiles, setSelectedFiles] = useState<File[] | null>(null);
+    const fileInputRef = useRef<HTMLInputElement >(null);
+
+    const clearFileInput = (): void => {
+        setSelectedFiles(null);
+        if (fileInputRef.current !== null) {
+            fileInputRef.current.value = "";
         }
+        setFilesQtyError("");
+        setFileValidationError("");
     };
+
+    const handleUploadFiles = (): void => {
+        if (selectedFiles === null) {
+            return;
+        }
+        if (selectedFiles.length + uploadedFiles.length > maxFilesQty) {
+            setFilesQtyError(`Możesz dodać maksymalnie ${maxFilesQty} zdjęć.`);
+            return;
+        }
+        let errorMsg: string = "";
+        for (const file of selectedFiles) {
+            errorMsg = validateImgFile(file);
+            if (errorMsg != "") {
+                setFileValidationError(errorMsg);
+                return;
+            }
+        }
+        setUploadedFiles([...uploadedFiles, ...selectedFiles]);
+        const currentFilesQty = uploadedFiles.length + selectedFiles.length;
+        onValidate(currentFilesQty > 0);
+        clearFileInput();
+    };
+
+    const handleDeleteFile = (fileName: string): void => {
+        const newFilesList = uploadedFiles.filter(file => file.name !== fileName);
+        setUploadedFiles(newFilesList);
+    }
+
+    const validateImgFile = (file: File): string => {
+        const trimmedName: string = file.name.trim();
+        const sizeInMB: number = parseFloat((file.size / (1024 * 1024)).toFixed(2));
+        if (!trimmedName || trimmedName.length === 0) {
+            return "Podana nazwa pliku jest pusta.";
+        }
+        if (!trimmedName.toLowerCase().endsWith(".jpg") && !trimmedName.toLowerCase().endsWith(".jpeg")) {
+            return "Dozwolone formaty plików to jpg i jpeg.";
+        }
+        if (sizeInMB > maxFileSizeMB) {
+            return `Rozmiar pliku przekracza maksymalny dozwolony rozmiar - ${maxFileSizeMB}MB.`;
+        }
+        return "";
+    }
+
+    useEffect(() => {
+        onValidate(uploadedFiles.length > 0);
+    }, [uploadedFiles]);
 
     return (
         <Card>
@@ -34,23 +91,52 @@ export const CreatorStepImages = ({ uploadedFiles, setUploadedFiles }: CreatorIm
                         ) : (
                             <div className="mb-3 text-start">
                                 {uploadedFiles.map((file, idx) => (
-                                    <span key={idx}>
-                                        <FaFileImage className="text-secondary me-1" />
+                                    <span key={idx} className="image-file-span">
+                                        <FaFileImage className="text-secondary me-1" style={{ fontSize: '1.2rem' }} />
                                         {file.name}
-                                        {idx < uploadedFiles.length - 1 && ', '}
+                                        <FaTimes className="text-secondary me-1 icon-hover-scale" onClick={() => handleDeleteFile(file.name)} style={{ fontSize: '1.2rem', cursor: 'pointer' }} />
                                     </span>
                                 ))}
                             </div>
                         )
                     }
-                    <Form.Control
-                        type="file"
-                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSelectedFile(e.target.files?.[0] || null)}
-                    />
-                    <Button className="mt-2" onClick={handleAddFile} disabled={!selectedFile}>
-                        Dodaj zdjęcie
-                    </Button>
+                    <div className="d-flex align-items-center gap-2">
+                        <Form.Control
+                            type="file"
+                            multiple
+                            ref={fileInputRef}
+                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => e.target.files !== null && setSelectedFiles(Array.from(e.target.files))}
+                            disabled={uploadedFiles.length >= maxFilesQty} />
+                        <FaRegTrashAlt
+                            className="text-secondary icon-hover-scale"
+                            size={20}
+                            onClick={clearFileInput}
+                            style={{ cursor: 'pointer' }} />
+                    </div>
+                    <Button
+                        className="mt-2"
+                        title={!selectedFiles ? "Wybierz pliki" : uploadedFiles.length >= maxFilesQty ? "Osiągnięto limit zdjęć" : ""}
+                        onClick={handleUploadFiles}
+                        disabled={!selectedFiles || uploadedFiles.length >= maxFilesQty} >Dodaj zdjęcie</Button>
                 </Form.Group>
+                {fileErrors.map((item, index) => (
+                    <div key={`error-${index}`} className="error-frame mt-3 d-flex align-items-center">
+                        <FaExclamationTriangle className="me-2" />
+                        {item}
+                    </div>
+                ))}
+                {uploadedFiles.length >= maxFilesQty && (
+                    <div className="warning-frame mt-3 d-flex align-items-center">
+                        <FaExclamationTriangle className="me-2" />
+                        {`Osiągnięto maksymalną ilość zdjęć.`}
+                    </div>
+                )}
+                {wasVisited && uploadedFiles.length == 0 && (
+                    <div className="error-frame mt-3 d-flex align-items-center">
+                        <FaExclamationTriangle className="me-2" />
+                        {`Należy dodać przynajmniej jedno zdjęcie.`}
+                    </div>
+                )}
             </Card.Body>
         </Card>
     )

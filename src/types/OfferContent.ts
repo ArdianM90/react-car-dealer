@@ -4,6 +4,7 @@ export type OfferContent = {
     model: string;
     type: string;
     price: number;
+    currency: string;
     year: number;
     fuel: string;
     mileage: number;

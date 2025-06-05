@@ -1,29 +1,208 @@
-﻿import { Button, Card, Col, Container, Form, Row } from "react-bootstrap"
-import { FaEnvelope, FaPhoneAlt, FaMapMarkerAlt } from "react-icons/fa"
+﻿import { FormEvent, useRef, useState } from "react";
+import { Button, Card, Col, Container, Form, Modal, Row } from "react-bootstrap"
+import { FaEnvelope, FaPhoneAlt, FaMapMarkerAlt, FaExclamationTriangle } from "react-icons/fa"
 
 
 export const ContactPage = () => {
+    const formInitialState = {
+        name: '',
+        surname: '',
+        email: '',
+        message: ''
+    };
+
+    const errorsInitialState = {
+        name: '',
+        surname: '',
+        email: '',
+        message: '',
+    }
+
+    const timeoutsInitialState = {
+        name: null,
+        surname: null,
+        email: null,
+        message: null
+    };
+
+    const [showConfirmation, setShowConfirmation] = useState(false);
+    const timeoutRefs = useRef<Record<string, NodeJS.Timeout | null>>(timeoutsInitialState)
+    const timeout = 2000;
+
+    const [formData, setFormData] = useState(formInitialState);
+    const [formErrors, setFormErrors] = useState(errorsInitialState);
+    const [wasSubmitted, setWasSubmitted] = useState(false);
+
+    const handleCloseConfirmation = () => {
+        setShowConfirmation(false);
+    };
+
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void => {
+        const inputName: string = e.target.name;
+        const inputValue: string = e.target.value;
+        setFormData(prev => ({ ...prev, [inputName]: inputValue }));
+        if (timeoutRefs.current[inputName] != null) {
+            clearTimeout(timeoutRefs.current[inputName]);
+        }
+        timeoutRefs.current[inputName] = setTimeout(() => {
+            setFormErrors(prev => ({ ...prev, [inputName]: validateField(inputName, inputValue) }))
+        }, timeout);
+    }
+
+    const validateField = (inputName: string, value: string): string => {
+        switch (inputName) {
+            case "name":
+                return checkNameError(value);
+            case "surname":
+                return checkSurnameError(value);
+            case "email":
+                return checkEmailError(value);
+            case "message":
+                return checkMessageError(value);
+            default:
+                return "";
+        }
+    }
+
+    const checkNameError = (str: string): string => {
+        let errorMsg = "";
+        if (!str || str.trim().length === 0) {
+            errorMsg = "Pole imię nie może być puste.";
+        } else if (str.trim().length < 3) {
+            errorMsg = "Pole imię powinno zawierać przynajmniej 3 znaki.";
+        }
+        return errorMsg;
+    }
+
+    const checkSurnameError = (str: string): string => {
+        let errorMsg = "";
+        if (!str || str.trim().length === 0) {
+            errorMsg = "Pole nazwisko nie może być puste.";
+        } else if (str.trim().length < 3) {
+            errorMsg = "Pole nazwisko powinno zawierać przynajmniej 3 znaki.";
+        }
+        return errorMsg;
+    }
+
+    const checkEmailError = (str: string): string => {
+        let errorMsg = "";
+        if (!str || str.trim().length === 0) {
+            errorMsg = "Pole email nie może być puste.";
+        } else if (str.trim().length < 3) {
+            errorMsg = "Pole email powinno zawierać przynajmniej 3 znaki.";
+        } else {
+            let atQty = 0;
+            for (const char of str) {
+                if (char === "@") {
+                    atQty++;
+                }
+            }
+            if (atQty != 1) {
+                errorMsg = "Pole email powinno zawierać dokładnie jeden znak @.";
+            }
+        }
+        return errorMsg;
+    }
+
+    const checkMessageError = (str: string): string => {
+        let errorMsg = "";
+        if (!str || str.trim().length === 0) {
+            errorMsg = "Wiadomość jest pusta.";
+        }
+        return errorMsg;
+    }
+
+    const formHasErrors = (): boolean => {
+        const nameHasError = checkNameError(formData.name);
+        const surnameHasError = checkSurnameError(formData.surname);
+        const emailHasError = checkEmailError(formData.email);
+        const messageHasError = checkMessageError(formData.message);
+        return Boolean(nameHasError || surnameHasError || emailHasError || messageHasError);
+    }
+
+    const submitContactForm = (e: FormEvent<HTMLFormElement>): void => {
+        e.preventDefault();
+        if (!formHasErrors()) {
+            setShowConfirmation(true);
+            setFormData(formInitialState);
+            setFormErrors(errorsInitialState);
+            setWasSubmitted(false);
+        } else {
+            setFormErrors({
+                name: checkNameError(formData.name),
+                surname: checkSurnameError(formData.surname),
+                email: checkEmailError(formData.email),
+                message: checkMessageError(formData.message)
+            });
+            setWasSubmitted(true);
+        }
+    };
+
     return (
         <Container className="d-flex flex-column">
             <Row>
                 <Col className="mt-4 mb-4" md={7}>
                     <Card className="p-4 shadow-sm">
                         <h4 className="text-primary mb-4" style={{ paddingBottom: "0.5rem" }}>Skontaktuj się z nami</h4>
-                        <Form>
-                            <Form.Group className="mb-3">
-                                <Form.Label>Imię i nazwisko</Form.Label>
-                                <Form.Control type="text" placeholder="Jan Kowalski" />
-                            </Form.Group>
+                        <Form onSubmit={submitContactForm} noValidate>
+                            <Row>
+                                <Col>
+                                    <Form.Group className="mb-3">
+                                        <Form.Label>Imię</Form.Label>
+                                        <Form.Control
+                                            name="name"
+                                            type="text"
+                                            placeholder="Twoje imię"
+                                            value={formData.name}
+                                            onChange={handleInputChange}
+                                            onBlur={() => setFormErrors(prev => ({ ...prev, "name": checkNameError(formData.name) }))} />
+                                    </Form.Group>
+                                </Col>
+                                <Col>
+                                    <Form.Group className="mb-3">
+                                        <Form.Label>Nazwisko</Form.Label>
+                                        <Form.Control
+                                            name="surname"
+                                            type="text"
+                                            placeholder="Twoje nazwisko"
+                                            value={formData.surname}
+                                            onChange={handleInputChange}
+                                            onBlur={() => setFormErrors(prev => ({ ...prev, "surname": checkSurnameError(formData.surname) }))} />
+                                    </Form.Group>
+                                </Col>
+                            </Row>
                             <Form.Group className="mb-3">
                                 <Form.Label>Email</Form.Label>
-                                <Form.Control type="email" placeholder="email@example.com" />
+                                <Form.Control
+                                    name="email"
+                                    type="email"
+                                    placeholder="email@example.com"
+                                    value={formData.email}
+                                    onChange={handleInputChange}
+                                    onBlur={() => setFormErrors(prev => ({ ...prev, "email": checkEmailError(formData.email) }))} />
                             </Form.Group>
                             <Form.Group className="mb-3">
                                 <Form.Label>Wiadomość</Form.Label>
-                                <Form.Control as="textarea" rows={3} />
+                                <Form.Control
+                                    name="message"
+                                    as="textarea"
+                                    rows={3}
+                                    value={formData.message}
+                                    onChange={handleInputChange}
+                                    onBlur={() => setFormErrors(prev => ({ ...prev, "message": checkMessageError(formData.message) }))} />
                             </Form.Group>
-                            <Button variant="primary" type="submit">Wyślij</Button>
+                            <Button variant="primary" type="submit" disabled={ wasSubmitted && formHasErrors() }>
+                                Wyślij
+                            </Button>
                         </Form>
+                        {Object.values(formErrors).map((errMsg, index) => 
+                            wasSubmitted && errMsg !== "" && (
+                                <div key={ index } className="error-frame mt-3 d-flex align-items-center">
+                                    <FaExclamationTriangle className="me-2" />
+                                    {errMsg}
+                                </div>
+                            )
+                        )}
                     </Card>
                 </Col>
                 <Col className="mt-4 mb-4" md={5}>
@@ -43,6 +222,14 @@ export const ContactPage = () => {
                     </Card>
                 </Col>
             </Row>
+            <Modal show={showConfirmation} onHide={() => handleCloseConfirmation()}>
+                <Modal.Body>Wysłaliśmy twoją wiadomość. Odpowiemy najszybciej jak to tylko będzie możliwe.</Modal.Body>
+                <Modal.Footer>
+                    <Button variant="primary" onClick={() => handleCloseConfirmation()}>
+                        OK
+                    </Button>
+                </Modal.Footer>
+            </Modal>
         </Container>
     )
 }

@@ -1,23 +1,25 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom/client";
 import './index.css'
-import App from './App.jsx'
-import { Layout } from "./layout/Layout.js";
-import { ItemPage } from "./pages/item/ItemPage.js";
-import { ItemsPage } from "./pages/item/ItemsPage.js";
-import { EmploeePage } from "./pages/employee/EmployeePage.js";
-import { EmploeesPage } from "./pages/employee/EmployeesPage.js";
-import { OfferPage } from "./pages/offer/OfferPage.js";
-import { OffersPage } from "./pages/offer/OffersPage.js";
-import { OfferCreatorPage } from "./pages/admin-pages/OfferCreatorPage.js";
-import { OffersManagerPage } from "./pages/admin-pages/OffersManagerPage.js"
-import { ContactPage } from "./pages/contact/ContactPage.js";
-import { AboutUsPage } from "./pages/about-us/AboutUsPage.js";
+import App from './App'
+import { Layout } from "./layout/Layout";
+import { ItemPage } from "./pages/item/ItemPage";
+import { ItemsPage } from "./pages/item/ItemsPage";
+import { EmployeePage } from "./pages/employee/EmployeePage";
+import { EmployeesPage } from "./pages/employee/EmployeesPage";
+import { OfferPage } from "./pages/offer/OfferPage";
+import { OffersPage } from "./pages/offer/OffersPage";
+import { OfferCreatorPage } from "./pages/admin-pages/OfferCreatorPage";
+import { OffersManagerPage } from "./pages/admin-pages/OffersManagerPage"
+import { ContactPage } from "./pages/contact/ContactPage";
+import { AboutUsPage } from "./pages/about-us/AboutUsPage";
 import { BrowserRouter, Route, Routes } from "react-router-dom"; 
 
-ReactDOM.createRoot(document.getElementById("root")).render(
-    <React.StrictMode>
-        {
+const root = document.getElementById("root");
+
+if (root) {
+    ReactDOM.createRoot(root).render(
+        <React.StrictMode>
             <BrowserRouter>
                 <Routes>
                     <Route path="/" element={<Layout />}>
@@ -48,13 +50,14 @@ ReactDOM.createRoot(document.getElementById("root")).render(
                         <Route index element={<ItemsPage />} />
                     </Route>
                     <Route path="/pracownik" element={<Layout />}>
-                        <Route index element={<EmploeePage />} />
+                        <Route index element={<EmployeePage />} />
                     </Route>
                     <Route path="/pracownicy" element={<Layout />}>
-                        <Route index element={<EmploeesPage />} />
+                        <Route index element={<EmployeesPage />} />
                     </Route>
                 </Routes>
             </BrowserRouter>
-        }
-    </React.StrictMode>
-);
+        </React.StrictMode>)
+} else {
+    console.error("Nie znaleziono elementu root w DOM.");
+}

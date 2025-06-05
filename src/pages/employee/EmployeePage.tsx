@@ -5,7 +5,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
 
-export const EmploeePage = () => {
+export const EmployeePage = () => {
     return (
         <Container fluid>
             <Form>
@@ -39,7 +39,7 @@ export const EmploeePage = () => {
                                 </Col>
                             </Row>
                             <Row>
-                                <Col class="m-4">
+                                <Col className="m-4">
                                     <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                                         <Form.Label>Stanowisko</Form.Label>
                                         <Form.Select>
@@ -50,7 +50,7 @@ export const EmploeePage = () => {
                                         </Form.Select>
                                     </Form.Group>
                                 </Col>
-                                <Col class="m-4">
+                                <Col className="m-4">
                                     <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                                         <Form.Label>Forma zatrudnienia</Form.Label>
                                         <Form.Select>

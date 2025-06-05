@@ -1,4 +1,4 @@
-﻿@import "node_modules/react-image-gallery/styles/css/image-gallery.css";
+﻿@import "react-image-gallery/styles/css/image-gallery.css";
 
 #overlay {
     text-align: center;
@@ -24,6 +24,7 @@
 }
 
 .menu-item {
+    text-align: center;
     min-width: 140px;
     height: 50px;
     border: 2px solid #0D6EFD;
@@ -31,15 +32,14 @@
     margin-top: 1rem;
     margin-right: 1rem;
     margin-bottom: 1rem;
+    color: #0D6EFD !important;
+    text-decoration: none;
 }
 
-.nav-item {
+.nav-link {
     font-size: 15px;
     font-weight: bold;
     color: #0D6EFD;
-    margin-top: 1rem;
-    margin-right: 1rem;
-    margin-bottom: 1rem;
 }
 
 .nav-link > a {
@@ -54,7 +54,7 @@
     font-size: 15px;
     font-weight: bold;
     text-decoration: none;
-    color: #0D6EFD;
+    color: #0D6EFD !important;
 }
 
 .text-area {
@@ -100,4 +100,53 @@
 
 .animate-step {
     animation: highlightStep 0.5s ease;
+}
+
+.error-frame {
+    display: flex;
+    align-items: center;
+    border: 1px solid red;
+    background-color: #ffe6e6;
+    color: #cc0000;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    text-align: left;
+    margin-top: 1rem;
+    font-size: 0.95rem;
+    gap: 0.5rem;
+}
+
+.warning-frame {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ffc107;
+    background-color: #fff3cd;
+    color: #856404;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    text-align: left;
+    margin-top: 1rem;
+    font-size: 0.95rem;
+    gap: 0.5rem;
+}
+
+.image-file-span {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.5rem 0.75rem;
+    border: 1px solid #ccc;
+    border-radius: 0.3rem;
+    margin-right: 0.5rem;
+    background-color: #f9f9f9;
+    font-size: 0.9rem;
+}
+
+.icon-hover-scale {
+    display: inline-block;
+    transition: transform 0.3s ease;
+}
+
+.icon-hover-scale:hover {
+    transform: scale(1.3);
 }
