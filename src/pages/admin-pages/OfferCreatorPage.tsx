@@ -20,7 +20,7 @@ enum CreatorStep {
 }
     
 export const OfferCreatorPage = () => {
-    const steps = [
+    const steps: CreatorStep[] = [
         CreatorStep.BasicData,
         CreatorStep.Images,
         CreatorStep.Details,
@@ -47,7 +47,7 @@ export const OfferCreatorPage = () => {
     } as OfferContent);
     const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
 
-    const handleNext = () => {
+    const handleNext = (): void => {
         if (currentStepIdx < steps.length) {
             const nextStep = currentStepIdx + 1;
             setCurrentStepIdx(nextStep);
@@ -55,7 +55,7 @@ export const OfferCreatorPage = () => {
         }
     };
 
-    const handleBack = () => {
+    const handleBack = (): void => {
         if (currentStepIdx > 0) {
             const prevStep = currentStepIdx - 1;
             setCurrentStepIdx(prevStep);
@@ -64,8 +64,8 @@ export const OfferCreatorPage = () => {
     };
 
     const [showConfirmation, setShowConfirmation] = useState(false);
-    const handleConfirmation = () => setShowConfirmation(true);
-    const handleCloseConfirmation = (accept: boolean) => {
+    const handleConfirmation = (): void => setShowConfirmation(true);
+    const handleCloseConfirmation = (accept: boolean): void => {
         setShowConfirmation(false)
         if (accept) {
             setCurrentStepIdx(0);
