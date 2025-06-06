@@ -189,11 +189,7 @@ export const CreatorStepDetails = ({formData, setFormData, onValidate, wasVisite
                                           value={formData.displacement === null ? "" : formData.displacement}
                                           onChange={handleInputChange}
                                           onBlur={handleOnBlur}/>
-                            <Form.Range
-                                name="displacement"
-                                min="0.1"
-                                max="5"
-                                step="0.1"
+                            <Form.Range name="displacement" min="0.1" max="5" step="0.1"
                                 value={formData.displacement === null ? 0.1 : parseFloat(formData.displacement)}
                                 onChange={handleInputChange}/>
                         </Col>
@@ -204,11 +200,7 @@ export const CreatorStepDetails = ({formData, setFormData, onValidate, wasVisite
                                           value={formData.power === null ? "" : formData.power}
                                           onChange={handleInputChange}
                                           onBlur={handleOnBlur}/>
-                            <Form.Range
-                                name="power"
-                                min="1"
-                                max="400"
-                                step="1"
+                            <Form.Range name="power" min="1" max="400" step="1"
                                 value={formData.power === null ? 1 : Number(formData.power)}
                                 onChange={handleInputChange}/>
                         </Col>
