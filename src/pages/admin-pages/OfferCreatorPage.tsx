@@ -1,6 +1,8 @@
-﻿import {ReactNode, useCallback, useEffect, useState} from 'react';
+﻿import {useParams} from "react-router-dom";
+import {ReactNode, useCallback, useEffect, useState} from 'react';
 import {Button, Card, Col, Container, Form, Modal, Row} from "react-bootstrap"
 import {FaCheckSquare, FaExclamationTriangle} from 'react-icons/fa';
+import {getVehicle, persistChanges} from '../../service/MockApiService';
 import {CreatorStepBasicData} from '../../components/CreatorStepBasicData';
 import {CreatorStepImages} from '../../components/CreatorStepImages';
 import {CreatorStepDetails} from '../../components/CreatorStepDetails';
@@ -9,10 +11,12 @@ import {CreatorStepPrice} from '../../components/CreatorStepPrice';
 import {CreatorStepSummary} from '../../components/CreatorStepSummary';
 import {OfferCreatorDTO} from '../../types/OfferCreatorDTO';
 import {formInitialData, CreatorStep, StepValidationStatus} from '../../types/OfferCreatorConstants';
-import {persistChanges} from '../../service/MockApiService';
 
 
 export const OfferCreatorPage = () => {
+
+    const { id } = useParams();
+    const isEditMode: boolean = id !== undefined;
     const steps: CreatorStep[] = [CreatorStep.BasicData, CreatorStep.Images, CreatorStep.Details, CreatorStep.Description, CreatorStep.Price, CreatorStep.Summary];
     const stepsVisitedInitialState: Record<CreatorStep, boolean> = {
         [CreatorStep.BasicData]: false,
@@ -23,14 +27,15 @@ export const OfferCreatorPage = () => {
         [CreatorStep.Summary]: false
     };
 
+    const [formData, setFormData] = useState<OfferCreatorDTO>(formInitialData);
+    const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
     const [currentStepIdx, setCurrentStepIdx] = useState(0);
     const [animatedStep, setAnimatedStep] = useState<number | null>(null);
     const [stepsValidation, setStepsValidation] = useState<StepValidationStatus[]>(Array(steps.length).fill(StepValidationStatus.Unvisited));
     const [stepsVisited, setStepsVisited] = useState(stepsVisitedInitialState);
-    const [formData, setFormData] = useState<OfferCreatorDTO>(formInitialData);
-    const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
+
     const [showConfirmation, setShowConfirmation] = useState(false);
-    const handleConfirmation = () => setShowConfirmation(true);
+    const handleConfirmation = (): void => setShowConfirmation(true);
 
     const handleNext = (): void => {
         if (currentStepIdx < steps.length - 1) {
@@ -54,11 +59,13 @@ export const OfferCreatorPage = () => {
         setShowConfirmation(false)
         if (accept) {
             formData.imgUrl = "/assets/img/" + uploadedFiles[0].name;
-            setCurrentStepIdx(0);
-            setStepsVisited(stepsVisitedInitialState);
-            setFormData(formInitialData);
-            setUploadedFiles([]);
             persistChanges(formData);
+            if (!isEditMode) {
+                setCurrentStepIdx(0);
+                setStepsVisited(stepsVisitedInitialState);
+                setFormData(formInitialData);
+                setUploadedFiles([]);
+            }
         }
     };
 
@@ -88,6 +95,30 @@ export const OfferCreatorPage = () => {
         const stepWithoutSummary = stepsValidation.slice(0, -1);
         return stepWithoutSummary.filter((e) => e !== StepValidationStatus.Valid).length > 0;
     }
+
+    useEffect(() => {
+        if (id) {
+            getVehicle(Number(id)).then(vehicle => {
+                if (vehicle) {
+                    setFormData({
+                        id: vehicle.id,
+                        brand: vehicle.brand,
+                        model: vehicle.model,
+                        type: vehicle.type,
+                        price: vehicle.price,
+                        currency: vehicle.currency,
+                        year: vehicle.year,
+                        fuel: vehicle.fuel,
+                        mileage: vehicle.mileage,
+                        power: vehicle.power,
+                        displacement: vehicle.displacement,
+                        imgUrl: vehicle.imgUrl,
+                        description: vehicle.description
+                    });
+                }
+            });
+        }
+    }, [id]);
 
     useEffect(() => {
         if (animatedStep !== null) {
@@ -139,7 +170,7 @@ export const OfferCreatorPage = () => {
     return (
         <Container fluid>
             <div className="text-center fw-bold fs-4 mb-2" style={{color: '#0D6EFD'}}>
-                Kreator oferty
+                {isEditMode ? 'KREATOR OFERTY' : 'EDYCJA OFERTY'} - krok {currentStepIdx+1} z {steps.length}
             </div>
             <Row>
                 <Col md={2} className="step-sidebar">
@@ -172,7 +203,7 @@ export const OfferCreatorPage = () => {
                                 <Button variant="primary"
                                         onClick={handleConfirmation}
                                         disabled={formIsInvalid()}>
-                                    Dodaj ofertę
+                                    {isEditMode ? 'Zapisz zmiany' : 'Dodaj ofertę'}
                                 </Button>
                             )}
 

@@ -2,6 +2,7 @@
 import {Button, Card, Container, Form, Modal, Table} from "react-bootstrap"
 import {OfferContent} from '../../types/OfferContent';
 import {deleteVehiclesByIds, getVehicles} from '../../service/MockApiService';
+import {Link} from "react-router-dom";
 
 
 export const OffersManagerPage = () => {
@@ -10,7 +11,7 @@ export const OffersManagerPage = () => {
     const [pendingDeleteIds, setPendingDeleteIds] = useState<number[]>([]);
     const [showConfirmation, setShowConfirmation] = useState(false);
 
-    const confirmDelete = (indexes: number[]) => {
+    const confirmDelete = (indexes: number[]): void => {
         setPendingDeleteIds(indexes);
         setShowConfirmation(true);
     };
@@ -29,11 +30,10 @@ export const OffersManagerPage = () => {
         }
     };
 
-    const toggleToDelete = (idx: number): boolean => {
+    const toggleToDelete = (idx: number): void => {
         const updated: boolean[] = [...checkedToDelete];
         updated[idx] = !updated[idx];
         setCheckedToDelete(updated);
-        return updated[idx];
     }
 
     const getSelectedIds = (): number[] => {
@@ -76,16 +76,18 @@ export const OffersManagerPage = () => {
                                     <td>{item.brand} {item.model}</td>
                                     <td>{item.year}</td>
                                     <td>{item.price.toLocaleString('pl-PL')} PLN</td>
-                                    <td>{item.fuel}, {item.displacement} ccm, {item.power} KM</td>
-                                    <td>{item.mileage} 000 km</td>
+                                    <td>{item.fuel}, {item.displacement} l, {item.power} KM</td>
+                                    <td>{(item.mileage * 1000).toLocaleString('pl-PL')} km</td>
                                     <td>
-                                        <Button variant="secondary" className="me-2">Edytuj</Button>
+                                        <Link to={`/edit-offer/${item.id}`}>
+                                            <Button variant="secondary" className="me-2">Edytuj</Button>
+                                        </Link>
                                         <Button variant="secondary" onClick={() => confirmDelete([item.id])}>Usuń</Button>
                                     </td>
                                     <td>
                                         <Form.Check id={`check-${index}`}
                                                     checked={checkedToDelete[index]}
-                                                    onChange={(): boolean => toggleToDelete(index)}/>
+                                                    onChange={() => toggleToDelete(index)}/>
                                     </td>
                                 </tr>
                             )}

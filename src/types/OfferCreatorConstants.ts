@@ -1,10 +1,11 @@
-﻿import { OfferCreatorDTO } from "./OfferCreatorDTO";
+﻿import {OfferCreatorDTO} from "./OfferCreatorDTO";
+import {OfferType} from "./OfferContent.ts";
 
 export const formInitialData: OfferCreatorDTO = {
     id: null,
     brand: '',
     model: '',
-    type: '',
+    type: OfferType.other,
     price: null,
     currency: 'PLN',
     year: null,

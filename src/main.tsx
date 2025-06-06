@@ -34,6 +34,9 @@ if (root) {
                     <Route path="/add-offer" element={<Layout />}>
                         <Route index element={<OfferCreatorPage />} />
                     </Route>
+                    <Route path="/edit-offer/:id" element={<Layout />}>
+                        <Route index element={<OfferCreatorPage />} />
+                    </Route>
                     <Route path="/manage-offers" element={<Layout />}>
                         <Route index element={<OffersManagerPage />} />
                     </Route>
@@ -49,10 +52,10 @@ if (root) {
                     <Route path="/towary" element={<Layout />}>
                         <Route index element={<ItemsPage />} />
                     </Route>
-                    <Route path="/pracownik" element={<Layout />}>
+                    <Route path="/employee" element={<Layout />}>
                         <Route index element={<EmployeePage />} />
                     </Route>
-                    <Route path="/pracownicy" element={<Layout />}>
+                    <Route path="/employees" element={<Layout />}>
                         <Route index element={<EmployeesPage />} />
                     </Route>
                 </Routes>

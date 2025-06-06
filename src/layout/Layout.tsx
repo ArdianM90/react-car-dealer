@@ -39,16 +39,16 @@ export const Layout = () => {
                                 <NavDropdown.Item as={Link} to="/offers/parts">Części samochodowe</NavDropdown.Item>
                             </NavDropdown>
                             <NavDropdown title="Kadry" id="kadry" className="menu-item d-flex justify-content-center align-items-center">
-                                <NavDropdown.Item as={Link} to="/pracownik">Pracownik</NavDropdown.Item>
+                                <NavDropdown.Item as={Link} to="/emplyee">Pracownik</NavDropdown.Item>
                                 <NavDropdown.Divider/>
-                                <NavDropdown.Item as={Link} to="/pracownicy">Pracownicy</NavDropdown.Item>
+                                <NavDropdown.Item as={Link} to="/employees">Pracownicy</NavDropdown.Item>
                             </NavDropdown>
                             <NavDropdown title="Zarządzaj" id="inne1" className="menu-item d-flex justify-content-center align-items-center">
                                 <NavDropdown.Item as={Link} to="/add-offer">Dodaj ofertę</NavDropdown.Item>
                                 <NavDropdown.Item as={Link} to="/manage-offers">Zarządzaj ofertami</NavDropdown.Item>
                                 <NavDropdown.Divider/>
-                                <NavDropdown.Item as={Link} to="/pracownik">Pracownik</NavDropdown.Item>
-                                <NavDropdown.Item as={Link} to="/pracownicy">Pracownicy</NavDropdown.Item>
+                                <NavDropdown.Item as={Link} to="/employee">Pracownik</NavDropdown.Item>
+                                <NavDropdown.Item as={Link} to="/employees">Pracownicy</NavDropdown.Item>
                                 <NavDropdown.Item as={Link} to="/towar">Towar</NavDropdown.Item>
                                 <NavDropdown.Item as={Link} to="/towary">Towary</NavDropdown.Item>
                             </NavDropdown>

@@ -244,6 +244,11 @@ let items: OfferContent[] = [
     },
 ];
 
+export const getVehicle = (id: number): Promise<OfferContent | null> => {
+    const found: OfferContent | undefined = items.find(e => e.id === id);
+    return Promise.resolve(found !== undefined ? found : null);
+}
+
 export const getVehicles = (): Promise<OfferContent[]> => {
     return Promise.resolve(items);
 };
