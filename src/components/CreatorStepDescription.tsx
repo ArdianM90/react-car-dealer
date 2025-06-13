@@ -3,6 +3,7 @@ import {Alert, Card} from 'react-bootstrap';
 import {OfferCreatorDTO} from '../types/OfferCreatorDTO';
 import {useState, useEffect} from 'react';
 import {FaExclamationTriangle} from 'react-icons/fa';
+import {checkDescriptionError} from "../service/ValidatorService.ts";
 
 type CreatorFormProps = {
     formData: OfferCreatorDTO;
@@ -23,22 +24,11 @@ export const CreatorStepDescription = ({formData, setFormData, onValidate, wasVi
 
     const handleOnBlur = (e: React.FocusEvent<HTMLTextAreaElement>): void => {
         setTouchedStatus(true);
-        setDescriptionError(validateDescription(e.target.value));
-    }
-
-    const validateDescription = (value: string): string => {
-        const trimmedValue: string = value.trim();
-        if (!trimmedValue || trimmedValue.length === 0) {
-            return "Uzupełnij opis pojazdu.";
-        }
-        if (!trimmedValue || trimmedValue.length > maxDescriptionLetters) {
-            return `Przekrczono maksymalną długość opisu - ${maxDescriptionLetters} znaków.`;
-        }
-        return "";
+        setDescriptionError(checkDescriptionError(e.target.value, maxDescriptionLetters));
     }
 
     useEffect(() => {
-        const descriptionErrorMsg = validateDescription(formData.description);
+        const descriptionErrorMsg = checkDescriptionError(formData.description, maxDescriptionLetters);
         onValidate(descriptionErrorMsg === "");
         setDescriptionError(descriptionErrorMsg);
     }, [formData]);

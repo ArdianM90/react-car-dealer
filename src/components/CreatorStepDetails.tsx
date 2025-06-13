@@ -4,6 +4,7 @@ import {OfferCreatorDTO} from '../types/OfferCreatorDTO';
 import {useEffect, useRef, useState} from 'react';
 import {FaExclamationTriangle} from 'react-icons/fa';
 import {FuelType} from "../types/OfferContent.ts";
+import {checkDetailsFieldError} from "../service/ValidatorService.ts";
 
 type CreatorFormProps = {
     formData: OfferCreatorDTO;
@@ -58,7 +59,7 @@ export const CreatorStepDetails = ({formData, setFormData, onValidate, wasVisite
             clearTimeout(timeoutRefs.current[inputName]);
         }
         timeoutRefs.current[inputName] = setTimeout(() => {
-            setFormErrors(prev => ({...prev, [inputName]: validateField(inputName, inputValue)}))
+            setFormErrors(prev => ({...prev, [inputName]: checkDetailsFieldError(inputName, inputValue)}))
             setTouchedStatuses(prev => ({...prev, [inputName]: true}));
         }, timeout);
     }
@@ -67,58 +68,7 @@ export const CreatorStepDetails = ({formData, setFormData, onValidate, wasVisite
         const inputName: string = e.target.name;
         const inputValue: string = e.target.value;
         setTouchedStatuses(prev => ({...prev, [inputName]: true}));
-        setFormErrors(prev => ({...prev, [inputName]: validateField(inputName, inputValue)}));
-    }
-
-    const validateField = (inputName: string, value: string | null): string => {
-        switch (inputName) {
-            case "year": {
-                if (value === null || value === "") {
-                    return "Wybierz rok produkcji.";
-                }
-                break;
-            }
-            case "fuel": {
-                if (value === null || value === "") {
-                    return "Wybierz rodzaj paliwa.";
-                }
-                break;
-            }
-            case "displacement": {
-                if (value === null || value === "") {
-                    return "Pole pojemność silnika jest wymagane.";
-                }
-                if (Number(value) <= 0) {
-                    return "Nieprawidłowa pojemność."
-                }
-                if (Number(value) > 5) {
-                    return "Maksymalna pojemność to 5.0."
-                }
-                break;
-            }
-            case "power": {
-                if (value === null || value === "") {
-                    return "Pole moc silnika jest wymagane.";
-                }
-                if (Number(value) <= 0) {
-                    return "Nieprawidłowa moc silnika."
-                }
-                if (Number(value) > 1000) {
-                    return "Maksymalna moc to 1000 KM."
-                }
-                break;
-            }
-            case "mileage": {
-                if (value === null || value === "") {
-                    return "Przebieg jest polem wymaganym.";
-                }
-                if (Number(value) < 1) {
-                    return "Nieprawidłowy przebieg."
-                }
-                break;
-            }
-        }
-        return "";
+        setFormErrors(prev => ({...prev, [inputName]: checkDetailsFieldError(inputName, inputValue)}));
     }
 
     const clearTimeOuts = (): void => {
@@ -130,11 +80,11 @@ export const CreatorStepDetails = ({formData, setFormData, onValidate, wasVisite
     }
 
     useEffect(() => {
-        const yearErrorMsg = validateField("year", formData.year?.toString() ?? "");
-        const fuelErrorMsg = validateField("fuel", formData.fuel);
-        const displacementErrorMsg = validateField("displacement", formData.displacement);
-        const powerErrorMsg = validateField("power", formData.power?.toString() ?? "");
-        const mileageErrorMsg = validateField("mileage", formData.mileage?.toString() ?? "");
+        const yearErrorMsg = checkDetailsFieldError("year", formData.year?.toString() ?? "");
+        const fuelErrorMsg = checkDetailsFieldError("fuel", formData.fuel);
+        const displacementErrorMsg = checkDetailsFieldError("displacement", formData.displacement);
+        const powerErrorMsg = checkDetailsFieldError("power", formData.power?.toString() ?? "");
+        const mileageErrorMsg = checkDetailsFieldError("mileage", formData.mileage?.toString() ?? "");
         onValidate(yearErrorMsg === "" && fuelErrorMsg === "" && displacementErrorMsg === "" && powerErrorMsg === "" && mileageErrorMsg === "");
         setFormErrors({
             year: yearErrorMsg,

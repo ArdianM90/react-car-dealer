@@ -4,6 +4,7 @@ import { Card, Col, Row } from 'react-bootstrap';
 import { OfferCreatorDTO } from '../types/OfferCreatorDTO';
 import { useState, useEffect, useRef } from 'react';
 import { FaExclamationTriangle } from 'react-icons/fa';
+import {checkNumberInputError} from "../service/ValidatorService.ts";
 
 type CreatorFormProps = {
     formData: OfferCreatorDTO;
@@ -27,32 +28,18 @@ export const CreatorStepPrice = ({ formData, setFormData, onValidate, wasVisited
             clearTimeout(timeoutRef.current);
         }
         timeoutRef.current = setTimeout(() => {
-            setPriceError(validatePrice(numericPrice));
+            setPriceError(checkNumberInputError("cena", e.target.value, 1, maxPrice));
             setTouchedStatus(true);
         }, timeout);
     }
 
     const handleOnBlur = (e: React.FocusEvent<HTMLInputElement>): void => {
         setTouchedStatus(true);
-        setPriceError(validatePrice(e.target.value === "" ? null : Number(e.target.value)));
-    }
-
-    const validatePrice = (value: number | null): string => {
-        if (value === null) {
-            return "Pole cena nie może być puste";
-        };
-        const price: number = Number(value);
-        if (price <= 0) {
-            return "Nieprawidłowa cena";
-        };
-        if (price > maxPrice) {
-            return `Maksymalna możliwa do ustawienia cena to ${maxPrice}.`;
-        };
-        return "";
+        setPriceError(checkNumberInputError("cena", e.target.value, 1, maxPrice));
     }
 
     useEffect(() => {
-        const errorMsg = validatePrice(formData.price);
+        const errorMsg = checkNumberInputError("cena", String(formData.price), 1, maxPrice);
         setPriceError(errorMsg);
         onValidate(errorMsg === "");
 

@@ -4,6 +4,7 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { Card, } from 'react-bootstrap';
 import { FaExclamationTriangle, FaFileImage, FaRegTrashAlt, FaTimes } from "react-icons/fa";
+import {validateImgFile} from "../service/ValidatorService.ts";
 
 type CreatorImageProps = {
     uploadedFiles: File[];
@@ -42,7 +43,7 @@ export const CreatorStepImages = ({ uploadedFiles, setUploadedFiles, onValidate,
         }
         let errorMsg: string = "";
         for (const file of selectedFiles) {
-            errorMsg = validateImgFile(file);
+            errorMsg = validateImgFile(file, maxFileSizeMB);
             if (errorMsg != "") {
                 setFileValidationError(errorMsg);
                 return;
@@ -57,21 +58,6 @@ export const CreatorStepImages = ({ uploadedFiles, setUploadedFiles, onValidate,
     const handleDeleteFile = (fileName: string): void => {
         const newFilesList = uploadedFiles.filter(file => file.name !== fileName);
         setUploadedFiles(newFilesList);
-    }
-
-    const validateImgFile = (file: File): string => {
-        const trimmedName: string = file.name.trim();
-        const sizeInMB: number = parseFloat((file.size / (1024 * 1024)).toFixed(2));
-        if (!trimmedName || trimmedName.length === 0) {
-            return "Podana nazwa pliku jest pusta.";
-        }
-        if (!trimmedName.toLowerCase().endsWith(".jpg") && !trimmedName.toLowerCase().endsWith(".jpeg")) {
-            return "Dozwolone formaty plików to jpg i jpeg.";
-        }
-        if (sizeInMB > maxFileSizeMB) {
-            return `Rozmiar pliku przekracza maksymalny dozwolony rozmiar - ${maxFileSizeMB}MB.`;
-        }
-        return "";
     }
 
     useEffect(() => {

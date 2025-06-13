@@ -2,6 +2,7 @@ import {FuelType, OfferContent, OfferType} from '../types/OfferContent';
 import {OfferCreatorDTO} from "../types/OfferCreatorDTO.ts";
 import {Filter} from "../types/Filter.ts";
 
+
 let items: OfferContent[] = [
     {
         id: 1,

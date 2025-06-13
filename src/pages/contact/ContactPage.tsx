@@ -1,6 +1,7 @@
 ﻿import { FormEvent, useRef, useState } from "react";
 import { Button, Card, Col, Container, Form, Modal, Row } from "react-bootstrap"
 import { FaEnvelope, FaPhoneAlt, FaMapMarkerAlt, FaExclamationTriangle } from "react-icons/fa"
+import {checkEmailError, checkMessageError, checkTextInputError} from "../../service/ValidatorService.ts";
 
 
 export const ContactPage = () => {
@@ -52,9 +53,9 @@ export const ContactPage = () => {
     const validateField = (inputName: string, value: string): string => {
         switch (inputName) {
             case "name":
-                return checkNameError(value);
+                return checkTextInputError("imię", value, 3);
             case "surname":
-                return checkSurnameError(value);
+                return checkTextInputError("nazwisko", value, 3);
             case "email":
                 return checkEmailError(value);
             case "message":
@@ -64,57 +65,9 @@ export const ContactPage = () => {
         }
     }
 
-    const checkNameError = (str: string): string => {
-        let errorMsg = "";
-        if (!str || str.trim().length === 0) {
-            errorMsg = "Pole imię nie może być puste.";
-        } else if (str.trim().length < 3) {
-            errorMsg = "Pole imię powinno zawierać przynajmniej 3 znaki.";
-        }
-        return errorMsg;
-    }
-
-    const checkSurnameError = (str: string): string => {
-        let errorMsg = "";
-        if (!str || str.trim().length === 0) {
-            errorMsg = "Pole nazwisko nie może być puste.";
-        } else if (str.trim().length < 3) {
-            errorMsg = "Pole nazwisko powinno zawierać przynajmniej 3 znaki.";
-        }
-        return errorMsg;
-    }
-
-    const checkEmailError = (str: string): string => {
-        let errorMsg = "";
-        if (!str || str.trim().length === 0) {
-            errorMsg = "Pole email nie może być puste.";
-        } else if (str.trim().length < 3) {
-            errorMsg = "Pole email powinno zawierać przynajmniej 3 znaki.";
-        } else {
-            let atQty = 0;
-            for (const char of str) {
-                if (char === "@") {
-                    atQty++;
-                }
-            }
-            if (atQty != 1) {
-                errorMsg = "Pole email powinno zawierać dokładnie jeden znak @.";
-            }
-        }
-        return errorMsg;
-    }
-
-    const checkMessageError = (str: string): string => {
-        let errorMsg = "";
-        if (!str || str.trim().length === 0) {
-            errorMsg = "Wiadomość jest pusta.";
-        }
-        return errorMsg;
-    }
-
     const formHasErrors = (): boolean => {
-        const nameHasError = checkNameError(formData.name);
-        const surnameHasError = checkSurnameError(formData.surname);
+        const nameHasError = checkTextInputError("imię", formData.name, 3);
+        const surnameHasError = checkTextInputError("nazwisko", formData.surname, 3);
         const emailHasError = checkEmailError(formData.email);
         const messageHasError = checkMessageError(formData.message);
         return Boolean(nameHasError || surnameHasError || emailHasError || messageHasError);
@@ -129,8 +82,8 @@ export const ContactPage = () => {
             setWasSubmitted(false);
         } else {
             setFormErrors({
-                name: checkNameError(formData.name),
-                surname: checkSurnameError(formData.surname),
+                name: checkTextInputError("imię", formData.name, 3),
+                surname: checkTextInputError("nazwisko", formData.surname, 3),
                 email: checkEmailError(formData.email),
                 message: checkMessageError(formData.message)
             });
@@ -155,7 +108,11 @@ export const ContactPage = () => {
                                             placeholder="Twoje imię"
                                             value={formData.name}
                                             onChange={handleInputChange}
-                                            onBlur={() => setFormErrors(prev => ({ ...prev, "name": checkNameError(formData.name) }))} />
+                                            onBlur={() => setFormErrors(
+                                                prev => (
+                                                    { ...prev, "name": checkTextInputError("imię", formData.name, 3) }
+                                                )
+                                            )} />
                                     </Form.Group>
                                 </Col>
                                 <Col>
@@ -167,7 +124,11 @@ export const ContactPage = () => {
                                             placeholder="Twoje nazwisko"
                                             value={formData.surname}
                                             onChange={handleInputChange}
-                                            onBlur={() => setFormErrors(prev => ({ ...prev, "surname": checkSurnameError(formData.surname) }))} />
+                                            onBlur={() => setFormErrors(
+                                                prev => (
+                                                    { ...prev, "surname": checkTextInputError("nazwisko", formData.surname, 3) }
+                                                )
+                                            )} />
                                     </Form.Group>
                                 </Col>
                             </Row>
@@ -179,7 +140,11 @@ export const ContactPage = () => {
                                     placeholder="email@example.com"
                                     value={formData.email}
                                     onChange={handleInputChange}
-                                    onBlur={() => setFormErrors(prev => ({ ...prev, "email": checkEmailError(formData.email) }))} />
+                                    onBlur={() => setFormErrors(
+                                        prev => (
+                                            { ...prev, "email": checkEmailError(formData.email) }
+                                        )
+                                    )} />
                             </Form.Group>
                             <Form.Group className="mb-3">
                                 <Form.Label>Wiadomość</Form.Label>
@@ -189,7 +154,10 @@ export const ContactPage = () => {
                                     rows={3}
                                     value={formData.message}
                                     onChange={handleInputChange}
-                                    onBlur={() => setFormErrors(prev => ({ ...prev, "message": checkMessageError(formData.message) }))} />
+                                    onBlur={() => setFormErrors(prev => (
+                                            {...prev, "message": checkMessageError(formData.message)}
+                                        )
+                                    )}/>
                             </Form.Group>
                             <Button variant="primary" type="submit" disabled={ wasSubmitted && formHasErrors() }>
                                 Wyślij
