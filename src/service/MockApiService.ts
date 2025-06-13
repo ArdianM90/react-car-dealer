@@ -1,6 +1,6 @@
 import {FuelType, OfferContent, OfferType} from '../types/OfferContent';
 import {OfferCreatorDTO} from "../types/OfferCreatorDTO.ts";
-import {FilterDTO} from "../types/FilterDTO.ts";
+import {Filter} from "../types/Filter.ts";
 
 let items: OfferContent[] = [
     {
@@ -259,14 +259,31 @@ export const getRecommendedVehicles = (): Promise<OfferContent[]> => {
     return Promise.resolve(items.filter(item => recommendedIds.includes(item.id)));
 };
 
-export const getVehiclesByType = (type: OfferType | undefined): Promise<OfferContent[]> => {
-    if (type !== undefined) {
-        return Promise.resolve(items.filter(item => (!type || item.type === type)));
+export const getVehiclesByType = (type: string | undefined): Promise<OfferContent[]> => {
+    let vehiclesType: OfferType | undefined;
+    switch (type) {
+        case "passenger":
+            vehiclesType = OfferType.passenger;
+            break;
+        case "cargo":
+            vehiclesType = OfferType.cargo;
+            break;
+        case "specialized":
+            vehiclesType = OfferType.specialized;
+            break;
+        case "others":
+            vehiclesType = OfferType.other;
+            break;
+        default:
+            vehiclesType = undefined;
+    }
+    if (vehiclesType !== undefined) {
+        return Promise.resolve(items.filter(item => (item.type === vehiclesType)));
     }
     return Promise.resolve(items);
 };
 
-export const getVehiclesByFilter = (filter: FilterDTO): Promise<OfferContent[]> => {
+export const getVehiclesByFilter = (filter: Filter): Promise<OfferContent[]> => {
     console.log("Pobieram filtrowaną listę pojazdów")
     let result: OfferContent[] = items;
     if (filter.category) {
