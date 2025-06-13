@@ -5,6 +5,12 @@ export enum OfferType {
     other = "inne"
 }
 
+export enum FuelType {
+    petrol="benzyna",
+    diesel="diesel",
+    petrolLpg="benzyna+lpg"
+}
+
 export type OfferContent = {
     id: number;
     brand: string;
@@ -13,7 +19,7 @@ export type OfferContent = {
     price: number;
     currency: string;
     year: number;
-    fuel: string;
+    fuel: FuelType;
     mileage: number;
     power: number;
     displacement: string;

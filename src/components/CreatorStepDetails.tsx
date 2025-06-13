@@ -3,6 +3,7 @@ import {Card, Col, Row} from 'react-bootstrap';
 import {OfferCreatorDTO} from '../types/OfferCreatorDTO';
 import {useEffect, useRef, useState} from 'react';
 import {FaExclamationTriangle} from 'react-icons/fa';
+import {FuelType} from "../types/OfferContent.ts";
 
 type CreatorFormProps = {
     formData: OfferCreatorDTO;
@@ -175,9 +176,9 @@ export const CreatorStepDetails = ({formData, setFormData, onValidate, wasVisite
                                          onChange={handleInputChange}
                                          onBlur={handleOnBlur}>
                                 <option value="" disabled hidden>Wybierz rodzaj paliwa</option>
-                                <option value="benzyna">Benzyna</option>
-                                <option value="diesel">Diesel</option>
-                                <option value="benzyna+lpg">Benzyna + LPG</option>
+                                {Object.entries(FuelType).map(([key, value]) => (
+                                    <option key={key} value={value}>{value.charAt(0).toUpperCase() + value.slice(1)}</option>
+                                ))}
                             </Form.Select>
                         </Col>
                     </Row>
@@ -189,11 +190,7 @@ export const CreatorStepDetails = ({formData, setFormData, onValidate, wasVisite
                                           value={formData.displacement === null ? "" : formData.displacement}
                                           onChange={handleInputChange}
                                           onBlur={handleOnBlur}/>
-                            <Form.Range
-                                name="displacement"
-                                min="0.1"
-                                max="5"
-                                step="0.1"
+                            <Form.Range name="displacement" min="0.1" max="5" step="0.1"
                                 value={formData.displacement === null ? 0.1 : parseFloat(formData.displacement)}
                                 onChange={handleInputChange}/>
                         </Col>
@@ -204,11 +201,7 @@ export const CreatorStepDetails = ({formData, setFormData, onValidate, wasVisite
                                           value={formData.power === null ? "" : formData.power}
                                           onChange={handleInputChange}
                                           onBlur={handleOnBlur}/>
-                            <Form.Range
-                                name="power"
-                                min="1"
-                                max="400"
-                                step="1"
+                            <Form.Range name="power" min="1" max="400" step="1"
                                 value={formData.power === null ? 1 : Number(formData.power)}
                                 onChange={handleInputChange}/>
                         </Col>
