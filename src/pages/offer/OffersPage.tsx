@@ -1,9 +1,10 @@
-﻿import {useEffect, useState} from 'react';
+﻿import {ChangeEvent, useEffect, useState} from 'react';
 import {Container, Card, Col, Row, Button, Dropdown, DropdownButton, Badge, Collapse, Form} from "react-bootstrap"
 import {Link, useParams} from "react-router-dom";
-import {OfferContent, OfferType} from '../../types/OfferContent';
-import {getVehicles} from '../../service/MockApiService';
+import {FuelType, OfferContent, OfferType} from '../../types/OfferContent';
+import {getVehicles, getVehiclesByFilter} from '../../service/MockApiService';
 import {FaSearch} from "react-icons/fa";
+import {FilterDTO} from "../../types/FilterDTO.ts";
 
 
 export const OffersPage = () => {
@@ -17,11 +18,37 @@ export const OffersPage = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [selectedSort, setSelectedSort] = useState<string>('Cena: malejąco');
 
+    const [category, setCategory] = useState<OfferType | null>(null);
+    const [name, setName] = useState<string | null>(null);
+    const [priceFrom, setPriceFrom] = useState<number | null>(null);
+    const [priceTo, setPriceTo] = useState<number | null>(null);
+    const [powerFrom, setPowerFrom] = useState<number | null>(null);
+    const [powerTo, setPowerTo] = useState<number | null>(null);
+    const [displacementFrom, setDisplacementFrom] = useState<number | null>(null);
+    const [displacementTo, setDisplacementTo] = useState<number | null>(null);
+    const [fuel, setFuel] = useState<FuelType | null>(null);
+
     const handleSelect = (eventKey: string | null) => {
         if (eventKey) {
             setSelectedSort(eventKey);
             setCurrentPage(1);
         }
+    };
+
+    const handleFilterSubmit = (e: React.FormEvent): void => {
+        e.preventDefault();
+        const filter: FilterDTO = {
+            category,
+            name,
+            priceFrom,
+            priceTo,
+            powerFrom,
+            powerTo,
+            displacementFrom,
+            displacementTo,
+            fuel,
+        };
+        getVehiclesByFilter(filter).then(data => setVehicles(data));
     };
 
     useEffect(() => {
@@ -53,7 +80,7 @@ export const OffersPage = () => {
         <Container fluid>
             <Container className="mt-3 mb-3">
                 <div className="d-flex justify-content-end gap-2 mb-2">
-                    <Button onClick={() => setAdvFiltersOpen(!advFiltersOpen)}>Pokaż więcej filtrów</Button>
+                    <Button variant={"secondary"} onClick={(): void => setAdvFiltersOpen(!advFiltersOpen)}>Pokaż {advFiltersOpen ? `mniej` : `więcej`} filtrów</Button>
                     <DropdownButton id="dropdown-basic-button" variant="secondary" title={selectedSort} onSelect={handleSelect}>
                         <Dropdown.Item eventKey="Cena: malejąco">Cena: malejąco</Dropdown.Item>
                         <Dropdown.Item eventKey="Cena: rosnąca">Cena: rosnąca</Dropdown.Item>
@@ -63,48 +90,100 @@ export const OffersPage = () => {
                 </div>
                 <Collapse in={advFiltersOpen}>
                     <div className="border p-3">
-                        <Form>
+                        <Form onSubmit={handleFilterSubmit}>
                             <Row className="mb-3">
                                 <Col md={3}>
                                     <Form.Label htmlFor="category">Kategoria</Form.Label>
-                                    <Form.Select id="category" name="category">
+                                    <Form.Select id="category" name="category"
+                                                 value={type !== null ? type : "all"}
+                                                 onChange={(e: ChangeEvent<HTMLSelectElement>): void =>
+                                                     setCategory(e.target.value === "all" ? null : (e.target.value as OfferType))
+                                                 }>
                                         <option value="all">Wszystkie</option>
                                         {Object.entries(OfferType).map(([key, value]) => (
-                                            <option key={key}
-                                                    value={value}>{value.charAt(0).toUpperCase() + value.slice(1)}</option>
+                                            <option key={key} value={value}>
+                                                {value.charAt(0).toUpperCase() + value.slice(1)}
+                                            </option>
                                         ))}
                                     </Form.Select>
                                 </Col>
                                 <Col md={3}>
                                     <Form.Label htmlFor="name">Marka i/lub model</Form.Label>
                                     <Form.Control id="name" name="name" type="text"
-                                                  placeholder="Wpisz markę lub model"/>
+                                                  placeholder="Wpisz markę lub model"
+                                                  value={name !== null ? name : ""}
+                                                  onChange={(e: ChangeEvent<HTMLInputElement>): void =>
+                                                      setName(e.target.value || null)
+                                                  }/>
                                 </Col>
                                 <Col md={3}>
                                     <Form.Label>Cena (od - do)</Form.Label>
                                     <Row>
                                         <Col>
-                                            <Form.Control type="number" placeholder="Od" min={0}/>
+                                            <Form.Control type="number" placeholder="Od" min={1}
+                                                          value={priceFrom !== null ? priceFrom : ""}
+                                                          onChange={(e: ChangeEvent<HTMLInputElement>): void =>
+                                                              setPriceFrom(e.target.value ? parseInt(e.target.value) : null)
+                                                          }/>
                                         </Col>
                                         <Col>
-                                            <Form.Control type="number" placeholder="Do" min={0}/>
+                                            <Form.Control type="number" placeholder="Do" min={1}
+                                                          value={priceTo !== null ? priceTo : ""}
+                                                          onChange={(e: ChangeEvent<HTMLInputElement>): void =>
+                                                              setPriceTo(e.target.value ? parseInt(e.target.value) : null)
+                                                          }/>
                                         </Col>
                                     </Row>
                                 </Col>
                                 <Col md={3}>
-                                    <Form.Label htmlFor="power">Moc (KM)</Form.Label>
-                                    <Form.Control id="power" name="power" type="number" placeholder="Moc" min={0}/>
+                                    <Form.Label>Moc (KM)</Form.Label>
+                                    <Row>
+                                        <Col>
+                                            <Form.Control type="number" placeholder="Od" min={1}
+                                                          value={powerFrom !== null ? powerFrom : ""}
+                                                          onChange={(e: ChangeEvent<HTMLInputElement>): void =>
+                                                              setPowerFrom(e.target.value ? parseInt(e.target.value) : null)
+                                                          }/>
+                                        </Col>
+                                        <Col>
+                                            <Form.Control type="number" placeholder="Do" min={1}
+                                                          value={powerTo !== null ? powerTo : ""}
+                                                          onChange={(e: ChangeEvent<HTMLInputElement>): void =>
+                                                              setPowerTo(e.target.value ? parseInt(e.target.value) : null)
+                                                          }/>
+                                        </Col>
+                                    </Row>
                                 </Col>
                             </Row>
                             <Row>
                                 <Col md={3}>
-                                    <Form.Label htmlFor="displacement">Pojemność silnika (l)</Form.Label>
-                                    <Form.Control id="displacement" name="displacement" type="number"
-                                                  placeholder="Pojemność silnika" min={0}/>
+                                    <Form.Label>Pojemność silnika (l)</Form.Label>
+                                    <Row>
+                                        <Col>
+                                            <Form.Control name="displacementFrom" type="number"
+                                                          placeholder="Od" min={0.1} step={0.1}
+                                                          value={displacementFrom !== null ? displacementFrom : ""}
+                                                          onChange={(e: ChangeEvent<HTMLInputElement>): void =>
+                                                              setDisplacementFrom(e.target.value ? parseFloat(e.target.value) : null)
+                                                          }/>
+                                        </Col>
+                                        <Col>
+                                            <Form.Control name="displacementTo" type="number"
+                                                          placeholder="Do" min={0.1} step={0.1}
+                                                          value={displacementTo !== null ? displacementTo : ""}
+                                                          onChange={(e: ChangeEvent<HTMLInputElement>): void =>
+                                                              setDisplacementTo(e.target.value ? parseFloat(e.target.value) : null)
+                                                          }/>
+                                        </Col>
+                                    </Row>
                                 </Col>
                                 <Col md={3}>
                                     <Form.Label htmlFor="fuel">Rodzaj paliwa</Form.Label>
-                                    <Form.Select id="fuel" name="fuel">
+                                    <Form.Select id="fuel" name="fuel"
+                                                 value={fuel !== null ? fuel : "all"}
+                                                 onChange={(e: ChangeEvent<HTMLSelectElement>): void =>
+                                                     setFuel(e.target.value === "all" ? null : (e.target.value as FuelType))
+                                                 }>
                                         <option value="all">Wszystkie</option>
                                         <option value="benzyna">Benzyna</option>
                                         <option value="diesel">Diesel</option>
@@ -112,7 +191,7 @@ export const OffersPage = () => {
                                     </Form.Select>
                                 </Col>
                                 <Col md={6} className="d-flex justify-content-end align-items-end">
-                                    <Button variant="primary" className="mt-2" type="submit">
+                                    <Button variant="secondary" className="mt-2" type="submit">
                                         <FaSearch className="me-2" />Szukaj
                                     </Button>
                                 </Col>

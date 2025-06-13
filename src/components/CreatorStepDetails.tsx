@@ -3,6 +3,7 @@ import {Card, Col, Row} from 'react-bootstrap';
 import {OfferCreatorDTO} from '../types/OfferCreatorDTO';
 import {useEffect, useRef, useState} from 'react';
 import {FaExclamationTriangle} from 'react-icons/fa';
+import {FuelType} from "../types/OfferContent.ts";
 
 type CreatorFormProps = {
     formData: OfferCreatorDTO;
@@ -175,9 +176,9 @@ export const CreatorStepDetails = ({formData, setFormData, onValidate, wasVisite
                                          onChange={handleInputChange}
                                          onBlur={handleOnBlur}>
                                 <option value="" disabled hidden>Wybierz rodzaj paliwa</option>
-                                <option value="benzyna">Benzyna</option>
-                                <option value="diesel">Diesel</option>
-                                <option value="benzyna+lpg">Benzyna + LPG</option>
+                                {Object.entries(FuelType).map(([key, value]) => (
+                                    <option key={key} value={value}>{value.charAt(0).toUpperCase() + value.slice(1)}</option>
+                                ))}
                             </Form.Select>
                         </Col>
                     </Row>

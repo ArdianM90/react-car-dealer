@@ -1,5 +1,6 @@
-import {OfferContent, OfferType} from '../types/OfferContent';
+import {FuelType, OfferContent, OfferType} from '../types/OfferContent';
 import {OfferCreatorDTO} from "../types/OfferCreatorDTO.ts";
+import {FilterDTO} from "../types/FilterDTO.ts";
 
 let items: OfferContent[] = [
     {
@@ -10,7 +11,7 @@ let items: OfferContent[] = [
         price: 15000,
         currency: "PLN",
         year: 2006,
-        fuel: "Benzyna",
+        fuel: FuelType.petrol,
         mileage: 160,
         power: 200,
         displacement: "2.0",
@@ -25,7 +26,7 @@ let items: OfferContent[] = [
         price: 80000,
         currency: "PLN",
         year: 1998,
-        fuel: "Diesel",
+        fuel: FuelType.diesel,
         mileage: 80,
         power: 400,
         displacement: "4.6",
@@ -40,7 +41,7 @@ let items: OfferContent[] = [
         price: 59900,
         currency: "PLN",
         year: 2013,
-        fuel: "Diesel",
+        fuel: FuelType.diesel,
         mileage: 240,
         power: 184,
         displacement: "2.0",
@@ -55,7 +56,7 @@ let items: OfferContent[] = [
         price: 35000,
         currency: "PLN",
         year: 2011,
-        fuel: "Benzyna",
+        fuel: FuelType.petrol,
         mileage: 190,
         power: 211,
         displacement: "2.0",
@@ -70,7 +71,7 @@ let items: OfferContent[] = [
         price: 46000,
         currency: "PLN",
         year: 2015,
-        fuel: "Benzyna",
+        fuel: FuelType.petrol,
         mileage: 145,
         power: 230,
         displacement: "2.0",
@@ -85,7 +86,7 @@ let items: OfferContent[] = [
         price: 27000,
         currency: "PLN",
         year: 2012,
-        fuel: "Diesel",
+        fuel: FuelType.diesel,
         mileage: 210,
         power: 163,
         displacement: "2.2",
@@ -100,7 +101,7 @@ let items: OfferContent[] = [
         price: 32000,
         currency: "PLN",
         year: 2017,
-        fuel: "Diesel",
+        fuel: FuelType.diesel,
         mileage: 180,
         power: 130,
         displacement: "2.2",
@@ -115,7 +116,7 @@ let items: OfferContent[] = [
         price: 28000,
         currency: "PLN",
         year: 2015,
-        fuel: "Diesel",
+        fuel: FuelType.diesel,
         mileage: 210,
         power: 125,
         displacement: "2.3",
@@ -130,7 +131,7 @@ let items: OfferContent[] = [
         price: 45000,
         currency: "PLN",
         year: 2019,
-        fuel: "Diesel",
+        fuel: FuelType.diesel,
         mileage: 150,
         power: 143,
         displacement: "2.1",
@@ -145,7 +146,7 @@ let items: OfferContent[] = [
         price: 320000,
         currency: "PLN",
         year: 2014,
-        fuel: "Diesel",
+        fuel: FuelType.diesel,
         mileage: 12,
         power: 215,
         displacement: "7.2",
@@ -160,7 +161,7 @@ let items: OfferContent[] = [
         price: 150000,
         currency: "PLN",
         year: 2016,
-        fuel: "Diesel",
+        fuel: FuelType.diesel,
         mileage: 8,
         power: 100,
         displacement: "4.4",
@@ -175,7 +176,7 @@ let items: OfferContent[] = [
         price: 200000,
         currency: "PLN",
         year: 2018,
-        fuel: "Diesel",
+        fuel: FuelType.diesel,
         mileage: 10,
         power: 165,
         displacement: "6.7",
@@ -190,7 +191,7 @@ let items: OfferContent[] = [
         price: 200000,
         currency: "PLN",
         year: 2018,
-        fuel: "Diesel",
+        fuel: FuelType.diesel,
         mileage: 150,
         power: 180,
         displacement: "6.7",
@@ -205,7 +206,7 @@ let items: OfferContent[] = [
         price: 300000,
         currency: "PLN",
         year: 1978,
-        fuel: "Benzyna",
+        fuel: FuelType.petrol,
         mileage: 80,
         power: 80,
         displacement: "0.6",
@@ -220,7 +221,7 @@ let items: OfferContent[] = [
         price: 260000,
         currency: "PLN",
         year: 2021,
-        fuel: "Diesel",
+        fuel: FuelType.diesel,
         mileage: 150,
         power: 220,
         displacement: "2.4",
@@ -235,7 +236,7 @@ let items: OfferContent[] = [
         price: 320000,
         currency: "PLN",
         year: 2017,
-        fuel: "Diesel",
+        fuel: FuelType.diesel,
         mileage: 180,
         power: 150,
         displacement: "1.8",
@@ -264,6 +265,49 @@ export const getVehiclesByType = (type: OfferType | undefined): Promise<OfferCon
     }
     return Promise.resolve(items);
 };
+
+export const getVehiclesByFilter = (filter: FilterDTO): Promise<OfferContent[]> => {
+    console.log("Pobieram filtrowaną listę pojazdów")
+    let result: OfferContent[] = items;
+    if (filter.category) {
+        result = result.filter(vehicle => filter.category === vehicle.type);
+    }
+    if (filter.name) {
+        const words: string[] = filter.name
+            .trim()
+            .toLowerCase()
+            .split(/\s+/);
+        result = result.filter(vehicle => {
+            const brand = vehicle.brand.toLowerCase();
+            const model = vehicle.model.toLowerCase();
+            return words.some(word =>
+                brand.includes(word) || model.includes(word)
+            );
+        });
+    }
+    if (filter.priceFrom !== null) {
+        result = result.filter(vehicle => (filter.priceFrom! <= vehicle.price));
+    }
+    if (filter.priceTo !== null) {
+        result = result.filter(vehicle => (filter.priceTo! >= vehicle.price));
+    }
+    if (filter.powerFrom !== null) {
+        result = result.filter(vehicle => (filter.powerFrom! <= vehicle.power));
+    }
+    if (filter.powerTo !== null) {
+        result = result.filter(vehicle => (filter.powerTo! >= vehicle.power));
+    }
+    if (filter.displacementFrom !== null) {
+        result = result.filter(vehicle => (filter.displacementFrom! <= parseFloat(vehicle.displacement)));
+    }
+    if (filter.displacementTo !== null) {
+        result = result.filter(vehicle => (filter.displacementTo! >= parseFloat(vehicle.displacement)));
+    }
+    if (filter.fuel !== null) {
+        result = result.filter(vehicle => (filter.fuel === vehicle.fuel))
+    }
+    return Promise.resolve(result);
+}
 
 export const persistChanges = (data: OfferCreatorDTO): void => {
     if (data.id === null) {
@@ -306,6 +350,9 @@ export const getGalleryImagesByItemId = (itemId: number): { original: string; th
 };
 
 export const mapToOfferContent = (dto: OfferCreatorDTO, id: number): OfferContent => {
+    if (dto.fuel === null) {
+        throw new Error("Błąd - próba mapowania null na enum.");
+    }
     return {
         id: id,
         brand: dto.brand,
@@ -314,7 +361,7 @@ export const mapToOfferContent = (dto: OfferCreatorDTO, id: number): OfferConten
         price: Number(dto.price),
         currency: dto.currency,
         year: Number(dto.year),
-        fuel: String(dto.fuel),
+        fuel: dto.fuel,
         mileage: Math.floor(Number(dto.mileage) / 1000),
         power: Number(dto.power),
         displacement: String(dto.displacement),

@@ -1,4 +1,4 @@
-import {OfferType} from "./OfferContent.ts";
+import {FuelType, OfferType} from "./OfferContent.ts";
 
 export type OfferCreatorDTO = {
     id: number | null;
@@ -8,7 +8,7 @@ export type OfferCreatorDTO = {
     price: number | null;
     currency: string;
     year: number | null;
-    fuel: string | null;
+    fuel: FuelType | null;
     mileage: number | null;
     power: number | null;
     displacement: string | null;
