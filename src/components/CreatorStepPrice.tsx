@@ -1,5 +1,4 @@
-﻿
-import Form from 'react-bootstrap/Form';
+﻿import Form from 'react-bootstrap/Form';
 import { Card, Col, Row } from 'react-bootstrap';
 import { OfferCreatorDTO } from '../types/OfferCreatorDTO';
 import { useState, useEffect, useRef } from 'react';

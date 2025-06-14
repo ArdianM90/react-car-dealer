@@ -1,10 +1,9 @@
-﻿import { Badge, Container, ListGroup } from "react-bootstrap"
+﻿import {useState} from "react";
+import { Badge, Container, ListGroup } from "react-bootstrap"
 import { useLocation, useParams } from "react-router-dom";
 import { OfferContent } from '../../types/OfferContent';
 import ImageGallery from 'react-image-gallery';
 import { getGalleryImagesByItemId } from '../../service/MockApiService';
-import {useState} from "react";
-
 
 
 export const OfferPage = () => {
