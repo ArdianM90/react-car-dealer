@@ -38,7 +38,7 @@ export const CreatorStepPrice = ({ formData, setFormData, onValidate, wasVisited
     }
 
     useEffect(() => {
-        const errorMsg = checkNumberInputError("cena", String(formData.price), 1, maxPrice);
+        const errorMsg = checkNumberInputError("cena", formData.price?.toString() ?? "", 1, maxPrice);
         setPriceError(errorMsg);
         onValidate(errorMsg === "");
 
