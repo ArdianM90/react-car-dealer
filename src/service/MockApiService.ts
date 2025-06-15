@@ -17,7 +17,7 @@ let items: OfferContent[] = [
         power: 200,
         displacement: "2.0",
         imgUrl: "/assets/img/skoda.jpeg",
-        description: ''
+        description: 'Solidny i sprawdzony pojazd w atrakcyjnej cenie. Regularnie serwisowany, gotowy do jazdy. Idealny wybór dla wymagających klientów szukających niezawodności i komfortu. Samochód wyróżnia się dobrym stanem technicznym oraz estetycznym wyglądem. To propozycja, która spełni oczekiwania zarówno w codziennej eksploatacji, jak i przy dłuższych trasach. Zapraszamy do kontaktu oraz na jazdę próbną!'
     },
     {
         id: 2,
@@ -32,7 +32,7 @@ let items: OfferContent[] = [
         power: 400,
         displacement: "4.6",
         imgUrl: "/assets/img/dodge.jpeg",
-        description: ''
+        description: 'Solidny i sprawdzony pojazd w atrakcyjnej cenie. Regularnie serwisowany, gotowy do jazdy. Idealny wybór dla wymagających klientów szukających niezawodności i komfortu. Samochód wyróżnia się dobrym stanem technicznym oraz estetycznym wyglądem. To propozycja, która spełni oczekiwania zarówno w codziennej eksploatacji, jak i przy dłuższych trasach. Zapraszamy do kontaktu oraz na jazdę próbną!'
     },
     {
         id: 3,
@@ -47,7 +47,7 @@ let items: OfferContent[] = [
         power: 184,
         displacement: "2.0",
         imgUrl: "/assets/img/bmw.jpeg",
-        description: ''
+        description: 'Solidny i sprawdzony pojazd w atrakcyjnej cenie. Regularnie serwisowany, gotowy do jazdy. Idealny wybór dla wymagających klientów szukających niezawodności i komfortu. Samochód wyróżnia się dobrym stanem technicznym oraz estetycznym wyglądem. To propozycja, która spełni oczekiwania zarówno w codziennej eksploatacji, jak i przy dłuższych trasach. Zapraszamy do kontaktu oraz na jazdę próbną!'
     },
     {
         id: 4,
@@ -62,7 +62,7 @@ let items: OfferContent[] = [
         power: 211,
         displacement: "2.0",
         imgUrl: "/assets/img/audi.jpeg",
-        description: ''
+        description: 'Solidny i sprawdzony pojazd w atrakcyjnej cenie. Regularnie serwisowany, gotowy do jazdy. Idealny wybór dla wymagających klientów szukających niezawodności i komfortu. Samochód wyróżnia się dobrym stanem technicznym oraz estetycznym wyglądem. To propozycja, która spełni oczekiwania zarówno w codziennej eksploatacji, jak i przy dłuższych trasach. Zapraszamy do kontaktu oraz na jazdę próbną!'
     },
     {
         id: 5,
@@ -77,7 +77,7 @@ let items: OfferContent[] = [
         power: 230,
         displacement: "2.0",
         imgUrl: "/assets/img/vw.jpeg",
-        description: ''
+        description: 'Solidny i sprawdzony pojazd w atrakcyjnej cenie. Regularnie serwisowany, gotowy do jazdy. Idealny wybór dla wymagających klientów szukających niezawodności i komfortu. Samochód wyróżnia się dobrym stanem technicznym oraz estetycznym wyglądem. To propozycja, która spełni oczekiwania zarówno w codziennej eksploatacji, jak i przy dłuższych trasach. Zapraszamy do kontaktu oraz na jazdę próbną!'
     },
     {
         id: 6,
@@ -92,7 +92,7 @@ let items: OfferContent[] = [
         power: 163,
         displacement: "2.2",
         imgUrl: "/assets/img/mazda.jpeg",
-        description: ''
+        description: 'Solidny i sprawdzony pojazd w atrakcyjnej cenie. Regularnie serwisowany, gotowy do jazdy. Idealny wybór dla wymagających klientów szukających niezawodności i komfortu. Samochód wyróżnia się dobrym stanem technicznym oraz estetycznym wyglądem. To propozycja, która spełni oczekiwania zarówno w codziennej eksploatacji, jak i przy dłuższych trasach. Zapraszamy do kontaktu oraz na jazdę próbną!'
     },
     {
         id: 7,
@@ -107,7 +107,7 @@ let items: OfferContent[] = [
         power: 130,
         displacement: "2.2",
         imgUrl: "/assets/img/transit.jpeg",
-        description: ''
+        description: 'Solidny i sprawdzony pojazd w atrakcyjnej cenie. Regularnie serwisowany, gotowy do jazdy. Idealny wybór dla wymagających klientów szukających niezawodności i komfortu. Samochód wyróżnia się dobrym stanem technicznym oraz estetycznym wyglądem. To propozycja, która spełni oczekiwania zarówno w codziennej eksploatacji, jak i przy dłuższych trasach. Zapraszamy do kontaktu oraz na jazdę próbną!'
     },
     {
         id: 8,
@@ -122,7 +122,7 @@ let items: OfferContent[] = [
         power: 125,
         displacement: "2.3",
         imgUrl: "/assets/img/renault.jpeg",
-        description: ''
+        description: 'Solidny i sprawdzony pojazd w atrakcyjnej cenie. Regularnie serwisowany, gotowy do jazdy. Idealny wybór dla wymagających klientów szukających niezawodności i komfortu. Samochód wyróżnia się dobrym stanem technicznym oraz estetycznym wyglądem. To propozycja, która spełni oczekiwania zarówno w codziennej eksploatacji, jak i przy dłuższych trasach. Zapraszamy do kontaktu oraz na jazdę próbną!'
     },
     {
         id: 9,
@@ -137,7 +137,7 @@ let items: OfferContent[] = [
         power: 143,
         displacement: "2.1",
         imgUrl: "/assets/img/sprinter.jpeg",
-        description: ''
+        description: 'Solidny i sprawdzony pojazd w atrakcyjnej cenie. Regularnie serwisowany, gotowy do jazdy. Idealny wybór dla wymagających klientów szukających niezawodności i komfortu. Samochód wyróżnia się dobrym stanem technicznym oraz estetycznym wyglądem. To propozycja, która spełni oczekiwania zarówno w codziennej eksploatacji, jak i przy dłuższych trasach. Zapraszamy do kontaktu oraz na jazdę próbną!'
     },
     {
         id: 10,
@@ -152,7 +152,7 @@ let items: OfferContent[] = [
         power: 215,
         displacement: "7.2",
         imgUrl: "/assets/img/catterpilar.jpeg",
-        description: ''
+        description: 'Solidny i sprawdzony pojazd w atrakcyjnej cenie. Regularnie serwisowany, gotowy do jazdy. Idealny wybór dla wymagających klientów szukających niezawodności i komfortu. Samochód wyróżnia się dobrym stanem technicznym oraz estetycznym wyglądem. To propozycja, która spełni oczekiwania zarówno w codziennej eksploatacji, jak i przy dłuższych trasach. Zapraszamy do kontaktu oraz na jazdę próbną!'
     },
     {
         id: 11,
@@ -167,7 +167,7 @@ let items: OfferContent[] = [
         power: 100,
         displacement: "4.4",
         imgUrl: "/assets/img/jcb.jpeg",
-        description: ''
+        description: 'Solidny i sprawdzony pojazd w atrakcyjnej cenie. Regularnie serwisowany, gotowy do jazdy. Idealny wybór dla wymagających klientów szukających niezawodności i komfortu. Samochód wyróżnia się dobrym stanem technicznym oraz estetycznym wyglądem. To propozycja, która spełni oczekiwania zarówno w codziennej eksploatacji, jak i przy dłuższych trasach. Zapraszamy do kontaktu oraz na jazdę próbną!'
     },
     {
         id: 12,
@@ -182,7 +182,7 @@ let items: OfferContent[] = [
         power: 165,
         displacement: "6.7",
         imgUrl: "/assets/img/komatsu.jpeg",
-        description: ''
+        description: 'Solidny i sprawdzony pojazd w atrakcyjnej cenie. Regularnie serwisowany, gotowy do jazdy. Idealny wybór dla wymagających klientów szukających niezawodności i komfortu. Samochód wyróżnia się dobrym stanem technicznym oraz estetycznym wyglądem. To propozycja, która spełni oczekiwania zarówno w codziennej eksploatacji, jak i przy dłuższych trasach. Zapraszamy do kontaktu oraz na jazdę próbną!'
     },
     {
         id: 13,
@@ -197,7 +197,7 @@ let items: OfferContent[] = [
         power: 180,
         displacement: "6.7",
         imgUrl: "/assets/img/limo.jpeg",
-        description: ''
+        description: 'Solidny i sprawdzony pojazd w atrakcyjnej cenie. Regularnie serwisowany, gotowy do jazdy. Idealny wybór dla wymagających klientów szukających niezawodności i komfortu. Samochód wyróżnia się dobrym stanem technicznym oraz estetycznym wyglądem. To propozycja, która spełni oczekiwania zarówno w codziennej eksploatacji, jak i przy dłuższych trasach. Zapraszamy do kontaktu oraz na jazdę próbną!'
     },
     {
         id: 14,
@@ -212,7 +212,7 @@ let items: OfferContent[] = [
         power: 80,
         displacement: "0.6",
         imgUrl: "/assets/img/morris.jpeg",
-        description: ''
+        description: 'Solidny i sprawdzony pojazd w atrakcyjnej cenie. Regularnie serwisowany, gotowy do jazdy. Idealny wybór dla wymagających klientów szukających niezawodności i komfortu. Samochód wyróżnia się dobrym stanem technicznym oraz estetycznym wyglądem. To propozycja, która spełni oczekiwania zarówno w codziennej eksploatacji, jak i przy dłuższych trasach. Zapraszamy do kontaktu oraz na jazdę próbną!'
     },
     {
         id: 15,
@@ -227,7 +227,7 @@ let items: OfferContent[] = [
         power: 220,
         displacement: "2.4",
         imgUrl: "/assets/img/range.jpeg",
-        description: ''
+        description: 'Solidny i sprawdzony pojazd w atrakcyjnej cenie. Regularnie serwisowany, gotowy do jazdy. Idealny wybór dla wymagających klientów szukających niezawodności i komfortu. Samochód wyróżnia się dobrym stanem technicznym oraz estetycznym wyglądem. To propozycja, która spełni oczekiwania zarówno w codziennej eksploatacji, jak i przy dłuższych trasach. Zapraszamy do kontaktu oraz na jazdę próbną!'
     },
     {
         id: 16,
@@ -242,7 +242,7 @@ let items: OfferContent[] = [
         power: 150,
         displacement: "1.8",
         imgUrl: "/assets/img/camper.jpeg",
-        description: ''
+        description: 'Solidny i sprawdzony pojazd w atrakcyjnej cenie. Regularnie serwisowany, gotowy do jazdy. Idealny wybór dla wymagających klientów szukających niezawodności i komfortu. Samochód wyróżnia się dobrym stanem technicznym oraz estetycznym wyglądem. To propozycja, która spełni oczekiwania zarówno w codziennej eksploatacji, jak i przy dłuższych trasach. Zapraszamy do kontaktu oraz na jazdę próbną!'
     },
 ];
 

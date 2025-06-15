@@ -1,10 +1,11 @@
-﻿import {useEffect, useState} from 'react';
+﻿import * as React from "react";
+import {useEffect, useState} from 'react';
 import {Badge, Button, Card, Col, Collapse, Container, Dropdown, DropdownButton, Row} from "react-bootstrap"
 import {Link, useParams} from "react-router-dom";
 import {OfferContent, OfferType} from '../../types/OfferContent';
 import {getVehicles, getVehiclesByFilter, getVehiclesByType} from '../../service/MockApiService';
-import {Filter, filterInitialData, FilterValueType} from "../../types/Filter.ts";
-import {FilterPanel} from "../../components/FilterPanel.tsx";
+import {Filter, filterInitialData, FilterValueType} from "../../types/Filter";
+import {FilterPanel} from "../../components/FilterPanel";
 
 
 export const OffersPage = () => {
@@ -67,6 +68,13 @@ export const OffersPage = () => {
         }
     };
 
+    const imgError = (e: React.SyntheticEvent<HTMLImageElement, Event>): void => {
+        e.currentTarget.onerror = null;
+        e.currentTarget.src = "/assets/img/no-image.svg";
+        e.currentTarget.style.width = '200px';
+        e.currentTarget.style.height = 'auto';
+    }
+
     const pageItems = sortVehicles(vehiclesByCategory).slice((currentPage * ITEMS_PER_PAGE) - ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE);
 
     return (
@@ -108,6 +116,7 @@ export const OffersPage = () => {
                                         src={item.imgUrl}
                                         alt={`${item.brand} ${item.model}`}
                                         className="img-fluid p-2 object-fit-cover"
+                                        onError={imgError}
                                     />
                                 </Col>
                                 <Col md={5}>
@@ -125,7 +134,7 @@ export const OffersPage = () => {
                                 <Col md={3} className="text-end pe-4">
                                     <Card.Body>
                                         <Card.Text className="fw-bold text-primary" style={{fontSize: '1.5rem'}}>
-                                            {item.price.toLocaleString('pl-PL')} PLN
+                                            {item.price.toLocaleString('pl-PL')} {item.currency}
                                         </Card.Text>
                                     </Card.Body>
                                 </Col>
