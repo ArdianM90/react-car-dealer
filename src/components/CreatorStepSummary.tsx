@@ -1,5 +1,4 @@
-﻿
-import { Card, Col, Row, Table } from 'react-bootstrap';
+﻿import { Card, Col, Row, Table } from 'react-bootstrap';
 import { OfferCreatorDTO } from '../types/OfferCreatorDTO';
 import { CreatorStep, StepValidationStatus } from '../types/OfferCreatorConstants';
 import { JSX } from 'react/jsx-runtime';

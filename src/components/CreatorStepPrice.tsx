@@ -1,5 +1,4 @@
-﻿
-import Form from 'react-bootstrap/Form';
+﻿import Form from 'react-bootstrap/Form';
 import { Card, Col, Row } from 'react-bootstrap';
 import { OfferCreatorDTO } from '../types/OfferCreatorDTO';
 import { useState, useEffect, useRef } from 'react';
@@ -39,7 +38,7 @@ export const CreatorStepPrice = ({ formData, setFormData, onValidate, wasVisited
     }
 
     useEffect(() => {
-        const errorMsg = checkNumberInputError("cena", String(formData.price), 1, maxPrice);
+        const errorMsg = checkNumberInputError("cena", formData.price?.toString() ?? "", 1, maxPrice);
         setPriceError(errorMsg);
         onValidate(errorMsg === "");
 
