@@ -1,7 +1,7 @@
 ﻿import { useEffect, useRef, useState } from 'react';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-import { Card, } from 'react-bootstrap';
+import {Alert, Card,} from 'react-bootstrap';
 import { FaExclamationTriangle, FaFileImage, FaRegTrashAlt, FaTimes } from "react-icons/fa";
 import {validateImgFile} from "../service/ValidatorService.ts";
 
@@ -70,6 +70,11 @@ export const CreatorStepImages = ({ uploadedFiles, setUploadedFiles, onValidate,
             </Card.Header>
             <Card.Body>
                 <Form.Group>
+                    <Alert variant="warning">
+                        <strong>Uwaga:</strong> Dodawanie zdjęć działa wyłącznie w&nbsp;trybie pokazowym. Nowa oferta zostanie utworzona i&nbsp;pojawi
+                        się na liście ofert, jednak zdjęcia nie zostaną przesłane na serwer. Aby walidacja kreatora umożliwiła dodanie oferty
+                        należy jednak zasymulować dodanie zdjęcia.
+                    </Alert>
                     {
                         uploadedFiles.length === 0 ? (
                             <div className="text-muted mb-3">Brak dodanych zdjęć</div>
