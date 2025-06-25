@@ -39,7 +39,7 @@ export const Layout = () => {
                                 <NavDropdown.Item as={Link} to="/offers/parts">Części samochodowe</NavDropdown.Item>
                             </NavDropdown>
                             <NavDropdown title="Kadry" id="kadry" className="menu-item d-flex justify-content-center align-items-center">
-                                <NavDropdown.Item as={Link} to="/emplyee">Pracownik</NavDropdown.Item>
+                                <NavDropdown.Item as={Link} to="/employee">Pracownik</NavDropdown.Item>
                                 <NavDropdown.Divider/>
                                 <NavDropdown.Item as={Link} to="/employees">Pracownicy</NavDropdown.Item>
                             </NavDropdown>
@@ -93,7 +93,7 @@ export const Layout = () => {
                             </li>
                             <li className="mb-2 d-flex align-items-start">
                                 <FaAt className="text-primary me-2 mt-1"/>
-                                <p className="mb-0">support@amce.pl</p>
+                                <p className="mb-0">support@cardealer.pl</p>
                             </li>
                             <li className="d-flex align-items-start">
                                 <FaPhone className="text-primary me-2 mt-1"/>
@@ -121,6 +121,11 @@ export const Layout = () => {
                             <Link to="" className="text-decoration-none text-dark">Lokalizacje</Link>
                         </div>
                     </Col>
+                </Row>
+                <Row>
+                    <footer className="text-center text-muted pt-3">
+                        Copyright &copy; {new Date().getFullYear()} Adrian Mieńkowski
+                    </footer>
                 </Row>
             </Container>
         </div>

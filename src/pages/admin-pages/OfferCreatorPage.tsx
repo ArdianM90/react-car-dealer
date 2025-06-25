@@ -169,7 +169,7 @@ export const OfferCreatorPage = () => {
 
     return (
         <Container fluid>
-            <div className="text-center fw-bold fs-4 mb-2" style={{color: '#0D6EFD'}}>
+            <div className="text-center text-primary fw-bold fs-4 mb-2">
                 {isEditMode ? 'KREATOR OFERTY' : 'EDYCJA OFERTY'} - krok {currentStepIdx+1} z {steps.length}
             </div>
             <Row>

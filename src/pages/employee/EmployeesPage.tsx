@@ -86,7 +86,7 @@ export const EmployeesPage = () => {
                     </Accordion.Body>
                 </Accordion.Item>
             </Accordion>
-            <Table striped bordered hover variant="dark">
+            <Table striped bordered hover>
                 <thead>
                     <tr>
                         <th>#</th>
@@ -99,8 +99,8 @@ export const EmployeesPage = () => {
                 <tbody>
                     {
                         employeesList.map((item, index) =>
-                            <tr>
-                                <td>{index + 1}</td>
+                            <tr key={`row-${index}`}>
+                                <td></td>
                                 <td>{item.name}</td>
                                 <td>{item.surname}</td>
                                 <td>{item.position}</td>

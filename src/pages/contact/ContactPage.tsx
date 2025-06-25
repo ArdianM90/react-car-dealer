@@ -186,7 +186,7 @@ export const ContactPage = () => {
                         <h5 className="text-primary mt-3" style={{ paddingBottom: "0.5rem" }}>
                             <FaEnvelope /> Email
                         </h5>
-                        <p>support@amce.pl</p>
+                        <p>support@cardealer.pl</p>
                     </Card>
                 </Col>
             </Row>

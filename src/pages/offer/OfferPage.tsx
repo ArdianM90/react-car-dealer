@@ -18,7 +18,7 @@ export const OfferPage = () => {
         <Container className="d-flex flex-column">
             <Container className="d-flex flex-row">
                 <Container>
-                    <div className="d-flex flex-row fw-bold fs-3" style={{ color: '#0D6EFD' }}>
+                    <div className="d-flex flex-row text-primary fw-bold fs-3">
                         {carData.brand} {carData.model}
                         <span className="d-inline-flex align-self-start ms-2">
                             <Badge bg="primary" style={{ fontSize: '1rem', padding: '0.3em 0.5em' }}>
@@ -90,16 +90,9 @@ export const OfferPage = () => {
                 </Container>
             </Container>
             <Container className="d-flex flex-column">
-                <div className="fw-bold fs-3" style={{ color: '#0D6EFD', textAlign: 'left' }}>Opis:</div>
+                <div className="text-primary text-start fw-bold fs-3 pb-3">Opis:</div>
                 <div className="mb-3 text-area">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-                    cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                </div>
-                <div className="mb-3 text-area">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-                    cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                    {carData.description}
                 </div>
             </Container>
         </Container>
