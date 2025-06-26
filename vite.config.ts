@@ -4,7 +4,6 @@ import plugin from '@vitejs/plugin-react';
 
 import { env } from 'process';
 
-// Sprawdzenie, czy działamy lokalnie
 const isLocal = process.env.NODE_ENV !== 'production' && !process.env.VERCEL;
 
 let serverConfig = {};
