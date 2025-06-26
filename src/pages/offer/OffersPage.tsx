@@ -3,7 +3,7 @@ import {useEffect, useState} from 'react';
 import {Badge, Button, Card, Col, Collapse, Container, Dropdown, DropdownButton, Row} from "react-bootstrap"
 import {Link, useParams} from "react-router-dom";
 import {OfferContent, OfferType} from '../../types/OfferContent';
-import {getVehicles, getVehiclesByFilter, getVehiclesByType} from '../../service/MockApiService';
+import {getVehiclesByFilter, getVehiclesByType} from '../../service/MockApiService';
 import {Filter, filterInitialData, FilterValueType} from "../../types/Filter";
 import {FilterPanel} from "../../components/FilterPanel";
 
@@ -14,12 +14,31 @@ export const OffersPage = () => {
     const {type} = useParams();
     const [advFiltersOpen, setAdvFiltersOpen] = useState(false);
     const [vehicles, setVehicles] = useState<OfferContent[]>([]);
-    const vehiclesByCategory = vehicles.filter(item => (!type || type === 'all' || item.type === OfferType[type as keyof typeof OfferType]));
-    const totalPages = Math.ceil(vehiclesByCategory.length / ITEMS_PER_PAGE);
     const [currentPage, setCurrentPage] = useState(1);
     const [selectedSort, setSelectedSort] = useState<string>('Cena: malejąco');
-
     const [filterData, setFilterData] = useState<Filter>(filterInitialData);
+
+    const sortVehicles = (data: OfferContent[]): OfferContent[] => {
+        switch (selectedSort) {
+            case 'Cena: rosnąca':
+                return [...data].sort((a, b) => a.price - b.price);
+            case 'Cena: malejąco':
+                return [...data].sort((a, b) => b.price - a.price);
+            case 'Przebieg: rosnąco':
+                return [...data].sort((a, b) => a.mileage - b.mileage);
+            case 'Przebieg: malejąco':
+                return [...data].sort((a, b) => b.mileage - a.mileage);
+            default:
+                return data;
+        }
+    };
+
+    const sortedVehicles = sortVehicles(vehicles);
+    const totalPages: number = Math.ceil(sortedVehicles.length / ITEMS_PER_PAGE);
+    const filteredVehicles: OfferContent[] = sortedVehicles.slice(
+        (currentPage - 1) * ITEMS_PER_PAGE,
+        currentPage * ITEMS_PER_PAGE
+    );
 
     const handleSelect = (eventKey: string | null) => {
         if (eventKey) {
@@ -37,36 +56,29 @@ export const OffersPage = () => {
 
     const handleFilterSubmit = (e: React.FormEvent): void => {
         e.preventDefault();
+        setCurrentPage(1);
         getVehiclesByFilter(filterData).then(data => setVehicles(data));
     };
 
     const clearFilterData = () => {
-        setFilterData(filterInitialData)
-        getVehiclesByType(type).then(data => setVehicles(data))
+        const defaultType: OfferType | null = type && type !== 'all' ? OfferType[type as keyof typeof OfferType] : null;
+        const cleared: Filter = {
+            ...filterInitialData,
+            category: defaultType
+        };
+        setFilterData(cleared);
+        setCurrentPage(1);
+        getVehiclesByType(type).then(data => setVehicles(data));
     }
 
     useEffect(() => {
-        getVehicles().then(data => setVehicles(data));
-    }, []);
-
-    useEffect(() => {
-        setCurrentPage(1);
+        const defaultType: OfferType | null = type && type !== 'all' ? OfferType[type as keyof typeof OfferType] : null;
+        setFilterData(prev => ({
+            ...prev,
+            category: defaultType
+        }));
+        getVehiclesByType(type).then(vehicles => setVehicles(vehicles));
     }, [type]);
-
-    const sortVehicles = (data: OfferContent[]): OfferContent[] => {
-        switch (selectedSort) {
-            case 'Cena: rosnąca':
-                return [...data].sort((a, b) => a.price - b.price);
-            case 'Cena: malejąco':
-                return [...data].sort((a, b) => b.price - a.price);
-            case 'Przebieg: rosnąco':
-                return [...data].sort((a, b) => a.mileage - b.mileage);
-            case 'Przebieg: malejąco':
-                return [...data].sort((a, b) => b.mileage - a.mileage);
-            default:
-                return data;
-        }
-    };
 
     const imgError = (e: React.SyntheticEvent<HTMLImageElement, Event>): void => {
         e.currentTarget.onerror = null;
@@ -74,8 +86,6 @@ export const OffersPage = () => {
         e.currentTarget.style.width = '200px';
         e.currentTarget.style.height = 'auto';
     }
-
-    const pageItems = sortVehicles(vehiclesByCategory).slice((currentPage * ITEMS_PER_PAGE) - ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE);
 
     return (
         <Container fluid>
@@ -101,7 +111,7 @@ export const OffersPage = () => {
                 </Collapse>
             </Container>
             <Row>
-                {pageItems.map((item) =>
+                {filteredVehicles.map((item) =>
                     <Link key={`offer-${item.id}`} to={`/offer/${item.id}`} state={{carData: item}}
                           style={{textDecoration: 'none'}}>
                         <Card className="mb-3 shadow-sm"
