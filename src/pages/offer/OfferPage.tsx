@@ -21,9 +21,8 @@ export const OfferPage = () => {
         const onError = () => {
             setImgSrc(PlaceholderSrc);
         };
-        console.log("Original: " + imgSrc)
         return (
-            <img src={imgSrc} onError={onError} style={{ maxWidth: '100%', maxHeight: isFullscreen ? 'none' : '250px', objectFit: 'contain' }} />
+            <img src={imgSrc} onError={onError} style={{ maxWidth: '100%', minHeight: isFullscreen ? (window.innerHeight-80)+'px' : '250px', maxHeight: isFullscreen ? '1600px' : '250px', objectFit: 'contain' }} />
         );
     };
 
