@@ -61,10 +61,10 @@ export const OffersPage = () => {
     };
 
     const clearFilterData = () => {
-        const defaultType = type && type !== 'all' ? OfferType[type as keyof typeof OfferType] : null;
-        const cleared = {
+        const defaultType: OfferType | null = type && type !== 'all' ? OfferType[type as keyof typeof OfferType] : null;
+        const cleared: Filter = {
             ...filterInitialData,
-            type: defaultType
+            category: defaultType
         };
         setFilterData(cleared);
         setCurrentPage(1);
