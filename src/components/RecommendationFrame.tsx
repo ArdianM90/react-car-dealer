@@ -9,7 +9,7 @@ export const RecommendationFrame = ({index, item}: {index: number, item: OfferCo
                 <Card.Title
                     className="text-center text-primary fs-5">{item.brand + " " + item.model + " (" + item.year + ")"}</Card.Title>
                 <Link className="text-decoration-none" to={`/offer/${item.id}`} state={{carData: item}}>
-                    <Card.Img className="img-fluid p-2 object-fit-cover" variant="top" src={item.imgUrl}/>
+                    <Card.Img className="img-fluid p-2 object-fit-cover" variant="top" src={item.imgPath}/>
                 </Link>
                 <Card.Body>
                     <ul className="list-group list-group-flush">

@@ -16,7 +16,8 @@ let items: OfferContent[] = [
         mileage: 160,
         power: 200,
         displacement: "2.0",
-        imgUrl: "/assets/img/skoda.jpeg",
+        imgPath: "/assets/img/skoda.jpeg",
+        thumbPath: "/assets/thumb/skoda-thumb.jpeg",
         description: 'Pojazd w dobrym stanie technicznym, gotowy do dalszej eksploatacji. Regularnie serwisowany i utrzymywany zgodnie z zaleceniami producenta. ' +
             'Przedstawiona oferta dotyczy sprawnego sprzętu, który może pełnić różne funkcje – zarówno do transportu osób i towarów, jak i prac specjalistycznych. ' +
             'Auto lub maszyna posiada aktualne badania techniczne i jest dostępna do oględzin oraz jazdy próbnej. Wszystkie nasze pojazdy przechodzą szczegółową ' +
@@ -34,7 +35,8 @@ let items: OfferContent[] = [
         mileage: 80,
         power: 400,
         displacement: "4.6",
-        imgUrl: "/assets/img/dodge.jpeg",
+        imgPath: "/assets/img/dodge.jpeg",
+        thumbPath: "/assets/thumb/dodge-thumb.jpeg",
         description: 'Pojazd w dobrym stanie technicznym, gotowy do dalszej eksploatacji. Regularnie serwisowany i utrzymywany zgodnie z zaleceniami producenta. ' +
             'Przedstawiona oferta dotyczy sprawnego sprzętu, który może pełnić różne funkcje – zarówno do transportu osób i towarów, jak i prac specjalistycznych. ' +
             'Auto lub maszyna posiada aktualne badania techniczne i jest dostępna do oględzin oraz jazdy próbnej. Wszystkie nasze pojazdy przechodzą szczegółową ' +
@@ -52,7 +54,8 @@ let items: OfferContent[] = [
         mileage: 240,
         power: 184,
         displacement: "2.0",
-        imgUrl: "/assets/img/bmw.jpeg",
+        imgPath: "/assets/img/bmw.jpeg",
+        thumbPath: "/assets/thumb/bmw-thumb.jpeg",
         description: 'Pojazd w dobrym stanie technicznym, gotowy do dalszej eksploatacji. Regularnie serwisowany i utrzymywany zgodnie z zaleceniami producenta. ' +
             'Przedstawiona oferta dotyczy sprawnego sprzętu, który może pełnić różne funkcje – zarówno do transportu osób i towarów, jak i prac specjalistycznych. ' +
             'Auto lub maszyna posiada aktualne badania techniczne i jest dostępna do oględzin oraz jazdy próbnej. Wszystkie nasze pojazdy przechodzą szczegółową ' +
@@ -70,7 +73,8 @@ let items: OfferContent[] = [
         mileage: 190,
         power: 211,
         displacement: "2.0",
-        imgUrl: "/assets/img/audi.jpeg",
+        imgPath: "/assets/img/audi.jpeg",
+        thumbPath: "/assets/thumb/audi-thumb.jpeg",
         description: 'Pojazd w dobrym stanie technicznym, gotowy do dalszej eksploatacji. Regularnie serwisowany i utrzymywany zgodnie z zaleceniami producenta. ' +
             'Przedstawiona oferta dotyczy sprawnego sprzętu, który może pełnić różne funkcje – zarówno do transportu osób i towarów, jak i prac specjalistycznych. ' +
             'Auto lub maszyna posiada aktualne badania techniczne i jest dostępna do oględzin oraz jazdy próbnej. Wszystkie nasze pojazdy przechodzą szczegółową ' +
@@ -88,7 +92,8 @@ let items: OfferContent[] = [
         mileage: 145,
         power: 230,
         displacement: "2.0",
-        imgUrl: "/assets/img/vw.jpeg",
+        imgPath: "/assets/img/vw.jpeg",
+        thumbPath: "/assets/thumb/vw-thumb.jpeg",
         description: 'Pojazd w dobrym stanie technicznym, gotowy do dalszej eksploatacji. Regularnie serwisowany i utrzymywany zgodnie z zaleceniami producenta. ' +
             'Przedstawiona oferta dotyczy sprawnego sprzętu, który może pełnić różne funkcje – zarówno do transportu osób i towarów, jak i prac specjalistycznych. ' +
             'Auto lub maszyna posiada aktualne badania techniczne i jest dostępna do oględzin oraz jazdy próbnej. Wszystkie nasze pojazdy przechodzą szczegółową ' +
@@ -106,7 +111,8 @@ let items: OfferContent[] = [
         mileage: 210,
         power: 163,
         displacement: "2.2",
-        imgUrl: "/assets/img/mazda.jpeg",
+        imgPath: "/assets/img/mazda.jpeg",
+        thumbPath: "/assets/thumb/mazda-thumb.jpeg",
         description: 'Pojazd w dobrym stanie technicznym, gotowy do dalszej eksploatacji. Regularnie serwisowany i utrzymywany zgodnie z zaleceniami producenta. ' +
             'Przedstawiona oferta dotyczy sprawnego sprzętu, który może pełnić różne funkcje – zarówno do transportu osób i towarów, jak i prac specjalistycznych. ' +
             'Auto lub maszyna posiada aktualne badania techniczne i jest dostępna do oględzin oraz jazdy próbnej. Wszystkie nasze pojazdy przechodzą szczegółową ' +
@@ -124,7 +130,8 @@ let items: OfferContent[] = [
         mileage: 180,
         power: 130,
         displacement: "2.2",
-        imgUrl: "/assets/img/transit.jpeg",
+        imgPath: "/assets/img/transit.jpeg",
+        thumbPath: "/assets/thumb/transit-thumb.jpeg",
         description: 'Pojazd w dobrym stanie technicznym, gotowy do dalszej eksploatacji. Regularnie serwisowany i utrzymywany zgodnie z zaleceniami producenta. ' +
             'Przedstawiona oferta dotyczy sprawnego sprzętu, który może pełnić różne funkcje – zarówno do transportu osób i towarów, jak i prac specjalistycznych. ' +
             'Auto lub maszyna posiada aktualne badania techniczne i jest dostępna do oględzin oraz jazdy próbnej. Wszystkie nasze pojazdy przechodzą szczegółową ' +
@@ -142,7 +149,8 @@ let items: OfferContent[] = [
         mileage: 210,
         power: 125,
         displacement: "2.3",
-        imgUrl: "/assets/img/renault.jpeg",
+        imgPath: "/assets/img/renault.jpeg",
+        thumbPath: "/assets/thumb/renault-thumb.jpeg",
         description: 'Pojazd w dobrym stanie technicznym, gotowy do dalszej eksploatacji. Regularnie serwisowany i utrzymywany zgodnie z zaleceniami producenta. ' +
             'Przedstawiona oferta dotyczy sprawnego sprzętu, który może pełnić różne funkcje – zarówno do transportu osób i towarów, jak i prac specjalistycznych. ' +
             'Auto lub maszyna posiada aktualne badania techniczne i jest dostępna do oględzin oraz jazdy próbnej. Wszystkie nasze pojazdy przechodzą szczegółową ' +
@@ -160,7 +168,8 @@ let items: OfferContent[] = [
         mileage: 150,
         power: 143,
         displacement: "2.1",
-        imgUrl: "/assets/img/sprinter.jpeg",
+        imgPath: "/assets/img/sprinter.jpeg",
+        thumbPath: "/assets/thumb/sprinter-thumb.jpeg",
         description: 'Pojazd w dobrym stanie technicznym, gotowy do dalszej eksploatacji. Regularnie serwisowany i utrzymywany zgodnie z zaleceniami producenta. ' +
             'Przedstawiona oferta dotyczy sprawnego sprzętu, który może pełnić różne funkcje – zarówno do transportu osób i towarów, jak i prac specjalistycznych. ' +
             'Auto lub maszyna posiada aktualne badania techniczne i jest dostępna do oględzin oraz jazdy próbnej. Wszystkie nasze pojazdy przechodzą szczegółową ' +
@@ -178,7 +187,8 @@ let items: OfferContent[] = [
         mileage: 12,
         power: 215,
         displacement: "7.2",
-        imgUrl: "/assets/img/catterpilar.jpeg",
+        imgPath: "/assets/img/catterpilar.jpeg",
+        thumbPath: "/assets/thumb/catterpilar-thumb.jpeg",
         description: 'Pojazd w dobrym stanie technicznym, gotowy do dalszej eksploatacji. Regularnie serwisowany i utrzymywany zgodnie z zaleceniami producenta. ' +
             'Przedstawiona oferta dotyczy sprawnego sprzętu, który może pełnić różne funkcje – zarówno do transportu osób i towarów, jak i prac specjalistycznych. ' +
             'Auto lub maszyna posiada aktualne badania techniczne i jest dostępna do oględzin oraz jazdy próbnej. Wszystkie nasze pojazdy przechodzą szczegółową ' +
@@ -196,7 +206,8 @@ let items: OfferContent[] = [
         mileage: 8,
         power: 100,
         displacement: "4.4",
-        imgUrl: "/assets/img/jcb.jpeg",
+        imgPath: "/assets/img/jcb.jpeg",
+        thumbPath: "/assets/thumb/jcb-thumb.jpeg",
         description: 'Pojazd w dobrym stanie technicznym, gotowy do dalszej eksploatacji. Regularnie serwisowany i utrzymywany zgodnie z zaleceniami producenta. ' +
             'Przedstawiona oferta dotyczy sprawnego sprzętu, który może pełnić różne funkcje – zarówno do transportu osób i towarów, jak i prac specjalistycznych. ' +
             'Auto lub maszyna posiada aktualne badania techniczne i jest dostępna do oględzin oraz jazdy próbnej. Wszystkie nasze pojazdy przechodzą szczegółową ' +
@@ -214,7 +225,8 @@ let items: OfferContent[] = [
         mileage: 10,
         power: 165,
         displacement: "6.7",
-        imgUrl: "/assets/img/komatsu.jpeg",
+        imgPath: "/assets/img/komatsu.jpeg",
+        thumbPath: "/assets/thumb/komatsu-thumb.jpeg",
         description: 'Pojazd w dobrym stanie technicznym, gotowy do dalszej eksploatacji. Regularnie serwisowany i utrzymywany zgodnie z zaleceniami producenta. ' +
             'Przedstawiona oferta dotyczy sprawnego sprzętu, który może pełnić różne funkcje – zarówno do transportu osób i towarów, jak i prac specjalistycznych. ' +
             'Auto lub maszyna posiada aktualne badania techniczne i jest dostępna do oględzin oraz jazdy próbnej. Wszystkie nasze pojazdy przechodzą szczegółową ' +
@@ -232,7 +244,8 @@ let items: OfferContent[] = [
         mileage: 150,
         power: 180,
         displacement: "6.7",
-        imgUrl: "/assets/img/limo.jpeg",
+        imgPath: "/assets/img/limo.jpeg",
+        thumbPath: "/assets/thumb/limo-thumb.jpeg",
         description: 'Pojazd w dobrym stanie technicznym, gotowy do dalszej eksploatacji. Regularnie serwisowany i utrzymywany zgodnie z zaleceniami producenta. ' +
             'Przedstawiona oferta dotyczy sprawnego sprzętu, który może pełnić różne funkcje – zarówno do transportu osób i towarów, jak i prac specjalistycznych. ' +
             'Auto lub maszyna posiada aktualne badania techniczne i jest dostępna do oględzin oraz jazdy próbnej. Wszystkie nasze pojazdy przechodzą szczegółową ' +
@@ -250,7 +263,8 @@ let items: OfferContent[] = [
         mileage: 80,
         power: 80,
         displacement: "0.6",
-        imgUrl: "/assets/img/morris.jpeg",
+        imgPath: "/assets/img/morris.jpeg",
+        thumbPath: "/assets/thumb/morris-thumb.jpeg",
         description: 'Pojazd w dobrym stanie technicznym, gotowy do dalszej eksploatacji. Regularnie serwisowany i utrzymywany zgodnie z zaleceniami producenta. ' +
             'Przedstawiona oferta dotyczy sprawnego sprzętu, który może pełnić różne funkcje – zarówno do transportu osób i towarów, jak i prac specjalistycznych. ' +
             'Auto lub maszyna posiada aktualne badania techniczne i jest dostępna do oględzin oraz jazdy próbnej. Wszystkie nasze pojazdy przechodzą szczegółową ' +
@@ -268,7 +282,8 @@ let items: OfferContent[] = [
         mileage: 150,
         power: 220,
         displacement: "2.4",
-        imgUrl: "/assets/img/range.jpeg",
+        imgPath: "/assets/img/range.jpeg",
+        thumbPath: "/assets/thumb/range-thumb.jpeg",
         description: 'Pojazd w dobrym stanie technicznym, gotowy do dalszej eksploatacji. Regularnie serwisowany i utrzymywany zgodnie z zaleceniami producenta. ' +
             'Przedstawiona oferta dotyczy sprawnego sprzętu, który może pełnić różne funkcje – zarówno do transportu osób i towarów, jak i prac specjalistycznych. ' +
             'Auto lub maszyna posiada aktualne badania techniczne i jest dostępna do oględzin oraz jazdy próbnej. Wszystkie nasze pojazdy przechodzą szczegółową ' +
@@ -286,7 +301,8 @@ let items: OfferContent[] = [
         mileage: 180,
         power: 150,
         displacement: "1.8",
-        imgUrl: "/assets/img/camper.jpeg",
+        imgPath: "/assets/img/camper.jpeg",
+        thumbPath: "/assets/thumb/camper-thumb.jpeg",
         description: 'Pojazd w dobrym stanie technicznym, gotowy do dalszej eksploatacji. Regularnie serwisowany i utrzymywany zgodnie z zaleceniami producenta. ' +
             'Przedstawiona oferta dotyczy sprawnego sprzętu, który może pełnić różne funkcje – zarówno do transportu osób i towarów, jak i prac specjalistycznych. ' +
             'Auto lub maszyna posiada aktualne badania techniczne i jest dostępna do oględzin oraz jazdy próbnej. Wszystkie nasze pojazdy przechodzą szczegółową ' +
@@ -399,20 +415,22 @@ export const deleteVehiclesByIds = (ids: number[]): Promise<void> => {
     return Promise.resolve();
 }
 
-export const getGalleryImagesByItemId = (itemId: number): { original: string; thumbnail: string }[] => {
-    const sourceItem = items.find(item => item.id === itemId);
+export const getGalleryImagesByItemId = (itemId: number): {original: string; thumbnail: string}[] => {
+    const sourceItem: OfferContent | undefined = items.find(item => item.id === itemId);
     if (!sourceItem) {
         return [];
     }
-    const resultArr: string[] = [sourceItem.imgUrl];
-    const additionalImages = items
+    const firstImage = {
+        original: sourceItem.imgPath,
+        thumbnail: sourceItem.thumbPath,
+    };
+    const additionalImages: {original: string; thumbnail: string}[] = items
         .filter(item => item.type === sourceItem.type && item.id !== itemId)
-        .map(i => i.imgUrl);
-    return (resultArr.concat(additionalImages))
-        .map(url => ({
-            original: url,
-            thumbnail: url
+        .map(item => ({
+            original: item.imgPath,
+            thumbnail: item.thumbPath
         }));
+    return [firstImage, ...additionalImages];
 };
 
 export const mapToOfferContent = (dto: OfferCreatorDTO, id: number): OfferContent => {
@@ -431,7 +449,8 @@ export const mapToOfferContent = (dto: OfferCreatorDTO, id: number): OfferConten
         mileage: Math.floor(Number(dto.mileage) / 1000),
         power: Number(dto.power),
         displacement: String(dto.displacement),
-        imgUrl: dto.imgUrl,
+        imgPath: dto.imgUrl,
+        thumbPath: dto.imgUrl.replace(".jpeg", "-thumb.jpeg"),
         description: dto.description,
     };
 };

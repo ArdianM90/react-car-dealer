@@ -123,7 +123,7 @@ export const OffersPage = () => {
                                 <Col md={4}>
                                     <Card.Img
                                         variant="top"
-                                        src={item.imgUrl}
+                                        src={item.imgPath}
                                         alt={`${item.brand} ${item.model}`}
                                         className="img-fluid p-2 object-fit-cover"
                                         onError={imgError}

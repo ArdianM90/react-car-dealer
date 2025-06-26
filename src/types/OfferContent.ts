@@ -23,6 +23,7 @@ export type OfferContent = {
     mileage: number;
     power: number;
     displacement: string;
-    imgUrl: string;
+    imgPath: string;
+    thumbPath: string;
     description: string;
 }

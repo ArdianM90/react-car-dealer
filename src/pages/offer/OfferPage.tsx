@@ -11,29 +11,28 @@ import {useState} from "react";
 export const OfferPage = () => {
     const { id } = useParams();
     const location = useLocation();
-    const carData = (location.state as { carData: OfferContent })?.carData;
-    const images = id ? getGalleryImagesByItemId(parseInt(id)) : [];
-    const PlaceholderSrc = "/assets/img/no-image.svg";
+    const carData: OfferContent = (location.state as { carData: OfferContent })?.carData;
+    const images: {original: string; thumbnail: string}[] = id ? getGalleryImagesByItemId(parseInt(id)) : [];
+    const [isFullscreen, setIsFullscreen] = useState(false);
+    const PlaceholderSrc: string = "/assets/img/no-image.svg";
 
     const RenderGalleryImageWithFallback = ({ source }: { source: { original: string, thumbnail?: string } }) => {
         const [imgSrc, setImgSrc] = useState(source.original);
-
         const onError = () => {
             setImgSrc(PlaceholderSrc);
         };
-
+        console.log("Original: " + imgSrc)
         return (
-            <img src={imgSrc} onError={onError} style={{ maxWidth: '100%', maxHeight: '250px', objectFit: 'contain' }} />
+            <img src={imgSrc} onError={onError} style={{ maxWidth: '100%', maxHeight: isFullscreen ? 'none' : '250px', objectFit: 'contain' }} />
         );
     };
 
     const RenderGalleryThumbnailWithFallback = ({ source }: { source: { thumbnail?: string } }) => {
         const [thumbSrc, setThumbSrc] = useState(source.thumbnail || PlaceholderSrc);
-
         const onError = () => {
             setThumbSrc(PlaceholderSrc);
         };
-
+        console.log("Thumbnail: " + thumbSrc)
         return (
             <img src={thumbSrc} onError={onError} style={{ width: '92px', height: '60px', objectFit: 'cover' }} />
         );
@@ -113,7 +112,8 @@ export const OfferPage = () => {
                 <Container className="d-flex image-gallery" style={{ padding: "12px 0px" }}>
                     <ImageGallery items={images}
                                   renderItem={(item) => <RenderGalleryImageWithFallback source={item}/>}
-                                  renderThumbInner={(item) => <RenderGalleryThumbnailWithFallback source={item} />}/>
+                                  renderThumbInner={(item) => <RenderGalleryThumbnailWithFallback source={item} />}
+                                  onScreenChange={fullScreen => setIsFullscreen(fullScreen)}/>
                 </Container>
             </Container>
             <Container className="d-flex flex-column">
