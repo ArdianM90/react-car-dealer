@@ -349,7 +349,6 @@ export const getVehiclesByType = (type: string | undefined): Promise<OfferConten
 };
 
 export const getVehiclesByFilter = (filter: Filter): Promise<OfferContent[]> => {
-    console.log("Pobieram filtrowaną listę pojazdów")
     let result: OfferContent[] = items;
     if (filter.category) {
         result = result.filter(vehicle => filter.category === vehicle.type);

@@ -1,54 +1,57 @@
-# React + TypeScript + Vite
+Readme PL -> [link](README.pl.md)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# Car Dealer Platform (React + TypeScript)
 
-Currently, two official plugins are available:
+> ℹ️ Note: The application's user interface is currently in Polish only, but all source code is written in English for better readability and maintainability.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+A car listing platform inspired by otomoto.pl, built with React, TypeScript, and Bootstrap.  
+This is a fully frontend application — all views rely on a single mock API service that simulates a backend with full CRUD functionality.
 
-## Expanding the ESLint configuration
+## Installation and Launch
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+**Requirements:**
+- Node.js ≥ 18
+- npm ≥ 9
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+**Build the project:**
+```bash
+npm install
+npm run build
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
+**Run in development mode:**
+```bash
+npm run dev
 ```
+
+**Run production preview:**
+```bash
+npm run preview
+```
+
+## Key Components:
+
+- `OffersPage` – displays the list of vehicle offers with sorting, pagination, and advanced filtering,
+- `FilterPanel` – reusable component with a form for filtering offers,
+- `CreateOfferPage` – listing creator with layered validation; supports both adding and editing,
+- `OffersManagerPage` – management panel for adding and removing listings,
+- `MockApiService` – provides vehicle data to the frontend,
+- `OfferPage` – detailed view of a single listing,
+- `types` folder – shared types and enums used throughout the application.
+
+## Technologies
+- `React 19`
+- `TypeScript`
+- `Bootstrap 5`
+- `Vite`
+
+**Additional libraries:**
+- `React Image Gallery`
+- `Validator.js`
+- `react-icons`
+
+## To do
+- refactor MockApiService to simulate paginated requests,
+- add English language support for the UI.
+
+⭐ Feel free to star this repo if you found it useful.

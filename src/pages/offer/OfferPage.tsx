@@ -31,7 +31,6 @@ export const OfferPage = () => {
         const onError = () => {
             setThumbSrc(PlaceholderSrc);
         };
-        console.log("Thumbnail: " + thumbSrc)
         return (
             <img src={thumbSrc} onError={onError} style={{ width: '92px', height: '60px', objectFit: 'cover' }} />
         );
